@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby -KU
+
+require 'rubygems'
+require 'pathname'
+require 'sinatra/base'
+require 'restclient'
+
+ROOT = Pathname(__FILE__).dirname.parent.expand_path.freeze
+
+$LOAD_PATH.unshift(ROOT.join('lib', 'alfred'))
+
+require 'service'
+
+Alfred::Service.run! :host => 'localhost', :port => 9090

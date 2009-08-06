@@ -1,6 +1,6 @@
 = alfred
 
-Description goes here.
+Alfred is a young IRC butler who will be at datamapper's service soon!
 
 == Note on Patches/Pull Requests
  
@@ -15,4 +15,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2009 snusnu. See LICENSE for details.
+Copyright (c) 2009 Martin Gamsjäger (snusnu). See LICENSE for details.
