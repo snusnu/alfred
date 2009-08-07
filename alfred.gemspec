@@ -5,14 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{alfred}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["snusnu"]
-  s.date = %q{2009-08-06}
-  s.description = %q{alfred is a friendly IRC butler that will manage interesting stuff on a dedicated website}
+  s.date = %q{2009-08-07}
+  s.description = %q{Alfred is a friendly IRC butler that will manage interesting stuff on a dedicated website}
   s.email = %q{gamsnjaga@gmail.com}
-  s.executables = ["bot", "service"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -25,15 +24,20 @@ Gem::Specification.new do |s|
      "Rakefile",
      "TODO",
      "VERSION",
-     "bin/bot",
-     "bin/service",
+     "alfred.gemspec",
      "lib/alfred/alfred.rb",
      "lib/alfred/config.rb",
      "lib/alfred/config.yml",
      "lib/alfred/models.rb",
      "lib/alfred/models/person.rb",
      "lib/alfred/models/post.rb",
+     "lib/alfred/models/post_tag.rb",
+     "lib/alfred/models/tag.rb",
      "lib/alfred/service.rb",
+     "lib/alfred/views/commands.erb",
+     "lib/alfred/views/layout.erb",
+     "lib/alfred/views/posts.erb",
+     "lib/alfred/views/tags.erb",
      "spec/alfred_spec.rb",
      "spec/spec_helper.rb"
   ]
@@ -41,7 +45,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.4}
-  s.summary = %q{alfred is a friendly IRC butler}
+  s.summary = %q{Alfred is a friendly IRC butler}
   s.test_files = [
     "spec/alfred_spec.rb",
      "spec/spec_helper.rb"
