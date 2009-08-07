@@ -1,5 +1,5 @@
---- 
-service: 
+---
+service:
   host: localhost
   port: 9090
 database:
@@ -9,7 +9,7 @@ database:
   username: root
   password:
   host: localhost
-irc: 
+irc:
   realname: Alfred the friendly IRC butler
   port: 6667
   nick: alfredbutler
@@ -18,11 +18,11 @@ irc:
   channel: quasipartikel
   nickserv: alfred_the_great
   verbose: true
-allowed: 
+allowed:
 - dkubb
 - dbussink
 - snusnu
 - mql_
-twitter: 
+twitter:
   password: change_this
   login: gmsmon

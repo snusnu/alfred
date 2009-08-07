@@ -17,13 +17,13 @@ module Alfred
     post '/posts' do
 
       puts "Received post from #{params[:from]}"
-      
+
       person = Person.first_or_create(:name => params[:from])
       post   = Post.create(:person => person, :body => params[:body], :tag_list => params[:tags])
-      
+
       post.id.to_s
     end
-    
+
     get '/posts' do
       if params[:tags]
         tag = Tag.first(:name => params[:tags])
@@ -49,7 +49,7 @@ module Alfred
     end
 
     # ---------------------------------------------------------------
-    
+
     helpers do
 
       def post_tag_links(tags)
@@ -57,9 +57,9 @@ module Alfred
       end
 
     end
-    
+
   end
 
   Service.run! :host => Config['service']['host'], :port => Config['service']['port']
-  
+
 end
