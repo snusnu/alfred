@@ -40,14 +40,17 @@
 
 <dl>
 
+  <dt>people currently allowed to tweet in the name of <strong><%= Config['twitter']['login'] %></strong></dt>
+  <dd><em><%= Config['allowed'].join(', ') %></em></dd>
+
+  <dt>allow someone to tweet as <strong><%= Config['twitter']['login'] %></strong> (you must be allowed to do so)</dt>
+  <dd><em>/msg <%= bot %> allow irc_nick</em></dd>
+
   <dt>posts a tagged snippet of text to <%= bot %></dt>
   <dd><em><%= bot %>: post[tag1 tag2]: whatever you want to post</em></dd>
 
   <dt>send a tweet as <strong><%= Config['twitter']['login'] %></strong> (you must be allowed to do so)</dt>
   <dd><em><%= bot %>: tweet: the message you want to tweet</em></dd>
-
-  <dt>allow someone to tweet as <strong><%= Config['twitter']['login'] %></strong> (you must be allowed to do so)</dt>
-  <dd><em>/msg <%= bot %> allow irc_nick</em></dd>
 
   <dt>let <strong><%= Config['twitter']['login'] %></strong> follow someone on twitter (you must be allowed to do so)</dt>
   <dd><em><%= bot %>: follow twitter_nick</em></dd>
