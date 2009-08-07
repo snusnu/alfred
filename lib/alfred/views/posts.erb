@@ -3,6 +3,7 @@
     <hr>
     <div>
       <% post = Post.get(p.id) %> <!-- VERY STRANGE for p.tag_list behavior! a dm bug maybe? -->
+      <em>Posted by</em><span> <%= p.person.name %> </span>
       <em>Tagged with</em><span> <%= post_tag_links(post.tags) %> </span>
       <em>Created on</em><span> <%= post.created_at %> </span>
       <p><%= p.body %></p>
