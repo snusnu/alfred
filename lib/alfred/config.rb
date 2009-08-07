@@ -10,11 +10,11 @@ module Config
     @config[key]
   end
 
-  def load(file)
+  def load_config(file)
     @config = YAML.load_file(file)
   end
 
-  def write
+  def write_config
     File.open('config.yml', 'w') { |f| YAML.dump(@config, f) }
   end
 
@@ -24,7 +24,7 @@ module Config
 
   def allow!(nick)
     @config['allowed'] << nick
-    write
+    write_config
   end
 
   def twitter_credentials

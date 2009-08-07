@@ -5,7 +5,7 @@ require 'json'
 
 require 'config'
 
-Config.load('config/bot.yml')
+Config.load_config(File.dirname(__FILE__) + '/config.yml')
 
 configure do |c|
   c.nick     = Config['irc']['nick']

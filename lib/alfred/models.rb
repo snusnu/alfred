@@ -11,7 +11,7 @@ require 'models/tag'
 
 require 'config'
 
-Config.load('config/service.yml')
+Config.load_config(File.dirname(__FILE__) + '/config.yml')
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, Config['database'])

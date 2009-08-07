@@ -1,13 +1,25 @@
 require 'rubygems'
+require 'pathname'
 require 'sinatra/base'
+
+require 'dm-core'
+require 'dm-types'
+require 'dm-timestamps'
+require 'dm-validations'
+require 'dm-is-self_referential'
 
 require 'models'
 
 module Alfred
 
+  SERVICE_ROOT = Pathname.new(__FILE__).dirname.expand_path.freeze
+  
   class Service < Sinatra::Base
 
-    enable :logging
+    enable :logging, :static, :dump_errors
+
+    set :root, File.dirname(__FILE__)
+
 
     post '/posts' do
 
@@ -54,7 +66,5 @@ module Alfred
     end
 
   end
-
-  Service.run! :host => Config['service']['host'], :port => Config['service']['port']
 
 end

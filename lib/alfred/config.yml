@@ -1,3 +1,14 @@
+---
+service:
+  host: localhost
+  port: 9090
+database:
+  path: alfred
+  adapter: mysql
+  encoding: utf8
+  username: root
+  password:
+  host: localhost
 irc:
   realname: Alfred the friendly IRC butler
   port: 6667
@@ -5,12 +16,12 @@ irc:
   server: irc.freenode.net
   version: 0.0.1
   channel: quasipartikel
-  nickserv: eisbär-snack
+  nickserv: change_this
   verbose: true
 allowed:
 - dkubb
 - dbussink
 - snusnu
 twitter:
-  password: elektromensch
+  password: change_this
   login: gmsmon
