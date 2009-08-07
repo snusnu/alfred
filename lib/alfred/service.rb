@@ -1,7 +1,5 @@
 require 'rubygems'
-require 'pathname'
 require 'sinatra/base'
-require 'restclient'
 
 require 'models'
 
