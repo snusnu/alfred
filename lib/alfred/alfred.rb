@@ -4,9 +4,6 @@ require 'rest_client'
 require 'json'
 
 require 'config'
-Config.load
-
-require 'models'
 
 configure do |c|
   c.nick     = Config['irc']['nick']

@@ -3,9 +3,6 @@ require 'pathname'
 require 'sinatra/base'
 require 'restclient'
 
-require 'config'
-Config.load
-
 require 'models'
 
 module Alfred

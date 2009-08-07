@@ -8,5 +8,7 @@ require 'models/post'
 require 'models/post_tag'
 require 'models/tag'
 
+require 'config'
+
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, Config['database'])

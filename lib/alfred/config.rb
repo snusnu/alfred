@@ -36,3 +36,5 @@ module Config
   end
 
 end
+
+Config.load
