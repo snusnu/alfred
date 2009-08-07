@@ -1,0 +1,12 @@
+<div>
+  <% posts.each do |p| %>
+    <hr>
+    <div>
+      <% post = Post.get(p.id) %> <!-- VERY STRANGE for p.tag_list behavior! a dm bug maybe? -->
+      <em>Tagged with</em><span> <%= post_tag_links(post.tags) %> </span>
+      <em>Created on</em><span> <%= post.created_at %> </span>
+      <p><%= p.body %></p>
+    </div>
+    <hr>
+  <% end %>
+</div>

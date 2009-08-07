@@ -1,3 +1,11 @@
+require 'rubygems'
+require 'pathname'
+require 'sinatra/base'
+require 'restclient'
+
+require 'config'
+Config.load
+
 require 'models'
 
 module Alfred
@@ -11,30 +19,21 @@ module Alfred
       puts "Received post from #{params[:from]}"
       
       person = Person.first_or_create(:name => params[:from])
-      post   = Post.create(:person => person, :body => params[:body], :tags_list => params[:tags])
+      post   = Post.create(:person => person, :body => params[:body], :tag_list => params[:tags])
       
       post.id.to_s
     end
     
     get '/posts' do
-      html = "<dl>"
-      Post.all.each do |p|
-        html << "<dt>#{p.tags_list}</dt>"
-        html << "<dd>#{p.body}</dd>"
+      if params[:tags]
+        tag = Tag.first(:name => params[:tags])
       end
-      html << '</dl>'
-      html
+      posts = tag ? tag.posts : Post.all
+      erb :posts, :locals => { :posts => posts }
     end
 
     get '/commands' do
-      %w{
-        <dl>
-          <dt>prints a link to alfred's main site</dt>
-          <dd>show site</dd>
-          <dt>prints a list of available tags and their entry counts</dt>
-          <dd>show tags</dd>
-        </dl>
-      }
+      erb :commands
     end
 
     get '/posts/:id' do
@@ -46,9 +45,21 @@ module Alfred
     end
 
     get '/tags' do
-      Tag.all.map { |t| t.name }.join(', ')
+      erb :tags
     end
 
+    # ---------------------------------------------------------------
+    
+    helpers do
+
+      def post_tag_links(tags)
+        tags.map { |t| "<a href='#{Config.service_url}/posts?tags=#{t.name}'>#{t.name}</a>" }.join(', ')
+      end
+
+    end
+    
   end
 
+  Service.run! :host => Config['service']['host'], :port => Config['service']['port']
+  
 end

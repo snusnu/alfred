@@ -1,29 +1,22 @@
 require 'rubygems'
-require 'isaac' # requires 0.2 / shaft
+require 'isaac'
 require 'rest_client'
 require 'json'
 
 require 'config'
-require 'models'
-
 Config.load
 
-puts "nick = #{Config['irc']['nick']}"
+require 'models'
 
 configure do |c|
-  c.nick    = Config['irc']['nick']
-  c.server  = Config['irc']['server']
-  c.port    = Config['irc']['port'] || 6667
-  c.verbose  = true
-  c.realname = 'Alfred the IRC butler'
+  c.nick     = Config['irc']['nick']
+  c.server   = Config['irc']['server']
+  c.port     = Config['irc']['port'] || 6667
+  c.realname = Config['irc']['realname']
+  c.verbose  = Config['irc']['verbose']
   c.version  = '0.0.1'
 end
 
-helpers do
-  def service_url
-    Config['service']['base']
-  end
-end
 
 # ------------------------------ ALFRED ---------------------------------
 
@@ -37,25 +30,25 @@ on :channel, /^#{Config['irc']['nick']}.* identify/ do
 end
 
 on :channel, /^#{Config['irc']['nick']}.* post\[(.*)\]: (.*)/ do |tags, example|
-  post_id = RestClient.post("#{service_url}/posts", :from => nick, :body => example, :tags => tags)
-  reply = "thx #{nick}, stored your post at #{service_url}/posts/#{post_id} and tagged it with '#{tags}'"
+  post_id = RestClient.post("#{Config.service_url}/posts", :from => nick, :body => example, :tags => tags)
+  reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show site/ do
-  msg channel, "#{nick}: #{service_url}/posts"
+on :channel, /^#{Config['irc']['nick']}.* show posts/ do
+  msg channel, "#{nick}: #{Config.service_url}/posts"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* show commands/ do
-  msg channel, "#{nick}: #{service_url}/commands"
+  msg channel, "#{nick}: #{Config.service_url}/commands"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* show tags/ do
-  msg channel, "#{nick}: #{service_url}/tags"
+  msg channel, "#{nick}: #{Config.service_url}/tags"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* show tag(s)? (.*)$/ do |_, tags|
-  msg channel, "#{nick}: #{service_url}/posts?tags=#{tags}"
+  msg channel, "#{nick}: #{Config.service_url}/posts?tags=#{tags}"
 end
 
 on :error, 401 do

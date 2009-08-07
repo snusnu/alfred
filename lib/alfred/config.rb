@@ -30,4 +30,9 @@ module Config
   def twitter_credentials
     "#{config['twitter']['login']}:#{config['twitter']['password']}"
   end
+
+  def service_url
+    "http://#{config['service']['host']}:#{config['service']['port']}"
+  end
+
 end

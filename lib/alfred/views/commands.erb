@@ -1,0 +1,54 @@
+<% bot = Config['irc']['nick'] %>
+
+<h2>All available commands for <a href="http://github.com/snusnu/alfred"><%= bot %></a></h2>
+
+<p>
+  Alfred can help you collect useful information from irc channels. You can store away posts so that you can use them later
+  on when you're writing your project's documentation, wiki pages, blog articles or whatever. You can tag these posts so
+  that they are easier to find later on. Of course you're not limited to posting snippets of text. Just post a link to 
+  <em><%= bot %></em>, say to a <a href="http://pastie.org">pastie</a>, a <a href="http://gist.github.com">gist</a> or some
+  interesting blogpost and tag them as you wish. <em><%= bot %></em> has convenient commands to retrieve them later on.
+</p>
+
+<h3>Get some info from <%= bot %></h3>
+
+<dl>
+  <dt>prints a little info about alfred</dt>
+  <dd><em><%= bot %>: identify</em></dd>
+
+  <dt>prints this list of commands</dt>
+  <dd><em><%= bot %>: show commands</em></dd>
+
+  <dt>prints a link to all posts</dt>
+  <dd><em><%= bot %>: show posts</em></dd>
+
+  <dt>prints a list of available tags</dt>
+  <dd><em><%= bot %>: show tags</em></dd>
+
+  <dt>prints a list of available posts tagged with tag</dt>
+  <dd><em><%= bot %>: show tag some_tag</em></dd>
+</dl>
+
+<h3>Post tagged messages</h3>
+
+<dl>
+  <dt>posts a tagged snippet of text to <%= bot %></dt>
+  <dd><em><%= bot %>: post[tag1 tag2]: whatever you want to post</em></dd>
+</dl>
+
+<h3>Tweet in the name of <em><%= Config['twitter']['login'] %></em></h3>
+
+<dl>
+
+  <dt>posts a tagged snippet of text to <%= bot %></dt>
+  <dd><em><%= bot %>: post[tag1 tag2]: whatever you want to post</em></dd>
+
+  <dt>send a tweet as <strong><%= Config['twitter']['login'] %></strong> (you must be allowed to do so)</dt>
+  <dd><em><%= bot %>: tweet: the message you want to tweet</em></dd>
+
+  <dt>allow someone to tweet as <strong><%= Config['twitter']['login'] %></strong> (you must be allowed to do so)</dt>
+  <dd><em>/msg <%= bot %> allow irc_nick</em></dd>
+
+  <dt>let <strong><%= Config['twitter']['login'] %></strong> follow someone on twitter (you must be allowed to do so)</dt>
+  <dd><em><%= bot %>: follow twitter_nick</em></dd>
+</dl>
