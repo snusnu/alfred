@@ -1,0 +1,11 @@
+---
+service:
+  host: localhost
+  port: 9090
+database:
+  path: alfred
+  adapter: mysql
+  encoding: utf8
+  username: alfred
+  password: 8nTZYnPF8rt3nXDR
+  host: localhost

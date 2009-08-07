@@ -10,8 +10,8 @@ module Config
     @config[key]
   end
 
-  def load
-    @config = YAML.load_file('config.yml')
+  def load(file)
+    @config = YAML.load_file(file)
   end
 
   def write
@@ -36,5 +36,3 @@ module Config
   end
 
 end
-
-Config.load

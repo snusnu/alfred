@@ -5,6 +5,8 @@ require 'json'
 
 require 'config'
 
+Config.load('config/bot.yml')
+
 configure do |c|
   c.nick     = Config['irc']['nick']
   c.server   = Config['irc']['server']

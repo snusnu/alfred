@@ -1,0 +1,16 @@
+irc:
+  realname: Alfred the friendly IRC butler
+  port: 6667
+  nick: alfredbutler
+  server: irc.freenode.net
+  version: 0.0.1
+  channel: quasipartikel
+  nickserv: eisbär-snack
+  verbose: true
+allowed:
+- dkubb
+- dbussink
+- snusnu
+twitter:
+  password: elektromensch
+  login: gmsmon

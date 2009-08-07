@@ -10,5 +10,7 @@ require 'models/tag'
 
 require 'config'
 
+Config.load('config/service.yml')
+
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, Config['database'])
