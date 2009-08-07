@@ -11,6 +11,10 @@ class Post
   has n, :post_tags
   has n, :tags, :through => :post_tags
 
+  is :self_referential, :through => 'QuestionAnswer',
+    :parents  => :questions,
+    :children => :answers
+
   def tag_list
     tags.all.map { |t| t.name }.join(', ')
   end

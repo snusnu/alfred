@@ -2,6 +2,7 @@ require 'dm-core'
 require 'dm-types'
 require 'dm-timestamps'
 require 'dm-validations'
+require 'dm-is-self_referential'
 
 require 'models/person'
 require 'models/post'
