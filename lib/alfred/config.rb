@@ -27,8 +27,20 @@ module Config
     write_config
   end
 
-  def twitter_credentials
-    "#{config['twitter']['login']}:#{config['twitter']['password']}"
+  def twitter_bot_login
+    "#{config['twitter']['bot_login']}"
+  end
+
+  def twitter_bot_credentials
+    "#{config['twitter']['bot_login']}:#{config['twitter']['bot_password']}"
+  end
+
+  def twitter_owner_login
+    "#{config['twitter']['bot_login']}"
+  end
+
+  def twitter_owner_credentials
+    "#{config['twitter']['owner_login']}:#{config['twitter']['owner_password']}"
   end
 
   def service_url

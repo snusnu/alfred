@@ -19,9 +19,9 @@ irc:
   nickserv: change_this
   verbose: true
 allowed:
-- dkubb
-- dbussink
 - snusnu
 twitter:
-  password: change_this
-  login: gmsmon
+  owner_login: gmsmon
+  owner_password: change_this
+  bot_login: alfredbutler
+  bot_password: change_this

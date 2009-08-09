@@ -9,11 +9,12 @@ require 'dm-validations'
 require 'dm-is-self_referential'
 
 require 'models'
+require 'twitter'
 
 module Alfred
 
   SERVICE_ROOT = Pathname.new(__FILE__).dirname.expand_path.freeze
-  
+
   class Service < Sinatra::Base
 
     enable :logging, :static, :dump_errors
@@ -22,11 +23,14 @@ module Alfred
 
 
     post '/posts' do
-
-      puts "Received post from #{params[:from]}"
-
       person = Person.first_or_create(:name => params[:from])
       post   = Post.create(:person => person, :body => params[:body], :tag_list => params[:tags])
+
+      Thread.new do
+        name    = person.tweets? ? "@#{person.twitter_name}" : person.name
+        message = "#{name} just posted to #{Config.service_url}/posts/#{post.id}"
+        Alfred::Twitter.tweet(Config.twitter_bot_credentials, message)
+      end
 
       post.id.to_s
     end

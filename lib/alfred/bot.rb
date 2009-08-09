@@ -2,6 +2,7 @@ require 'rubygems'
 require 'isaac'
 require 'rest_client'
 require 'json'
+require 'twitter'
 
 require 'config'
 
@@ -59,38 +60,35 @@ end
 
 
 helpers do
-  def twitter(url, params={})
-    JSON.parse(RestClient.post "http://#{Config.twitter_credentials}@twitter.com/" + url + ".json", params)
-  end
 
   def ensure_permissions
     halt unless Config.allowed?(nick)
   end
+
 end
 
 on :channel, /^#{Config['irc']['nick']}.* tweet: (.*)/ do
   ensure_permissions
-  reply = twitter "statuses/update", :status => match[0]
-  msg channel, "#{nick}: you tweeted http://twitter.com/#{Config['twitter']['login']}/status/#{reply['id']}"
+  reply = Alfred::Twitter.tweet(Config.twitter_owner_credentials, match[0])
+  msg channel, "#{nick}: you tweeted #{Alfred::Twitter.status_url(Config.twitter_owner_login, reply['id'])}"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* follow: (\S+)/ do
+on :channel, /^#{Config['irc']['nick']}.* follow (\S+)/ do
   ensure_permissions
   begin
-    follow = match[0]
-    reply = twitter "friendships/create/#{follow}"
-    msg channel, "#{nick}: we're now following #{reply['screen_name']}."
+    user = match[0]
+    reply = Alfred::Twitter.follow(Config.twitter_owner_credentials, user)
+    msg channel, "#{Config.twitter_owner_login} is now following #{reply['screen_name']}."
   rescue
-    msg channel, "#{nick}: something went wrong as I tried to follow #{follow}."
+    msg channel, "#{nick}: something went wrong as I tried to follow #{user}."
   end
 end
 
 on :private, /^allow (\S+)/ do
-  puts "nick = #{nick}, allowed = #{Config.allowed?(nick)}, match[0] = #{match[0]}"
   ensure_permissions
-  allow = match[0]
-  Config.allow!(allow)
-  msg nick, "#{nick}: you just allowed #{allow} to use me to tweet things"
+  user = match[0]
+  Config.allow!(user)
+  msg nick, "#{nick}: you just allowed #{user} to use me to tweet in the name of #{Config.twitter_owner_login}"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* what is the answer to life, the universe, and everything/ do
