@@ -3,13 +3,155 @@
   <head>
     <title>Alfred the IRC butler</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link href="stylesheets/master.css" rel="stylesheet" type="text/css" />
+    <style>
+      body {
+        font-family:Georgia,Times New Roman,serif;
+        font-size:13px;
+        margin:0;
+        padding:0;
+        background-image: url(http://infosthetics.com/images/background_stripe.png);
+      }
+
+      #page {
+        width: 970px;
+
+      }
+
+      a {
+        color: #000;
+      }
+
+      a:hover {
+        color: #fff;
+        background: #000;
+      }
+
+      #header {
+        font-style: italic;
+        line-height: 40px;
+        color: #fff;
+        background: #000;
+        margin-left: 20px;
+        padding-left: 7px;
+        margin-bottom: 20px;
+        -moz-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+      }
+
+
+      #footer {
+        margin-top: 20px;
+        background: #fff;
+        margin-left: 20px;
+
+        -moz-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+      }
+
+      #footer p {
+        padding: 7px;
+      }
+
+      #content {
+       overflow: hidden;
+       width: 970px;
+      }
+
+      #sidebar {
+        margin-left: 20px;
+        padding: 7px;
+        background: #fff;
+       width: 186px;
+        -moz-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+       float: left;
+      }
+
+      ul#menu {
+        padding: 0px;
+      }
+
+      ul#menu li {
+
+        list-style-type: none;
+        margin-top: 2px;
+        height: 30px;
+        line-height: 30px;
+        padding-left: 4px;
+      }
+
+      ul#menu li:hover {
+        background: #000;
+        -moz-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+      }
+
+      ul#menu li:hover a {
+        color: #fff;
+      }
+
+      ul#menu li a {
+        text-decoration: none;
+        color: #555;
+      }
+
+      #main {
+        -moz-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+        background: #fff;
+        margin-left: 20px;
+        padding: 7px;
+       width: 716px;
+       float: right;
+      }
+    </style>
   </head>
 
   <body>
-    <div id="content">
+    <div id="page">
+      <div id="header">
+        <h1>Alfred - the IRC Butler</h1>
+      </div>
 
-      <%= yield %>
+      <div id="content">
+        <div id="sidebar">
+          <ul id="menu">
+            <li><a href="/tags">Tags</a></li>
+            <li><a href="/posts">Posts</a></li>
+            <li><a href="/questions">Questions</a></li>
+            <li><a href="/answers">Answers</a></li>
+            <li><a href="/commands">Commands</a></li>
+          </ul>
+          <h2>About</h2>
+          <p>
+            Alfred can help you collect useful information from irc channels.
+            You can store away posts so that you can use them later on when you're writing your project's documentation,
+            wiki pages, blog articles or whatever. You can tag these posts so that they are easier to find later on.
+            Of course you're not limited to posting snippets of text. Just post a link to alfredbutler, say to a pastie,
+            a gist or some interesting blogpost and tag them as you wish. alfredbutler has convenient commands to retrieve them later on.
+          </p>
+        </div>
 
+        <div id="main">
+          <%= yield %>
+        </div>
+      </div>
+      <div id="footer">
+        <p>
+          A <a href="http://quasipartikel.at">Quasipartikel</a> Production
+        </p>
+      </div>
     </div>
   </body>
 </html>
