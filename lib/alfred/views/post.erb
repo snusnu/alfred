@@ -1,10 +1,10 @@
 <div id="post">
   <% if post.question? %>
-    <h3><a href="/question/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> asked the following question</h3>
+    <h3><%= vote_text(post) %> <a href="/question/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> asked the following question</h3>
   <% elsif post.answer? %>
-    <h3><a href="/question/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted this answer in reply to <%= questions_link_list(post) %></h3>
+    <h3><%= vote_text(post) %> <a href="/question/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted this answer in reply to <%= questions_link_list(post) %></h3>
   <% else %>
-    <h3><a href="/question/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted the following snippet</h3>
+    <h3><%= vote_text(post) %> <a href="/question/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted the following snippet</h3>
   <% end %>
   <p><%= post.body %></p>
 </div>
@@ -14,7 +14,7 @@
   <% post.answers.all.each do |answer| %>
     <hr>
     <div>
-      <em>Answered by</em><span> <%= answer.person.name %> on  <%= answer.created_at.strftime("%a, %b %d %Y at %H:%M") %></span>
+      <strong><%= vote_text(answer) %></strong> <em>Answered by</em><span> <%= answer.person.name %> on  <%= answer.created_at.strftime("%a, %b %d %Y at %H:%M") %></span>
       <p><%= answer.body %></p>
     </div>
     <hr>
