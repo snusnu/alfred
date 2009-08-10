@@ -90,7 +90,7 @@ on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|question|answer) (.
   begin
     vote_action = impact == '+' ? 'up' : 'down'
     RestClient.post("#{Config.service_url}/posts/#{post_id}/vote/#{vote_action}", :from => nick)
-    reply = "thx #{nick}, stored your vote at #{Config.service_url}/posts/#{post_id}'"
+    reply = "thx #{nick}, stored your vote at #{Config.service_url}/posts/#{post_id}"
     msg channel, reply
   rescue RestClient::ResourceNotFound
     msg channel, "sorry #{nick}, there is no post with ID = #{post_id}"
