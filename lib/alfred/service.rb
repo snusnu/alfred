@@ -25,11 +25,15 @@ module Alfred
 
     post '/posts' do
       post = create_post(params[:from], params[:body], params[:tags])
+      message = "#{params[:from]} just posted a snippet to #{Config.service_url}/posts/#{post.id}"
+      tweet_action(message)
       post.id.to_s
     end
 
     post '/questions' do
       post = create_post(params[:from], params[:body], params[:tags], true)
+      message = "#{params[:from]} just asked a question at #{Config.service_url}/questions/#{post.id}"
+      tweet_action(message)
       post.id.to_s
     end
 
@@ -42,17 +46,20 @@ module Alfred
         ids.each do |question_id|
           if question = Post.get(question_id)
             QuestionAnswer.create(:source_id => question_id, :target => post)
+            message = "#{params[:from]} just answered a question at #{Config.service_url}/answers/#{question_id}"
+            tweet_action(message)
             question_ids << question_id
           end
         end
         question_ids.join(',')
       else
-
+        halt 404, "You didn't specify any questions to answer"
       end
     end
 
     get '/posts' do
       conditions = params[:question] == 'true' ? { :question => true } : {}
+      conditions.merge!(:order => [ :created_at.asc ])
       if params[:tags]
         tag_names = Utils.tag_list(params[:tags])
         posts = []
@@ -103,10 +110,9 @@ module Alfred
         tags.map { |t| "<a href='#{Config.service_url}/posts?tags=#{t.name}'>#{t.name}</a>" }.join(', ')
       end
 
-      def tweet_action(person, post)
+      def tweet_action(message)
         Thread.new do
-          name    = person.tweets? ? "@#{person.twitter_name}" : person.name
-          message = "#{name} just posted #{Config.service_url}/posts/#{post.id}"
+          # we don't need the response from twitter in this case so threading it seems feasible
           Alfred::Twitter.tweet(Config.twitter_bot_credentials, message)
         end
       end
@@ -114,7 +120,6 @@ module Alfred
       def create_post(from, body, tags = '', question = false)
         person = Person.first_or_create(:name => from)
         post   = Post.create(:person => person, :body => body, :question => question, :tag_list => tags)
-        #tweet_action(person, post)
         post
       end
 
