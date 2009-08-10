@@ -59,13 +59,13 @@ module Alfred
 
     get '/posts' do
       conditions = params[:question] == 'true' ? { :question => true } : {}
-      conditions.merge!(:order => [ :created_at.asc ])
+      order = { :order => [ :created_at.desc ] }
       if params[:tags]
         tag_names = Utils.tag_list(params[:tags])
         posts = []
-        Tag.all(conditions.merge!(:name => tag_names)).each { |tag| posts += tag.posts }
+        Tag.all(conditions.merge!(:name => tag_names)).each { |tag| posts += tag.posts.all(order) }
       else
-        posts = Post.all(conditions)
+        posts = Post.all(conditions.merge!(order))
       end
       erb :posts, :locals => { :posts => posts }
     end
