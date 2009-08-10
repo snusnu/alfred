@@ -4,13 +4,13 @@
     <% post = Post.get(p.id) %> <!-- VERY STRANGE for p.tag_list behavior! a dm bug maybe? -->
     <% if post.question? %>
     <div id="post-<%= post.id %>" class="question">
-      <h3>On <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> asked the following <a href="<%= "/posts/#{post.id}" %>">question</a></h3>
+      <h3><%= vote_text(post) %> <a href="/question/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> asked the following <a href="<%= "/posts/#{post.id}" %>">question</a></h3>
     <% elsif post.answer? %>
     <div id="post-<%= post.id %>" class="answer">
-      <h3>On <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted this <a href="<%= "/posts/#{post.id}" %>">answer</a> in reply to <%= questions_link_list(post) %></h3>
+      <h3><%= vote_text(post) %> <a href="/answer/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted this <a href="<%= "/posts/#{post.id}" %>">answer</a> in reply to <%= questions_link_list(post) %></h3>
     <% else %>
     <div id="post-<%= post.id %>" class="post">
-      <h3>On <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted the following <a href="<%= "/posts/#{post.id}" %>">snippet</a></h3>
+      <h3><%= vote_text(post) %> <a href="/posts/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted the following <a href="<%= "/posts/#{post.id}" %>">snippet</a></h3>
     <% end %>
       <p><%= post.body %></p>
     </div>

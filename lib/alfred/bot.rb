@@ -86,6 +86,17 @@ on :channel, /^#{Config['irc']['nick']}.* answer\[(.*)\]: (.*)/ do |ids, answer|
   msg channel, reply
 end
 
+on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|question|answer) (.*)/ do |impact, post_type, post_id|
+  begin
+    vote_action = impact == '+' ? 'up' : 'down'
+    RestClient.post("#{Config.service_url}/posts/#{post_id}/vote/#{vote_action}", :from => nick)
+    reply = "thx #{nick}, stored your vote at #{Config.service_url}/posts/#{post_id}'"
+    msg channel, reply
+  rescue RestClient::ResourceNotFound
+    msg channel, "sorry #{nick}, there is no post with ID = #{post_id}"
+  end
+end
+
 on :error, 401 do
   puts "oops, seems like #{nick} isn't around."
 end

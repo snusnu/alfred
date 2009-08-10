@@ -8,7 +8,10 @@ class Post
   property :person_id,  Integer, :nullable => false
   property :body,       Text
   property :question,   Boolean, :nullable => false, :default => false
+  property :vote_sum,   Integer, :nullable => false, :default => 0
+  property :vote_count, Integer, :nullable => false, :default => 0
   property :created_at, DateTime
+
 
   belongs_to :person
 
@@ -41,4 +44,14 @@ class Post
     end
   end
 
+  def vote(impact)
+    case impact
+    when 'up'   then self.vote_sum += 1
+    when 'down' then self.vote_sum -= 1
+    else
+      return
+    end
+    self.vote_count += 1
+    save
+  end
 end

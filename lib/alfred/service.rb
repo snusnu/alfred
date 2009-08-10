@@ -57,6 +57,13 @@ module Alfred
       end
     end
 
+    post '/posts/:post_id/vote/:impact' do
+      post = Post.get(params[:post_id])
+      halt 404, 'No post to vote was specified' unless post
+      post.vote(params[:impact])
+      "#{post.vote_sum},#{post.vote_count}"
+    end
+
     get '/posts' do
       conditions = params[:question] == 'true' ? { :question => true } : {}
       order = { :order => [ :created_at.desc ] }
@@ -127,6 +134,11 @@ module Alfred
         answer.questions.map do |question|
           "<a href='#{Config.service_url}/questions/#{question.id}'>##{question.id}</a>"
         end.join(', ')
+      end
+
+      def vote_text(post)
+        sign = post.vote_sum > 0 ? '+' : ''
+        "(#{sign}#{post.vote_sum}:#{post.vote_count})"
       end
     end
 
