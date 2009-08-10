@@ -1,0 +1,23 @@
+<div id="post">
+  <% if post.question? %>
+    <h3>On <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> asked the following question</h3>
+  <% elsif post.answer? %>
+    <h3>On <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted this answer in reply to <%= questions_link_list(post) %></h3>
+  <% else %>
+    <h3>On <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <%= post.person.name %> posted the following snippet</h3>
+  <% end %>
+  <p><%= post.body %></p>
+</div>
+
+<% if post.has_answers? %>
+<div id="answers">
+  <% post.answers.all.each do |answer| %>
+    <hr>
+    <div>
+      <em>Answered by</em><span> <%= answer.person.name %> on  <%= answer.created_at.strftime("%a, %b %d %Y at %H:%M") %></span>
+      <p><%= answer.body %></p>
+    </div>
+    <hr>
+  <% end %>
+</div>
+<% end %>

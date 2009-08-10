@@ -29,12 +29,6 @@ on :channel, /^#{Config['irc']['nick']}.* identify/ do
   msg channel, "#{nick}: #{Config['irc']['realname']}, version #{Config['irc']['version']} at your service"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* post\[(.*)\]: (.*)/ do |tags, example|
-  post_id = RestClient.post("#{Config.service_url}/posts", :from => nick, :body => example, :tags => tags)
-  reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
-  msg channel, reply
-end
-
 on :channel, /^#{Config['irc']['nick']}.* show posts/ do
   msg channel, "#{nick}: #{Config.service_url}/posts"
 end
@@ -49,6 +43,47 @@ end
 
 on :channel, /^#{Config['irc']['nick']}.* show tag(s)? (.*)$/ do |_, tags|
   msg channel, "#{nick}: #{Config.service_url}/posts?tags=#{tags}"
+end
+
+
+on :channel, /^#{Config['irc']['nick']}.* show questions/ do
+  msg channel, "#{nick}: #{Config.service_url}/questions"
+end
+
+on :channel, /^#{Config['irc']['nick']}.* show (question|post|answer) (.*)/ do |_,post_id|
+  begin
+    RestClient.get("#{Config.service_url}/posts/#{post_id}")
+    msg channel, "#{nick}: #{Config.service_url}/posts/#{post_id}"
+  rescue RestClient::ResourceNotFound
+    msg channel, "sorry #{nick}, there is no post with ID = #{post_id}"
+  end
+end
+
+on :channel, /^#{Config['irc']['nick']}.* show answers/ do
+  msg channel, "#{nick}: #{Config.service_url}/answers"
+end
+
+on :channel, /^#{Config['irc']['nick']}.* post\[(.*)\]: (.*)/ do |tags, example|
+  post_id = RestClient.post("#{Config.service_url}/posts", :from => nick, :body => example, :tags => tags)
+  reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
+  msg channel, reply
+end
+
+on :channel, /^#{Config['irc']['nick']}.* ask\[(.*)\]: (.*)/ do |tags, question|
+  post_id = RestClient.post("#{Config.service_url}/questions", :from => nick, :body => question, :tags => tags)
+  reply = "thx #{nick}, stored your question at #{Config.service_url}/questions/#{post_id} and tagged it with '#{tags}'"
+  msg channel, reply
+end
+
+on :channel, /^#{Config['irc']['nick']}.* answer\[(.*)\]: (.*)/ do |ids, answer|
+  post_ids = RestClient.post("#{Config.service_url}/answers?questions=#{ids}", :from => nick, :body => answer)
+  link_list = post_ids.split(',').inject([]) do |links, post_id|
+    links << "#{Config.service_url}/questions/#{post_id}"
+  end
+  answer_word   = link_list.size > 1 ? 'answers'   : 'answer'
+  question_word = link_list.size > 1 ? 'questions' : 'question'
+  reply = "thx #{nick}, stored your #{answer_word} to the following #{question_word}: #{link_list.join(' and ')}"
+  msg channel, reply
 end
 
 on :error, 401 do
