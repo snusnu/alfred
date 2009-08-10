@@ -14,7 +14,7 @@
   <% post.answers.all.each do |answer| %>
     <hr>
     <div>
-      <strong><%= vote_text(answer) %></strong> <em>Answered by</em><span> <%= answer.person.name %> on  <%= answer.created_at.strftime("%a, %b %d %Y at %H:%M") %></span>
+      <strong><%= vote_text(answer) %> <a href="/question/<%= answer.id %>">#<%= answer.id %></a></strong> <em>Answered by</em><span> <%= answer.person.name %> on  <%= answer.created_at.strftime("%a, %b %d %Y at %H:%M") %></span>
       <p><%= answer.body %></p>
     </div>
     <hr>
