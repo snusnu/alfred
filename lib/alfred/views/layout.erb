@@ -123,21 +123,23 @@
   <body>
     <div id="page">
       <div id="header">
-        <h1>Alfred - the IRC Butler</h1>
+        <h1><%= bot %> - irc butler for <em>#<%= Config['irc']['channel'] %></em> on <em><%= Config['irc']['server'] %></em></h1>
       </div>
 
       <div id="content">
         <div id="sidebar">
+          <h2>find</h2>
           <ul id="menu">
-            <li><a href="/tags">Tags</a></li>
-            <li><a href="/posts">Posts</a></li>
-            <li><a href="/questions">Questions</a></li>
-            <li><a href="/answers">Answers</a></li>
-            <li><a href="/commands">Commands</a></li>
+            <li><a href="/people">people</a></li>
+            <li><a href="/tags">tags</a></li>
+            <li><a href="/posts">posts</a></li>
+            <li><a href="/questions">questions</a></li>
+            <li><a href="/answers">answers</a></li>
+            <li><a href="/commands">commands</a></li>
           </ul>
-          <h2>About</h2>
+          <h2>about <%= bot %></h2>
           <p>
-            Alfred can help you collect useful information from irc channels. You can store away posts so that you can use them later
+            <em><%= bot %></em> can help you collect useful information from irc channels. You can store away posts so that you can use them later
             on when you're writing your project's documentation, wiki pages, blog articles or whatever. You can tag these posts so
             that they are easier to find later on. Of course you're not limited to posting snippets of text. Just post a link to
             <em><%= bot %></em>, say to a <a href="http://pastie.org">pastie</a>, a <a href="http://gist.github.com">gist</a> or some
@@ -152,7 +154,7 @@
       </div>
       <div id="footer">
         <p>
-          A <a href="http://quasipartikel.at">Quasipartikel</a> Production
+          a <a href="http://quasipartikel.at">quasipartikel</a> production
         </p>
       </div>
     </div>

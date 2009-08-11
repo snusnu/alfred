@@ -81,7 +81,7 @@ module Alfred
       if post = Post.get(params[:id])
         erb :post, :locals => { :post => post }
       else
-        halt 404, "No post stored with id #params{id}"
+        halt 404, "No post stored with id #{params[:id]}"
       end
     end
 
@@ -99,6 +99,30 @@ module Alfred
         posts << question_answer.target
       end
       erb :posts, :locals => { :posts => posts }
+    end
+
+    get '/answers/:id' do
+      redirect "/posts/#{params[:id]}"
+    end
+
+    get '/people/:person_name/posts' do
+      conditions = params[:question] == 'true' ? { :question => true } : {}
+      order = { :order => [ :created_at.desc ] }
+      person = Person.first(:name => params[:person_name])
+      halt 404, "No person with id = #{params[:person_name].inspect}" unless person
+      if params[:tags]
+        tag_names = Utils.tag_list(params[:tags])
+        posts = []
+        Tag.all(conditions.merge!(:name => tag_names)).each { |tag| posts += tag.posts.all(order.merge!(:person => person)) }
+      else
+        posts = person.posts.all(conditions.merge!(order))
+      end
+      erb :posts, :locals => { :posts => posts }
+    end
+
+    get '/people' do
+      people = Person.all(:order => [ :name.asc ])
+      erb :people, :locals => { :people => people }
     end
 
     get '/commands' do
@@ -138,7 +162,7 @@ module Alfred
 
       def vote_text(post)
         sign = post.vote_sum > 0 ? '+' : ''
-        "(#{sign}#{post.vote_sum}:#{post.vote_count})"
+        "[#{sign}#{post.vote_sum}:#{post.vote_count}]"
       end
     end
 
