@@ -1,0 +1,110 @@
+body {
+  font-family:Georgia,Times New Roman,serif;
+  font-size:13px;
+  margin:0;
+  padding:0;
+  background-image: url(/img/background_stripe.png);
+}
+
+#page {
+  width: 970px;
+
+}
+
+a {
+  color: #000;
+}
+
+a:hover {
+  color: #fff;
+  background: #000;
+}
+
+#header {
+  font-style: italic;
+  line-height: 40px;
+  color: #fff;
+  background: #000;
+  margin-left: 20px;
+  padding-left: 7px;
+  margin-bottom: 20px;
+  -moz-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+}
+
+
+#footer {
+  margin-top: 20px;
+  background: #fff;
+  margin-left: 20px;
+
+  -moz-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+}
+
+#footer p {
+  padding: 7px;
+}
+
+#content {
+ overflow: hidden;
+ width: 970px;
+}
+
+#sidebar {
+  margin-left: 20px;
+  padding: 7px;
+  background: #fff;
+ width: 186px;
+  -moz-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+ float: left;
+}
+
+ul#menu {
+  padding: 0px;
+}
+
+ul#menu li {
+
+  list-style-type: none;
+  margin-top: 2px;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 4px;
+}
+
+ul#menu li:hover {
+  background: #000;
+  -moz-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+}
+
+ul#menu li:hover a {
+  color: #fff;
+}
+
+ul#menu li a {
+  text-decoration: none;
+  color: #555;
+}
+
+#main {
+  -moz-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  background: #fff;
+  margin-left: 20px;
+  padding: 7px;
+ width: 716px;
+ float: right;
+}
