@@ -12,12 +12,10 @@
 <% if post.has_answers? %>
 <div id="answers">
   <% post.answers.all.each do |answer| %>
-    <hr>
     <div>
       <strong><%= vote_text(answer) %> <a href="/question/<%= answer.id %>">#<%= answer.id %></a></strong> <em>Answered by</em><span> <a href="/people/<%= answer.person.name %>/posts"><%= answer.person.name %></a> on  <%= answer.created_at.strftime("%a, %b %d %Y at %H:%M") %></span>
       <p><%= answer.body %></p>
     </div>
-    <hr>
   <% end %>
 </div>
 <% end %>

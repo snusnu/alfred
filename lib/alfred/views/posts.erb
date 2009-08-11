@@ -1,6 +1,5 @@
 <div>
   <% posts.each do |p| %>
-    <hr>
     <% post = Post.get(p.id) %> <!-- VERY STRANGE for p.tag_list behavior! a dm bug maybe? -->
     <% if post.question? %>
     <div id="post-<%= post.id %>" class="question">
@@ -14,6 +13,5 @@
     <% end %>
       <p><%= post.body %></p>
     </div>
-    <hr>
   <% end %>
 </div>
