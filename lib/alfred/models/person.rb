@@ -6,6 +6,8 @@ class Person
   property :name,         String, :nullable => false
   property :twitter_name, String
 
+  property :created_at,   UTCDateTime
+
   has n, :posts
 
   def tweets?

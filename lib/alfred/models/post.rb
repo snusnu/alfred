@@ -10,7 +10,7 @@ class Post
   property :question,   Boolean, :nullable => false, :default => false
   property :vote_sum,   Integer, :nullable => false, :default => 0
   property :vote_count, Integer, :nullable => false, :default => 0
-  property :created_at, DateTime
+  property :created_at, UTCDateTime
 
 
   belongs_to :person

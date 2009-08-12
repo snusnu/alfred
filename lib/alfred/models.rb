@@ -4,6 +4,7 @@ require 'dm-timestamps'
 require 'dm-validations'
 require 'dm-is-self_referential'
 
+require 'models/utc_support'
 require 'models/person'
 require 'models/post'
 require 'models/post_tag'
