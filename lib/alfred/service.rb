@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'pathname'
 require 'sinatra/base'
+require 'rdiscount'
 
 require 'dm-core'
 require 'dm-types'
@@ -162,8 +163,23 @@ module Alfred
 
       def vote_text(post)
         sign = post.vote_sum > 0 ? '+' : ''
-        "<span class='votes'><span title='vote-sum' class='vote-sum'>#{sign}#{post.vote_sum}</span>/<span title='vote-count' class='vote-count'>#{post.vote_count}</span></span>"
+        <<-HTML
+          <span class='votes'>
+            <span title='vote-sum' class='vote-sum'>#{sign}#{post.vote_sum}</span>
+            /
+            <span title='vote-count' class='vote-count'>#{post.vote_count}</span>
+          </span>
+        HTML
       end
+
+      def post_body(post)
+        RDiscount.new(post.body).to_html
+      end
+
+      def person_link(person)
+        "<a href='/people/#{person.name}/posts' title='#{person.name}`s posts'>#{person.name}</a>"
+      end
+
     end
 
   end

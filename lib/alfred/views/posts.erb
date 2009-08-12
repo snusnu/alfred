@@ -11,7 +11,7 @@
     <div id="post-<%= post.id %>" class="post">
       <h3><%= vote_text(post) %> <a href="/posts/<%= post.id %>">#<%= post.id %></a> <%= post.created_at.strftime("%a, %b %d %Y at %H:%M") %>, <a href="/people/<%= post.person.name %>/posts"><%= post.person.name %></a> posted the following <a href="<%= "/posts/#{post.id}" %>">snippet</a></h3>
     <% end %>
-      <p><%= post.body %></p>
+      <p><%= post_body(post) %></p>
     </div>
   <% end %>
 </div>
