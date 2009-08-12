@@ -131,6 +131,18 @@ module Alfred
           </span>
         HTML
       end
+      
+      def post_date(post)
+        noday,month,day,year,time = post.created_at.strftime("%a %b %d %Y %H:%M").split(' ')
+        <<-HTML
+          <span class='post-date'>
+           <span class="post-day">#{day}</span> 
+           <span class="post-month">#{month}</span> 
+           <pre class="post-time">#{time}</pre>
+           <span class="post-year">#{year}</span>
+          </span>
+        HTML
+      end
 
       def post_body(post)
         RDiscount.new(post.body).to_html

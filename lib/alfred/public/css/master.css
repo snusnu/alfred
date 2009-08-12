@@ -111,7 +111,9 @@ ul#menu li a {
 
 
 /* START Styles for Posts */
-.votes {
+.post {
+  overflow:auto;
+  margin-bottom: 5px;
 }
 
 .vote-count {
@@ -121,4 +123,53 @@ ul#menu li a {
 .vote-sum {
   font-size: 1.5em;
 }
+<<<<<<< HEAD:lib/alfred/public/css/master.css
+/*END Styles for Posts */
+=======
+
+.post-date {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display: block;
+  background-color: #555555;
+  color: #fff;
+  float: right;
+  margin-right: 10px;
+  padding: 38px 8px 0;
+  position: relative;
+}
+
+.post-day {
+  font-size: 40px;
+  left: 5px;
+  line-height: 40px;
+  position: absolute;
+  top: 0;
+}
+
+.post-time {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 0;
+}
+
+.post-month {
+  display: block;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.post-year {
+  -webkit-transform: rotate(-90deg); 
+  -moz-transform: rotate(-90deg);	
+  text-transform: rotate(-90deg);	
+  display: block;
+  font-size: 11px;
+  position: absolute;
+  right: -5px;
+  top: 15px;
+}
+
 /*END Styles for Posts */
