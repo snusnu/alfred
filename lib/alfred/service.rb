@@ -162,7 +162,7 @@ module Alfred
 
       def vote_text(post)
         sign = post.vote_sum > 0 ? '+' : ''
-        "[#{sign}#{post.vote_sum}:#{post.vote_count}]"
+        "<span class='votes'><span title='vote-sum' class='vote-sum'>#{sign}#{post.vote_sum}</span>/<span title='vote-count' class='vote-count'>#{post.vote_count}</span></span>"
       end
     end
 

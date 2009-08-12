@@ -105,6 +105,20 @@ ul#menu li a {
   background: #fff;
   margin-left: 20px;
   padding: 7px;
- width: 716px;
- float: right;
+  width: 716px;
+  float: right;
 }
+
+
+/* START Styles for Posts */
+.votes {
+}
+
+.vote-count {
+  font-size: 0.7em;
+}
+
+.vote-sum {
+  font-size: 1.5em;
+}
+/*END Styles for Posts */
