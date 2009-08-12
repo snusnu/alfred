@@ -116,16 +116,57 @@ ul#menu li a {
   margin-bottom: 5px;
 }
 
+.post  p {
+  overflow:auto;
+  float: left;
+}
+
+.post-info, .post-date {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display: block;
+  background-color: #555555;
+  color: #fff;
+  float: right;
+  margin-right: 10px;
+  padding: 38px 8px 0;
+  position: relative;
+}
+
+
+.post-info {
+  float: left;
+  padding: 3px;
+  padding-top: 2px;
+  min-width: 60px;
+}
+
+.post-info a {
+  color: inherit;
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  width: 100%;
+  text-decoration: none;
+}
+
+.votes {
+  display: block;
+  text-align: center;
+  font-size: 6px;
+  font-weight: bold;
+}
+
 .vote-count {
-  font-size: 0.7em;
+  font-size: 13px;
 }
 
 .vote-sum {
-  font-size: 1.5em;
+  font-size: 32px;
 }
-<<<<<<< HEAD:lib/alfred/public/css/master.css
+
 /*END Styles for Posts */
-=======
 
 .post-date {
   -moz-border-radius: 5px;

@@ -125,9 +125,9 @@ module Alfred
         sign = post.vote_sum > 0 ? '+' : ''
         <<-HTML
           <span class='votes'>
-            <span title='vote-sum' class='vote-sum'>#{sign}#{post.vote_sum}</span>
+            <sup title='vote-sum' class='vote-sum'>#{sign}#{post.vote_sum}</sup>
             /
-            <span title='vote-count' class='vote-count'>#{post.vote_count}</span>
+            <sub title='vote-count' class='vote-count'>#{post.vote_count}</sub>
           </span>
         HTML
       end
