@@ -29,25 +29,30 @@ on :channel, /^#{Config['irc']['nick']}.* identify/ do
   msg channel, "#{nick}: #{Config['irc']['realname']}, version #{Config['irc']['version']} at your service"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show posts/ do
+on :channel, /^#{Config['irc']['nick']}.* show posts$/ do
   msg channel, "#{nick}: #{Config.service_url}/posts"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show commands/ do
+on :channel, /^#{Config['irc']['nick']}.* show commands$/ do
   msg channel, "#{nick}: #{Config.service_url}/commands"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show tags/ do
+on :channel, /^#{Config['irc']['nick']}.* show tags$/ do
   msg channel, "#{nick}: #{Config.service_url}/tags"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show tag(s)? (.*)$/ do |_, tags|
+on :channel, /^#{Config['irc']['nick']}.* show posts tagged with (.*)$/ do |tags|
+  tags = tags.gsub(',', ' ').split(' ').uniq.join(',')
   msg channel, "#{nick}: #{Config.service_url}/posts?tags=#{tags}"
 end
 
 
 on :channel, /^#{Config['irc']['nick']}.* show questions/ do
-  msg channel, "#{nick}: #{Config.service_url}/questions"
+  msg channel, "#{nick}: #{Config.service_url}/posts?type=questions"
+end
+
+on :channel, /^#{Config['irc']['nick']}.* show answers/ do
+  msg channel, "#{nick}: #{Config.service_url}/posts?type=answer"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* show (question|post|answer) (.*)/ do |_,post_id|
@@ -59,26 +64,28 @@ on :channel, /^#{Config['irc']['nick']}.* show (question|post|answer) (.*)/ do |
   end
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show answers/ do
-  msg channel, "#{nick}: #{Config.service_url}/answers"
-end
 
-on :channel, /^#{Config['irc']['nick']}.* post\[(.*)\]: (.*)/ do |tags, example|
-  post_id = RestClient.post("#{Config.service_url}/posts", :from => nick, :body => example, :tags => tags)
+
+on :channel, /^#{Config['irc']['nick']}.* post\[(.*)\](:,\,)? (.*)/ do |tags, _, example|
+  url = "#{Config.service_url}/posts"
+  post_id = RestClient.post(url, :type => 'post', :person => nick, :body => example, :tags => tags)
   reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* ask\[(.*)\]: (.*)/ do |tags, question|
-  post_id = RestClient.post("#{Config.service_url}/questions", :from => nick, :body => question, :tags => tags)
-  reply = "thx #{nick}, stored your question at #{Config.service_url}/questions/#{post_id} and tagged it with '#{tags}'"
+on :channel, /^#{Config['irc']['nick']}.* ask\[(.*)\](:,\,)? (.*)/ do |tags, _, question|
+  url = "#{Config.service_url}/posts"
+  post_id = RestClient.post(url, :type => 'question', :person => nick, :body => question, :tags => tags)
+  reply = "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* answer\[(.*)\]: (.*)/ do |ids, answer|
-  post_ids = RestClient.post("#{Config.service_url}/answers?questions=#{ids}", :from => nick, :body => answer)
+on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\[(.*)\](:,\,)? (.*)/ do |_, ids, _, reply|
+  url = "#{Config.service_url}/posts"
+  referrer_ids = ids.gsub(',', ' ').split(' ').uniq.join(',')
+  post_ids = RestClient.post(url, :type => 'reply', :person => nick, :body => reply, :referrers => referrer_ids)
   link_list = post_ids.split(',').inject([]) do |links, post_id|
-    links << "#{Config.service_url}/questions/#{post_id}"
+    links << "#{Config.service_url}/posts/#{post_id}"
   end
   answer_word   = link_list.size > 1 ? 'answers'   : 'answer'
   question_word = link_list.size > 1 ? 'questions' : 'question'
@@ -86,10 +93,10 @@ on :channel, /^#{Config['irc']['nick']}.* answer\[(.*)\]: (.*)/ do |ids, answer|
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|question|answer) (.*)/ do |impact, post_type, post_id|
+on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|question|answer|reply) (.*)/ do |impact, post_type, post_id|
   begin
-    vote_action = impact == '+' ? 'up' : 'down'
-    RestClient.post("#{Config.service_url}/posts/#{post_id}/vote/#{vote_action}", :from => nick)
+    url = "#{Config.service_url}/votes"
+    RestClient.post(url, :person => nick, :post_id => post_id, :impact => impact)
     reply = "thx #{nick}, stored your vote at #{Config.service_url}/posts/#{post_id}"
     msg channel, reply
   rescue RestClient::ResourceNotFound

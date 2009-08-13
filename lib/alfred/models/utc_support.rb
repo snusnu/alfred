@@ -88,7 +88,7 @@ module DataMapper
 
     module UTC
       PROPERTY_WRITER = lambda { |name, type|
-        lambda { |dt| attribute_set(name, Time.parse(dt.to_s).utc.send("to_#{type.name.downcase}")) } 
+        lambda { |dt| attribute_set(name, Time.parse(dt.to_s).utc.send("to_#{type.name.downcase}")) }
       }
       PROPERTY_READER = lambda { |name, type|
         lambda {

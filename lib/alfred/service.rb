@@ -23,142 +23,102 @@ module Alfred
 
     set :root, File.dirname(__FILE__)
 
+    # ---------------------------- GET ROUTES -------------------------------------
 
     post '/posts' do
-      post = create_post(params[:from], params[:body], params[:tags])
-      message = "#{params[:from]} just posted a snippet to #{Config.service_url}/posts/#{post.id}"
-      tweet_action(message)
+      post = create_post(params[:type], params[:person], params[:body], params[:tags], params[:referrers])
+      tweet(post)
       post.id.to_s
     end
 
-    post '/questions' do
-      post = create_post(params[:from], params[:body], params[:tags], true)
-      message = "#{params[:from]} just asked a question at #{Config.service_url}/questions/#{post.id}"
-      tweet_action(message)
-      post.id.to_s
-    end
-
-    post '/answers' do
-      if ids = params[:questions]
-        ids = ids.gsub(',', ' ').strip.split(' ').uniq
-        halt 404, 'No question to answer was specified' if ids.empty?
-        post = create_post(params[:from], params[:body])
-        question_ids = []
-        ids.each do |question_id|
-          if question = Post.get(question_id)
-            QuestionAnswer.create(:source_id => question_id, :target => post)
-            message = "#{params[:from]} just answered a question at #{Config.service_url}/answers/#{question_id}"
-            tweet_action(message)
-            question_ids << question_id
-          end
-        end
-        question_ids.join(',')
-      else
-        halt 404, "You didn't specify any questions to answer"
-      end
-    end
-
-    post '/posts/:post_id/vote/:impact' do
+    post '/votes' do
       post = Post.get(params[:post_id])
       halt 404, 'No post to vote was specified' unless post
-      post.vote(params[:impact])
+      post.vote(params[:person], params[:impact])
       "#{post.vote_sum},#{post.vote_count}"
     end
 
+
+    # ---------------------------- GET ROUTES -------------------------------------
+
+
+    get '/' do
+      redirect '/posts'
+    end
+
+
     get '/posts' do
-      conditions = params[:question] == 'true' ? { :question => true } : {}
-      order = { :order => [ :created_at.desc ] }
-      if params[:tags]
-        tag_names = Utils.tag_list(params[:tags])
-        posts = []
-        Tag.all(conditions.merge!(:name => tag_names)).each { |tag| posts += tag.posts.all(order) }
-      else
-        posts = Post.all(conditions.merge!(order))
-      end
-      erb :posts, :locals => { :posts => posts }
+      show_posts(params[:type], params[:person], params[:tags])
     end
 
     get '/posts/:id' do
-      if post = Post.get(params[:id])
-        erb :post, :locals => { :post => post }
-      else
-        halt 404, "No post stored with id #{params[:id]}"
-      end
+      show_post(params[:id])
     end
 
-    get '/questions' do
-      redirect "/posts?question=true"
-    end
-
-    get '/questions/:id' do
-      redirect "/posts/#{params[:id]}"
-    end
-
-    get '/answers' do
-      posts = []
-      QuestionAnswer.all.each do |question_answer|
-        posts << question_answer.target
-      end
-      erb :posts, :locals => { :posts => posts }
-    end
-
-    get '/answers/:id' do
-      redirect "/posts/#{params[:id]}"
-    end
-
-    get '/people/:person_name/posts' do
-      conditions = params[:question] == 'true' ? { :question => true } : {}
-      order = { :order => [ :created_at.desc ] }
-      person = Person.first(:name => params[:person_name])
-      halt 404, "No person with id = #{params[:person_name].inspect}" unless person
-      if params[:tags]
-        tag_names = Utils.tag_list(params[:tags])
-        posts = []
-        Tag.all(conditions.merge!(:name => tag_names)).each { |tag| posts += tag.posts.all(order.merge!(:person => person)) }
-      else
-        posts = person.posts.all(conditions.merge!(order))
-      end
-      erb :posts, :locals => { :posts => posts }
-    end
 
     get '/people' do
-      people = Person.all(:order => [ :name.asc ])
-      erb :people, :locals => { :people => people }
+      erb :people, :locals => { :people => Person.all(:order => [ :name.asc ]) }
     end
+
+    get '/tags' do
+      erb :tags, :locals => { :tags => Tag.all }
+    end
+
 
     get '/commands' do
       erb :commands
     end
 
-    get '/tags' do
-      erb :tags
-    end
 
-    # ---------------------------------------------------------------
+    # ----------------------------- HELPERS ----------------------------------
+
 
     helpers do
 
-      def post_tag_links(tags)
-        tags.map { |t| "<a href='#{Config.service_url}/posts?tags=#{t.name}'>#{t.name}</a>" }.join(', ')
-      end
-
-      def tweet_action(message)
-        Thread.new do
-          # we don't need the response from twitter in this case so threading it seems feasible
-          Alfred::Twitter.tweet(Config.twitter_bot_credentials, message)
+      def create_post(type, person, body, tags, referrers)
+        type = PostType.first(:name => type)
+        halt 404, "No post type called #{type} exists" unless type
+        person = Person.first_or_create(:name => person)
+        post = Post.create(:post_type => type, :person => person, :body => body, :tag_list => tags)
+        # silently filter duplicates and ignore invalid ids
+        if referrers
+          referrers.split(',').uniq.map { |id| Post.get(id) }.compact.each do |referrer|
+            FollowUpPost.create(:source => post, :target => referrer)
+            tweet(referrer)
+          end
         end
-      end
-
-      def create_post(from, body, tags = '', question = false)
-        person = Person.first_or_create(:name => from)
-        post   = Post.create(:person => person, :body => body, :question => question, :tag_list => tags)
         post
       end
 
-      def questions_link_list(answer)
+      def show_posts(post_type, person, tags)
+        conditions = { :order => [ :created_at.desc ] }
+        conditions.merge!(:post_type => type)   if post_type = PostType.first(:name => post_type)
+        conditions.merge!(:person    => person) if person = Person.first(:name => person)
+        if tags
+          tags = Alfred::Utils.tag_list(tags).map { |name| Tag.first(:name => name) }
+          conditions.merge!(:tags => tags) unless tags.empty?
+        end
+        erb :posts, :locals => { :posts => Post.all(conditions) }
+      end
+
+      def show_post(post_id)
+        post = Post.get(post_id)
+        halt 404, "No post with id = #{post_id} exists" unless post
+        erb :post, :locals => { :post => post }
+      end
+
+      def tag_links(tags)
+        tags.map { |t| "<a href='/posts?tags=#{t.name}'>#{t.name}</a>" }.join(', ')
+      end
+
+      def referrer_links(answer)
         answer.questions.map do |question|
-          "<a href='#{Config.service_url}/questions/#{question.id}'>##{question.id}</a>"
+          "<a href='/posts/#{question.id}'>##{question.id}</a>"
         end.join(', ')
+      end
+
+      def person_link(person)
+        "<a href='/posts?person=#{person.name}' title='#{person.name}`s posts'>#{person.name}</a>"
       end
 
       def vote_text(post)
@@ -176,8 +136,23 @@ module Alfred
         RDiscount.new(post.body).to_html
       end
 
-      def person_link(person)
-        "<a href='/people/#{person.name}/posts' title='#{person.name}`s posts'>#{person.name}</a>"
+      def twitter_message(post)
+        case post.post_type
+        when 'post'
+          "#{post.person.name} just posted a snippet to #{Config.service_url}/posts/#{post.id}"
+        when 'questions'
+          "#{post.person.name} just asked a question at #{Config.service_url}/posts/#{post.id}"
+        when 'answer'
+          "#{post.person.name} just answered a question at #{Config.service_url}/posts/#{question_id}"
+        else
+          nil
+        end
+      end
+
+      def tweet(post)
+        if message = twitter_message(post)
+          Thread.new { Alfred::Twitter.tweet(Config.twitter_bot_credentials, message) }
+        end
       end
 
     end

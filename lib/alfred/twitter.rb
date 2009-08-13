@@ -2,6 +2,7 @@ require 'restclient'
 require 'json'
 
 module Alfred
+
   module Twitter
 
     def self.tweet(credentials, message)
@@ -22,4 +23,5 @@ module Alfred
     end
 
   end
+
 end

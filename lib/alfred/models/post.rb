@@ -4,34 +4,33 @@ class Post
 
   include DataMapper::Resource
 
-  property :id,         Serial
-  property :person_id,  Integer, :nullable => false
-  property :body,       Text
-  property :question,   Boolean, :nullable => false, :default => false
-  property :vote_sum,   Integer, :nullable => false, :default => 0
-  property :vote_count, Integer, :nullable => false, :default => 0
-  property :created_at, UTCDateTime
+  property :id,            Serial
+  property :person_id,     Integer, :nullable => false
+  property :post_type_id,  Integer, :nullable => false
+
+  # denormalized for performance reasons
+  property :vote_sum,      Integer, :nullable => false, :default => 0
+  property :vote_count,    Integer, :nullable => false, :default => 0, :min => 0
+
+  property :body,          Text,    :nullable => false
+
+  property :created_at,    UTCDateTime
 
 
   belongs_to :person
+  belongs_to :post_type
 
+  has n, :votes
   has n, :post_tags
   has n, :tags, :through => :post_tags
 
-  is :self_referential, :through => 'QuestionAnswer',
-    :parents  => :questions,
-    :children => :answers
+  is :self_referential, :through => 'FollowUpPost',
+    :parents  => :referrers,
+    :children => :follow_ups
 
-  def question?
-    question
-  end
 
-  def answer?
-    !questions.all.empty?
-  end
-
-  def has_answers?
-    answers.all.size > 0
+  def has_follow_ups?
+    follow_ups.all.size > 0
   end
 
   def tag_list
@@ -39,18 +38,21 @@ class Post
   end
 
   def tag_list=(list)
-    Utils.tag_list(list).each do |tag|
+    Alfred::Utils.tag_list(list).each do |tag|
       tags << Tag.first_or_create(:name => tag)
     end
   end
 
-  def vote(impact)
-    case impact
-    when 'up'   then self.vote_sum += 1
-    when 'down' then self.vote_sum -= 1
+  def vote(person, impact)
+    return unless person = Person.first(:name => person)
+    impact = case impact
+    when '+' then  1
+    when '-' then -1
     else
-      return
+      return # silently do nothing
     end
+    Vote.create(:post => self, :person => person, :impact => impact)
+    self.vote_sum   += impact
     self.vote_count += 1
     save
   end
