@@ -299,3 +299,41 @@ ul#menu li a {
 
 
 /*END Styles for Posts */
+
+/* START Styles for Tag Cloud */
+#tag-cloud {
+}
+
+#tag-cloud a {
+  text-decoration: none;
+}
+
+.xx-small {
+  font-size: 12px;
+}
+
+.x-small {
+  font-size: 15px;
+}
+
+.small {
+  font-size: 18px;
+}
+
+.medium {
+  font-size: 21px;
+}
+
+.large {
+  font-size: 24px;
+}
+
+.x-large {
+  font-size: 27px;
+}
+
+.xx-large {
+  font-size: 30px;
+}
+
+/* END Styles for Tag Cloud */
