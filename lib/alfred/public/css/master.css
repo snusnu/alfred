@@ -148,6 +148,14 @@ ul#menu li a {
   border-color: #803C3C;
 }
 
+.documentation .post-info, .documentation .post-date {
+  background-color: #3b8078;
+}
+
+.documenation .person-stats {
+  border-color: #3b8078;
+}
+
 .posts div {
   overflow:auto;
   margin-bottom: 5px;
@@ -160,6 +168,7 @@ ul#menu li a {
 
 .posts .gravatar {
   display:block;
+  margin-bottom:4px;
 }
 
 .posts  p {
