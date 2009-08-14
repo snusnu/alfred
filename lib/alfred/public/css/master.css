@@ -123,7 +123,7 @@ ul#menu li a {
 
 /* START Styles for Posts */
 .post-info, .post-date, .person-stats {
-  font-family: Consolas, Monaco, "Courier New", monospace;
+  font-family: Consolas, "Vera Sans Mono", "Courier New", monospace;
 }
 
 .note .post-info, .post .post-date {
