@@ -15,6 +15,17 @@
         </span>
         <a href="/posts?person=<%= person.name %>"><%= person.name %></a> asked the following <a href="<%= "/posts/#{post.id}" %>">question</a>
       </h3>
+    <% elsif post.post_type.name == 'documentation' %>
+      <div id="post-<%= post.id %>" class="documentation">
+        <h3>
+          <%= post_date(post) %>
+          <%= person_stats(person) %>
+          <span class="post-info">
+            <%= vote_text(post) %>
+            <a href="/posts/<%= post.id %>">#<%= post.id %></a>
+          </span>
+          <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted this <a href="<%= "/posts/#{post.id}" %>">documentation snippet</a>
+        </h3>
     <% elsif post.post_type.name == 'reply' %>
     <div id="post-<%= post.id %>" class="reply">
       <h3>
@@ -26,8 +37,8 @@
         </span>
         <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted this <a href="<%= "/posts/#{post.id}" %>">answer</a> in reply to <%= referrer_links(post) %>
       </h3>
-    <% else %>
-    <div id="post-<%= post.id %>" class="post">
+    <% elsif post.post_type.name == 'note' %>
+    <div id="post-<%= post.id %>" class="note">
       <h3>
         <%= post_date(post) %>
         <%= person_stats(person) %>
@@ -35,7 +46,7 @@
           <%= vote_text(post) %>
           <a href="/posts/<%= post.id %>">#<%= post.id %></a>
         </span>
-        <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted the following <a href="<%= "/posts/#{post.id}" %>">snippet</a>
+        <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted the following <a href="<%= "/posts/#{post.id}" %>">note</a>
       </h3>
     <% end %>
       <%= post_body(post) %>
