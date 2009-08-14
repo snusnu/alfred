@@ -11,7 +11,7 @@ task :seed do
   DataMapper.auto_migrate!
 
 
-  bot = Config['irc']['nick']  
+  bot = Config['irc']['nick']
 
   documentation = PostType.create :name => 'documentation'
   question      = PostType.create :name => 'question'

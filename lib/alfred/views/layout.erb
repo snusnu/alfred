@@ -11,11 +11,16 @@
   <body>
     <div id="page">
       <div id="header">
-        <h1><%= bot %> gladly serving <em>#<%= Config['irc']['channel'] %></em>@<em><%= Config['irc']['server'] %></em></h1>
+        <h1><%= bot %> gladly serving <em>#<%= Config['irc']['channel'] %></em></h1>
+        <a href="http://quasipartikel.at/"><span>quasipartikel.at</span></a>
       </div>
 
       <div id="content">
         <div id="sidebar">
+          <div id="twitter">
+            <a class="twitter-follow" href="http://twitter.com/<%= bot %>">follow me on twitter</a>
+            <p id="latest-tweet"></p>
+          </div>
           <h2>find</h2>
           <ul id="menu">
             <li><a href="/tags">tags</a></li>

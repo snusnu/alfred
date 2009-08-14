@@ -24,7 +24,7 @@ a:hover {
 
 #header {
   font-style: italic;
-  line-height: 85px;
+  line-height: 50px;
   color: #fff;
   background: #11233D url(/img/waiter.gif) no-repeat;
   margin-left: 20px;
@@ -35,6 +35,29 @@ a:hover {
   -webkit-border-radius: 8px;
   border-radius: 8px;
   opacity: 0.95;
+  overflow: auto;
+}
+
+#header h1 {
+  font-size: 25px;
+  float: left;
+
+}
+
+#header a {
+  display: block;
+  float: right;
+  background: url(http://quasipartikel.at/wp-content/themes/quasipartikel/images/qp.png) no-repeat;
+  width: 62px;
+  height:62px;
+  margin-right:20px;
+  margin-top:12px;
+  overflow:hidden;
+  opacity: 0.6;
+}
+
+#header a span {
+  margin-left: -20000px;
 }
 
 
@@ -58,9 +81,34 @@ a:hover {
  width: 970px;
 }
 
+#twitter {
+  color: #fff;
+  background-color: #11233D;
+  padding: 5px;
+  text-align: center;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-radius-topleft: 8px;
+  -webkit-border-radius-topright: 8px;
+  border-radius-topleft: 8px;
+  border-radius-topright: 8px;
+
+}
+
+.twitter-follow {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  /*padding-left: 22px;*/
+  background: no-repeat;
+  display: block;
+  line-height: 20px;
+  vertical-align: center;
+}
+
 #sidebar {
   margin-left: 20px;
-  padding: 7px;
+  padding-bottom: 7px;
   background: #fff;
  width: 186px;
   -moz-border-radius: 8px;
@@ -70,12 +118,21 @@ a:hover {
  float: left;
 }
 
+#sidebar p {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
 h2 {
   color:#11233D;
+  padding-left: 7px;
+  padding-right: 7px;
 }
 
 ul#menu {
   padding: 0px;
+  padding-left: 7px;
+  padding-right: 7px;
 }
 
 ul#menu li {
@@ -337,3 +394,18 @@ ul#menu li a {
 }
 
 /* END Styles for Tag Cloud */
+.commands dt {
+  margin-top: 8px;
+  margin-bottom: 6px;
+}
+
+samp {
+  display: inline-block;
+  padding: 1px 3px 3px 3px;
+  background-color: #fff;
+  border: solid 1px #888;
+  box-shadow: 1px 1px 1px #888;
+}
+/* START Styles for Commands page */
+
+/* END Styles for Commands page */
