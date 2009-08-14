@@ -8,6 +8,7 @@ class Person
   property :name,          String, :nullable => false, :unique => true, :unique_index => true
 
   property :twitter_login, String
+  property :github_name,   String
   property :email_address, String
   property :gravatar,      Boolean, :nullable => false, :default => false
 

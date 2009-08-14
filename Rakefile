@@ -1,5 +1,8 @@
 require 'rubygems'
+require 'pathname'
 require 'rake'
+
+ROOT = Pathname(__FILE__).dirname.expand_path
 
 begin
   require 'jeweler'
@@ -63,3 +66,5 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+Pathname.glob(ROOT.join('tasks/**/*.rb').to_s).each { |f| require f }
