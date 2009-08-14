@@ -3,11 +3,13 @@ body {
   font-size:13px;
   margin:0;
   padding:0;
-  background-image: url(/img/background_stripe.png);
+  background-image: url(/img/background_squares.png);
 }
 
 #page {
   width: 970px;
+  margin-left: auto;
+  margin-right: auto;
 
 }
 
@@ -86,20 +88,24 @@ ul#menu li {
 }
 
 ul#menu li:hover {
-  background: #000;
-  -moz-border-radius: 8px;
-  -khtml-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
 }
 
 ul#menu li:hover a {
   color: #fff;
+  background: #000;
+  -moz-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -opera-border-radius: 8px;
+  border-radius: 8px;
 }
 
 ul#menu li a {
   text-decoration: none;
+  display: block;
   color: #555;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 #main {
@@ -116,11 +122,15 @@ ul#menu li a {
 
 
 /* START Styles for Posts */
-.post .post-info, .post .post-date {
+.post-info, .post-date, .person-stats {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+.note .post-info, .post .post-date {
   background-color: #334567;
 }
 
-.post .person-stats {
+.note .person-stats {
   border-color: #334567;
 }
 
@@ -140,6 +150,14 @@ ul#menu li a {
   border-color: #803C3C;
 }
 
+.documentation .post-info, .documentation .post-date {
+  background-color: #3b8078;
+}
+
+.documenation .person-stats {
+  border-color: #3b8078;
+}
+
 .posts div {
   overflow:auto;
   margin-bottom: 5px;
@@ -152,6 +170,7 @@ ul#menu li a {
 
 .posts .gravatar {
   display:block;
+  margin-bottom:4px;
 }
 
 .posts  p {
@@ -168,7 +187,7 @@ ul#menu li a {
   color: #fff;
   float: right;
   margin-right: 10px;
-  padding: 38px 8px 0;
+  /*padding: 38px 8px 0;*/
   position: relative;
 }
 
@@ -176,16 +195,16 @@ ul#menu li a {
 .post-info {
   float: left;
   padding: 3px;
-  height: 70px;
   padding-top: 2px;
   min-width: 60px;
+  height: 71px;
 }
 
 .post-info a {
   color: inherit;
   display: block;
   text-align: center;
-  font-size: 12px;
+  font-size: 18px;
   width: 100%;
   text-decoration: none;
 }
@@ -215,28 +234,30 @@ ul#menu li a {
   float: right;
   margin-left: 10px;
   padding: 38px 8px 0;
+  height: 38px;
   opacity: 0.6;
   position: relative;
 }
 
 .post-day {
   font-size: 40px;
-  left: 5px;
+  left: 3px;
   line-height: 40px;
   position: absolute;
   top: 0;
 }
 
 .post-time {
-  font-size: 12px;
-  letter-spacing: 2px;
+  display:block;
+  font-size:14px;
   text-align: center;
-  margin: 0;
 }
 
 .post-month {
   display: block;
-  font-size: 18px;
+  font-size:25px;
+  line-height: 20px;
+  text-align:center;
   text-transform: uppercase;
 }
 
@@ -259,6 +280,7 @@ ul#menu li a {
   border: solid 2px #555555;
   color: #000;
   float: right;
+  height: 62px;
   margin-left: 10px;
   padding: 5px;
   position: relative;
