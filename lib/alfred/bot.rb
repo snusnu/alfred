@@ -25,16 +25,33 @@ on :connect do
   msg 'nickserv', "identify #{Config['irc']['nickserv']}"
 end
 
+on :channel, /^#{Config['irc']['nick']}.* show commands$/ do
+  msg channel, "#{nick}: #{Config.service_url}/commands"
+end
+
 on :channel, /^#{Config['irc']['nick']}.* identify/ do
   msg channel, "#{nick}: #{Config['irc']['realname']}, version #{Config['irc']['version']} at your service"
 end
+
 
 on :channel, /^#{Config['irc']['nick']}.* show posts$/ do
   msg channel, "#{nick}: #{Config.service_url}/posts"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show commands$/ do
-  msg channel, "#{nick}: #{Config.service_url}/commands"
+on :channel, /^#{Config['irc']['nick']}.* show documentation$/ do
+  msg channel, "#{nick}: #{Config.service_url}/posts?type=documentation"
+end
+
+on :channel, /^#{Config['irc']['nick']}.* show questions/ do
+  msg channel, "#{nick}: #{Config.service_url}/posts?type=question"
+end
+
+on :channel, /^#{Config['irc']['nick']}.* show answers/ do
+  msg channel, "#{nick}: #{Config.service_url}/posts?type=reply"
+end
+
+on :channel, /^#{Config['irc']['nick']}.* show notes/ do
+  msg channel, "#{nick}: #{Config.service_url}/posts?type=note"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* show tags$/ do
@@ -44,15 +61,6 @@ end
 on :channel, /^#{Config['irc']['nick']}.* show posts tagged with (.*)$/ do |tags|
   tags = tags.gsub(',', ' ').split(' ').uniq.join(',')
   msg channel, "#{nick}: #{Config.service_url}/posts?tags=#{tags}"
-end
-
-
-on :channel, /^#{Config['irc']['nick']}.* show questions/ do
-  msg channel, "#{nick}: #{Config.service_url}/posts?type=questions"
-end
-
-on :channel, /^#{Config['irc']['nick']}.* show answers/ do
-  msg channel, "#{nick}: #{Config.service_url}/posts?type=answer"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* show (question|post|answer) (.*)/ do |_,post_id|
@@ -66,9 +74,9 @@ end
 
 
 
-on :channel, /^#{Config['irc']['nick']}.* post\[(.*)\](:,\,)? (.*)/ do |tags, _, example|
+on :channel, /^#{Config['irc']['nick']}.* document\[(.*)\](:,\,)? (.*)/ do |tags, _, example|
   url = "#{Config.service_url}/posts"
-  post_id = RestClient.post(url, :type => 'post', :person => nick, :body => example, :tags => tags)
+  post_id = RestClient.post(url, :type => 'documentation', :person => nick, :body => example, :tags => tags)
   reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
@@ -93,7 +101,15 @@ on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\[(.*)\](:,\,)? (.*)/ do
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|question|answer|reply) (.*)/ do |impact, post_type, post_id|
+on :channel, /^#{Config['irc']['nick']}.* note\[(.*)\](:,\,)? (.*)/ do |tags, _, example|
+  url = "#{Config.service_url}/posts"
+  post_id = RestClient.post(url, :type => 'note', :person => nick, :body => example, :tags => tags)
+  reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
+  msg channel, reply
+end
+
+
+on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|documentation|question|answer|reply) (.*)/ do |impact, post_type, post_id|
   begin
     url = "#{Config.service_url}/votes"
     RestClient.post(url, :person => nick, :post_id => post_id, :impact => impact)
@@ -137,12 +153,38 @@ on :channel, /^#{Config['irc']['nick']}.* follow (\S+)/ do
   end
 end
 
+
+on :private, /^register$/ do
+  url = "#{Config.service_url}/people"
+  RestClient.post(url, :name => nick)
+  msg nick, "thx #{nick}, created your profile on the website"
+end
+
+on :private, /^register twitter nick: (\S+)/ do |twitter_login|
+  url = "#{Config.service_url}/people/#{nick}"
+  RestClient.put(url, :twitter_login => twitter_login)
+  msg nick, "thx #{nick}, stored your twitter name in your profile"
+end
+
+on :private, /^register email: (\S+)/ do |email|
+  url = "#{Config.service_url}/people/#{nick}"
+  RestClient.put(url, :email_address => email)
+  msg nick, "thx #{nick}, stored your email address in your profile"
+end
+
+on :private, /^i have a gravatar$/ do |email|
+  url = "#{Config.service_url}/people/#{nick}"
+  RestClient.put(url, :gravatar => true)
+  msg nick, "thx #{nick}, i will display your gravatar image on the website from now on"
+end
+
 on :private, /^allow (\S+)/ do
   ensure_permissions
   user = match[0]
   Config.allow!(user)
   msg nick, "#{nick}: you just allowed #{user} to use me to tweet in the name of #{Config.twitter_owner_login}"
 end
+
 
 on :channel, /^#{Config['irc']['nick']}.* what is the answer to life, the universe, and everything/ do
   msg channel, "#{nick}: 42"

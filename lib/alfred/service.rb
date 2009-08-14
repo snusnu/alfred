@@ -25,6 +25,11 @@ module Alfred
 
     # ---------------------------- GET ROUTES -------------------------------------
 
+    post '/people' do
+      person = Person.first_or_create(:name => params[:name])
+      person.id.to_s
+    end
+
     post '/posts' do
       post = create_post(params[:type], params[:person], params[:body], params[:tags], params[:referrers])
       tweet(post)
@@ -38,6 +43,14 @@ module Alfred
       "#{post.vote_sum},#{post.vote_count}"
     end
 
+    put '/people/:person' do
+      person = Person.first(:name => params[:person])
+      halt 404, "No person with name #{params[:person]}" unless person
+      person.twitter_login = params[:twitter_login] if params[:twitter_login]
+      person.email_address = params[:email_address] if params[:email_address]
+      person.gravatar      = params[:gravatar]      if params[:gravatar]
+      person.save
+    end
 
     # ---------------------------- GET ROUTES -------------------------------------
 
@@ -83,20 +96,20 @@ module Alfred
         # silently filter duplicates and ignore invalid ids
         if referrers
           referrers.split(',').uniq.map { |id| Post.get(id) }.compact.each do |referrer|
-            FollowUpPost.create(:source => post, :target => referrer)
+            FollowUpPost.create(:source => referrer, :target => post)
             tweet(referrer)
           end
         end
         post
       end
 
-      def show_posts(post_type, person, tags)
+      def show_posts(type, person, tags)
         conditions = { :order => [ :created_at.desc ] }
-        conditions.merge!(:post_type => type)   if post_type = PostType.first(:name => post_type)
-        conditions.merge!(:person    => person) if person = Person.first(:name => person)
+        conditions.merge!(:post_type_id => type.id)   if type   = PostType.first(:name => type)
+        conditions.merge!(:person_id    => person.id) if person = Person.first(:name => person)
         if tags
-          tags = Alfred::Utils.tag_list(tags).map { |name| Tag.first(:name => name) }
-          conditions.merge!(:tags => tags) unless tags.empty?
+          tags = Alfred::Utils.tag_list(tags).map { |name| Tag.first(:name => name).id }
+          conditions.merge!('post_tags.tag_id' => tags) unless tags.empty?
         end
         erb :posts, :locals => { :posts => Post.all(conditions) }
       end
@@ -108,11 +121,12 @@ module Alfred
       end
 
       def tag_links(tags)
-        tags.map { |t| "<a href='/posts?tags=#{t.name}'>#{t.name}</a>" }.join(', ')
+        tags = tags.map { |t| [t, t.post_tags.size] }
+        tags.map { |t| "<a href='/posts?tags=#{t[0].name}'>#{t[0].name}(#{t[1]})</a>" }.join(' ')
       end
 
       def referrer_links(answer)
-        answer.questions.map do |question|
+        answer.referrers.map do |question|
           "<a href='/posts/#{question.id}'>##{question.id}</a>"
         end.join(', ')
       end
@@ -131,18 +145,38 @@ module Alfred
           </span>
         HTML
       end
-      
+
       def post_date(post)
         noday,month,day,year,time = post.created_at.strftime("%a %b %d %Y %H:%M").split(' ')
         <<-HTML
           <span class='post-date'>
-           <span class="post-day">#{day}</span> 
-           <span class="post-month">#{month}</span> 
+           <span class="post-day">#{day}</span>
+           <span class="post-month">#{month}</span>
            <pre class="post-time">#{time}</pre>
            <span class="post-year">#{year}</span>
           </span>
         HTML
       end
+
+      def person_stats(person)
+        <<-HTML
+          <span class="person-stats">
+            #{gravatar_image(person)}
+            <sup title='person activity' class='person-activity'>23</sup>
+            /
+            <sub title='person accuracy' class='person-accuracy'>426</sub>
+          </span>
+        HTML
+      end
+
+      def gravatar_image(person)
+        if person.has_gravatar?
+          "<img class='gravatar' src=http://www.gravatar.com/avatar/#{person.gravatar_hash}?s=40 />"
+        else
+          "<img class='gravatar' src='/img/waiter.gif' />"
+        end
+      end
+
 
       def post_body(post)
         RDiscount.new(post.body).to_html

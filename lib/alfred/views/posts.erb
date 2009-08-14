@@ -1,35 +1,41 @@
-<div>
-  <% posts.each do |p| %>
-    <% post = Post.get(p.id) %> <!-- VERY STRANGE for p.tag_list behavior! a dm bug maybe? -->
-    <% if post.question? %>
+<div class="posts">
+  <% posts.each do |post| %>
+
+    <!-- FIXME weird dm bug workaround -->
+    <% person = Person.get(post.person_id) %>
+
+    <% if post.post_type.name == 'question' %>
     <div id="post-<%= post.id %>" class="question">
       <h3>
         <%= post_date(post) %>
+        <%= person_stats(person) %>
         <span class="post-info">
           <%= vote_text(post) %>
-          <a href="/questions/<%= post.id %>">#<%= post.id %></a>
+          <a href="/posts/<%= post.id %>">#<%= post.id %></a>
         </span>
-        <a href="/people/<%= post.person.name %>/posts"><%= post.person.name %></a> asked the following <a href="<%= "/questions/#{post.id}" %>">question</a>
+        <a href="/posts?person=<%= person.name %>"><%= person.name %></a> asked the following <a href="<%= "/posts/#{post.id}" %>">question</a>
       </h3>
-    <% elsif post.answer? %>
-    <div id="post-<%= post.id %>" class="answer">
+    <% elsif post.post_type.name == 'reply' %>
+    <div id="post-<%= post.id %>" class="reply">
       <h3>
         <%= post_date(post) %>
+        <%= person_stats(person) %>
         <span class="post-info">
           <%= vote_text(post) %>
-          <a href="/questions/<%= post.id %>">#<%= post.id %></a>
+          <a href="/posts/<%= post.id %>">#<%= post.id %></a>
         </span>
-        <a href="/people/<%= post.person.name %>/posts"><%= post.person.name %></a> posted this <a href="<%= "/answers/#{post.id}" %>">answer</a> in reply to <%= questions_link_list(post) %>
+        <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted this <a href="<%= "/posts/#{post.id}" %>">answer</a> in reply to <%= referrer_links(post) %>
       </h3>
     <% else %>
     <div id="post-<%= post.id %>" class="post">
       <h3>
         <%= post_date(post) %>
+        <%= person_stats(person) %>
         <span class="post-info">
           <%= vote_text(post) %>
-          <a href="/questions/<%= post.id %>">#<%= post.id %></a>
+          <a href="/posts/<%= post.id %>">#<%= post.id %></a>
         </span>
-        <a href="/people/<%= post.person.name %>/posts"><%= post.person.name %></a> posted the following <a href="<%= "/posts/#{post.id}" %>">snippet</a>
+        <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted the following <a href="<%= "/posts/#{post.id}" %>">snippet</a>
       </h3>
     <% end %>
       <%= post_body(post) %>

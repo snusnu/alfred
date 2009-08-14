@@ -22,16 +22,17 @@ a:hover {
 
 #header {
   font-style: italic;
-  line-height: 40px;
+  line-height: 85px;
   color: #fff;
-  background: #000;
+  background: #11233D url(/img/waiter.gif) no-repeat;
   margin-left: 20px;
-  padding-left: 7px;
+  padding-left: 130px;
   margin-bottom: 20px;
   -moz-border-radius: 8px;
   -khtml-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
+  opacity: 0.95;
 }
 
 
@@ -65,6 +66,10 @@ a:hover {
   -webkit-border-radius: 8px;
   border-radius: 8px;
  float: left;
+}
+
+h2 {
+  color:#11233D;
 }
 
 ul#menu {
@@ -111,14 +116,47 @@ ul#menu li a {
 
 
 /* START Styles for Posts */
-.post {
+.post .post-info, .post .post-date {
+  background-color: #334567;
+}
+
+.post .person-stats {
+  border-color: #334567;
+}
+
+.question .post-info, .question .post-date {
+  background-color: #2D5F2D;
+}
+
+.question .person-stats {
+  border-color: #2D5F2D;
+}
+
+.reply .post-info, .reply .post-date {
+  background-color: #803C3C;
+}
+
+.reply .person-stats {
+  border-color: #803C3C;
+}
+
+.posts div {
   overflow:auto;
   margin-bottom: 5px;
 }
 
-.post  p {
-  overflow:auto;
-  float: left;
+.posts h3 {
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.posts .gravatar {
+  display:block;
+}
+
+.posts  p {
+  margin: 5px;
+  margin-left: 76px;
 }
 
 .post-info, .post-date {
@@ -138,6 +176,7 @@ ul#menu li a {
 .post-info {
   float: left;
   padding: 3px;
+  height: 70px;
   padding-top: 2px;
   min-width: 60px;
 }
@@ -166,8 +205,6 @@ ul#menu li a {
   font-size: 32px;
 }
 
-/*END Styles for Posts */
-
 .post-date {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -176,8 +213,9 @@ ul#menu li a {
   background-color: #555555;
   color: #fff;
   float: right;
-  margin-right: 10px;
+  margin-left: 10px;
   padding: 38px 8px 0;
+  opacity: 0.6;
   position: relative;
 }
 
@@ -203,14 +241,39 @@ ul#menu li a {
 }
 
 .post-year {
-  -webkit-transform: rotate(-90deg); 
-  -moz-transform: rotate(-90deg);	
-  text-transform: rotate(-90deg);	
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  text-transform: rotate(-90deg);
   display: block;
   font-size: 11px;
   position: absolute;
   right: -5px;
   top: 15px;
 }
+
+.person-stats {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display: block;
+  border: solid 2px #555555;
+  color: #000;
+  float: right;
+  margin-left: 10px;
+  padding: 5px;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  font-size: 6px;
+}
+
+.person-accuracy {
+  font-size: 11px;
+}
+
+.person-activity {
+  font-size: 11px;
+}
+
 
 /*END Styles for Posts */

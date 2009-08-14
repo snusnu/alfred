@@ -11,33 +11,41 @@
   <body>
     <div id="page">
       <div id="header">
-        <h1><%= bot %> - irc butler for <em>#<%= Config['irc']['channel'] %></em> on <em><%= Config['irc']['server'] %></em></h1>
+        <h1><%= bot %> gladly serving <em>#<%= Config['irc']['channel'] %></em>@<em><%= Config['irc']['server'] %></em></h1>
       </div>
 
       <div id="content">
         <div id="sidebar">
           <h2>find</h2>
           <ul id="menu">
-            <li><a href="/people">people</a></li>
             <li><a href="/tags">tags</a></li>
-            <li><a href="/posts?type=post">posts</a></li>
+            <li><a href="/people">people</a></li>
+            <li><a href="/posts">all posts</a></li>
+            <li><a href="/posts?type=documentation">documentation</a></li>
             <li><a href="/posts?type=question">questions</a></li>
             <li><a href="/posts?type=reply">replies</a></li>
+            <li><a href="/posts?type=note">notes</a></li>
             <li><a href="/commands">commands</a></li>
           </ul>
-          <h2>about <%= bot %></h2>
+          <h2>about</h2>
           <p>
             <em><%= bot %></em> can help you collect useful information from irc channels.
           </p>
           <p>
-            You can store away posts so that you can use them later
-            on when you're writing your project's documentation, wiki pages, blog articles or whatever.
+            You can store away posts so that you can use them later on when you're writing
+            your project's documentation, wiki pages, blog articles or whatever. You can tag
+            these posts so that they are easier to find later on.
           </p>
           <p>
-            You can tag these posts so that they are easier to find later on. Of course you're not limited to posting snippets of text.
-            Just post a link to <em><%= bot %></em>, say to a <a href="http://pastie.org">pastie</a>, a <a href="http://gist.github.com">gist</a>
-            or some interesting blogpost and tag them as you wish. <em><%= bot %></em> has convenient <a href="/commands">commands</a> to retrieve
-            them later on.
+            Of course you're not limited to posting snippets of text. Just post a link to <em><%= bot %></em>,
+            say to a <a href="http://pastie.org">pastie</a>, a <a href="http://gist.github.com">gist</a>
+            or some interesting blogpost and tag them as you wish. <em><%= bot %></em> has convenient
+            <a href="/commands">commands</a> to retrieve them later on.
+          </p>
+          <p>
+            You can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>
+            for basic formatting of your messages. Use this especially for links, so that <em><%= bot %></em>
+            can correctly format them on the website.
           </p>
         </div>
 

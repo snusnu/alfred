@@ -4,12 +4,8 @@ class Vote
 
   property :id,         Serial
 
-  # store an infinite number of votes per person
-  # so that votes can be corrected if necessary
-  # this is why the properties below can't be keys
-
-  property :post_id,    Integer, :nullable => false
-  property :person_id,  Integer, :nullable => false
+  property :post_id,    Integer, :nullable => false, :unique => true, :unique_index => true
+  property :person_id,  Integer, :nullable => false, :unique => true, :unique_index => true
 
   property :impact,     Integer, :nullable => false
 

@@ -21,8 +21,12 @@ class Post
   belongs_to :post_type
 
   has n, :votes
+
   has n, :post_tags
-  has n, :tags, :through => :post_tags
+
+  has n, :tags,
+    :through => :post_tags
+
 
   is :self_referential, :through => 'FollowUpPost',
     :parents  => :referrers,
@@ -44,16 +48,22 @@ class Post
   end
 
   def vote(person, impact)
+
+    # silently ignore errors for now
     return unless person = Person.first(:name => person)
+    return if Vote.first(:post => self, :person => person)
+
     impact = case impact
     when '+' then  1
     when '-' then -1
     else
       return # silently do nothing
     end
+
     Vote.create(:post => self, :person => person, :impact => impact)
     self.vote_sum   += impact
     self.vote_count += 1
     save
+
   end
 end

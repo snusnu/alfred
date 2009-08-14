@@ -1,5 +1,6 @@
 require 'dm-core'
 require 'dm-types'
+#require 'dm-constraints'
 require 'dm-timestamps'
 require 'dm-validations'
 require 'dm-is-self_referential'
@@ -18,7 +19,3 @@ Config.load_config(File.dirname(__FILE__) + '/config.yml')
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, Config['database'])
-
-DataMapper::Model.descendants.each do |model|
-  model.relationships.each_value { |relationship| relationship.child_key }
-end

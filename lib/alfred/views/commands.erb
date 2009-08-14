@@ -8,20 +8,16 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
 <h3>Get some info from <%= bot %></h3>
 
 <dl>
+
   <dt>prints a little info about <%= bot %></dt>
   <dd><em><%= bot %>: identify</em></dd>
 
   <dt>prints a link to this list of commands</dt>
   <dd><em><%= bot %>: show commands</em></dd>
 
-  <dt>prints a link to all posts</dt>
-  <dd><em><%= bot %>: show posts</em></dd>
 
-  <dt>prints a link to the list of available tags</dt>
-  <dd><em><%= bot %>: show tags</em></dd>
-
-  <dt>prints a link to the list of posts tagged with tag</dt>
-  <dd><em><%= bot %>: show tag some_tag</em></dd>
+  <dt>prints a link to all documentation texts</dt>
+  <dd><em><%= bot %>: show documentation</em></dd>
 
   <dt>prints a link to the list of questions people asked (along with their answers)</dt>
   <dd><em><%= bot %>: show questions</em></dd>
@@ -29,15 +25,30 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
   <dt>prints a link to the list of answers people provided (along with links to the questions)</dt>
   <dd><em><%= bot %>: show answers</em></dd>
 
+  <dt>prints a link to all notes</dt>
+  <dd><em><%= bot %>: show notes</em></dd>
+
+
+  <dt>prints a link to all posts tagged with the given tags</dt>
+  <dd><em><%= bot %>: show posts tagged with tag_1, tag_2 </em></dd>
+
   <dt>prints a link to the post, question or answer you requested (or a message if no such post is present)</dt>
   <dd><em><%= bot %>: show (post | question | answer) some_id</em></dd>
+
+
+  <dt>prints a link to the list of available tags</dt>
+  <dd><em><%= bot %>: show tags</em></dd>
+
+  <dt>prints a link to the list of posts tagged with tag</dt>
+  <dd><em><%= bot %>: show tag some_tag</em></dd>
+
 </dl>
 
-<h3>Post tagged messages</h3>
+<h3>Post tagged messages (you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> for formatting)</h3>
 
 <dl>
-  <dt>posts a tagged snippet of text to <%= bot %></dt>
-  <dd><em><%= bot %>: post[tag1 tag2]: whatever you want to post</em></dd>
+  <dt>posts documentation text to <%= bot %>'s website'</dt>
+  <dd><em><%= bot %>: document[tag1 tag2]: whatever you want to post</em></dd>
 </dl>
 
 <dl>
@@ -50,6 +61,11 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
   <dd><em><%= bot %>: answer[id1,id2]: your answer to the question(s) with the given id(s) </em></dd>
 </dl>
 
+<dl>
+  <dt>posts a tagged note on <%= bot %>'s website'</dt>
+  <dd><em><%= bot %>: note[tag1 tag2]: whatever you want to post</em></dd>
+</dl>
+
 <h3>Vote for posts, question and answers</h3>
 
 <dl>
@@ -60,6 +76,28 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
 <dl>
   <dt>Vote down post, question or answer with id = 1</dt>
   <dd><em><%= bot %>: -1 for (post | question | answer) 1</em></dd>
+</dl>
+
+<h3>Provide more information in your profile</h3>
+
+<dl>
+  <dt>Register your irc nick</dt>
+  <dd><em>/msg <%= bot %> register</em></dd>
+</dl>
+
+<dl>
+  <dt>Register your twitter name</dt>
+  <dd><em>/msg <%= bot %> register twitter nick: your_twitter_nick</em></dd>
+</dl>
+
+<dl>
+  <dt>Register your email address (necessary to display gravatar images on the site)</dt>
+  <dd><em>/msg <%= bot %> register email: you@yourmail.com</em></dd>
+</dl>
+
+<dl>
+  <dt>Use your <a href="http://gravatar.com">gravatar</a> image on the website (you need to provide an email address for this to work)</dt>
+  <dd><em>/msg <%= bot %> i have a gravatar</em></dd>
 </dl>
 
 
@@ -78,4 +116,5 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
 
   <dt>let <strong><%= twitter %></strong> follow someone on twitter (you must be allowed to do so)</dt>
   <dd><em><%= bot %>: follow twitter_nick</em></dd>
+
 </dl>

@@ -7,7 +7,10 @@ class Tag
 
   property :created_at, UTCDateTime
 
+
   has n, :post_tags
-  has n, :posts, :through => :post_tags
+
+  has n, :posts,
+    :through => :post_tags
 
 end
