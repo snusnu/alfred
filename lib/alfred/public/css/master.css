@@ -126,11 +126,11 @@ ul#menu li a {
   font-family: Consolas, Monaco, "Courier New", monospace;
 }
 
-.post .post-info, .post .post-date {
+.note .post-info, .post .post-date {
   background-color: #334567;
 }
 
-.post .person-stats {
+.note .person-stats {
   border-color: #334567;
 }
 
