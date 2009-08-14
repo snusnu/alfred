@@ -3,12 +3,6 @@ require 'pathname'
 require 'sinatra/base'
 require 'rdiscount'
 
-require 'dm-core'
-require 'dm-types'
-require 'dm-timestamps'
-require 'dm-validations'
-require 'dm-is-self_referential'
-
 require 'utils'
 require 'models'
 require 'twitter'
