@@ -4,14 +4,31 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
+
     gem.name = "alfred"
     gem.summary = %Q{Alfred the friendly IRC butler}
     gem.description = %Q{Alfred the friendly IRC butler is an IRC bot that lets you post stuff to its website}
     gem.email = "gamsnjaga@gmail.com"
     gem.homepage = "http://github.com/snusnu/alfred"
     gem.authors = ["snusnu", "armitage", "michael"]
-    gem.add_development_dependency "rspec"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+
+    gem.bindir = 'bin'
+    gem.executables = ['bin/bot', 'bin/service']
+
+    gem.add_dependency('json',                   '>= 1.1.3' )
+    gem.add_dependency('isaac',                  '>= 0.2.5' )
+    gem.add_dependency('rdiscount',              '>= 1.3.5' )
+    gem.add_dependency('rest-client',            '>= 1.0.3' )
+    gem.add_dependency('sinatra',                '>= 0.10.1')
+    gem.add_dependency('dm-core',                '>= 0.10.0')
+    gem.add_dependency('dm-types',               '>= 0.10.0')
+    gem.add_dependency('dm-constraints',         '>= 0.10.0')
+    gem.add_dependency('dm-validations',         '>= 0.10.0')
+    gem.add_dependency('dm-timestamps',          '>= 0.10.0')
+    gem.add_dependency('dm-is-self_referential', '>= 0.0.1' )
+
+    gem.has_rdoc = false
+
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
