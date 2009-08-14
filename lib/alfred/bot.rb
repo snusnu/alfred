@@ -160,6 +160,12 @@ on :private, /^register$/ do
   msg nick, "thx #{nick}, created your profile on the website"
 end
 
+on :private, /^register github name: (\S+)/ do |github_name|
+  url = "#{Config.service_url}/people/#{nick}"
+  RestClient.put(url, :github_name => github_name)
+  msg nick, "thx #{nick}, stored your github name in your profile"
+end
+
 on :private, /^register twitter nick: (\S+)/ do |twitter_login|
   url = "#{Config.service_url}/people/#{nick}"
   RestClient.put(url, :twitter_login => twitter_login)
