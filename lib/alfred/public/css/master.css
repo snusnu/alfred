@@ -120,6 +120,10 @@ ul#menu li a {
 
 
 /* START Styles for Posts */
+.post-info, .post-date, .person-stats {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
 .post .post-info, .post .post-date {
   background-color: #334567;
 }
@@ -172,7 +176,7 @@ ul#menu li a {
   color: #fff;
   float: right;
   margin-right: 10px;
-  padding: 38px 8px 0;
+  /*padding: 38px 8px 0;*/
   position: relative;
 }
 
@@ -180,16 +184,16 @@ ul#menu li a {
 .post-info {
   float: left;
   padding: 3px;
-  height: 70px;
   padding-top: 2px;
   min-width: 60px;
+  height: 71px;
 }
 
 .post-info a {
   color: inherit;
   display: block;
   text-align: center;
-  font-size: 12px;
+  font-size: 18px;
   width: 100%;
   text-decoration: none;
 }
@@ -219,28 +223,30 @@ ul#menu li a {
   float: right;
   margin-left: 10px;
   padding: 38px 8px 0;
+  height: 38px;
   opacity: 0.6;
   position: relative;
 }
 
 .post-day {
   font-size: 40px;
-  left: 5px;
+  left: 3px;
   line-height: 40px;
   position: absolute;
   top: 0;
 }
 
 .post-time {
-  font-size: 12px;
-  letter-spacing: 2px;
+  display:block;
+  font-size:14px;
   text-align: center;
-  margin: 0;
 }
 
 .post-month {
   display: block;
-  font-size: 18px;
+  font-size:25px;
+  line-height: 20px;
+  text-align:center;
   text-transform: uppercase;
 }
 
@@ -263,6 +269,7 @@ ul#menu li a {
   border: solid 2px #555555;
   color: #000;
   float: right;
+  height: 62px;
   margin-left: 10px;
   padding: 5px;
   position: relative;

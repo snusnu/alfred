@@ -152,7 +152,7 @@ module Alfred
           <span class='post-date'>
            <span class="post-day">#{day}</span>
            <span class="post-month">#{month}</span>
-           <pre class="post-time">#{time}</pre>
+           <span class="post-time">#{time}</span>
            <span class="post-year">#{year}</span>
           </span>
         HTML
