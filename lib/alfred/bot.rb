@@ -63,7 +63,7 @@ on :channel, /^#{Config['irc']['nick']}.* show posts tagged with (.*)$/ do |tags
   msg channel, "#{nick}: #{Config.service_url}/posts?tags=#{tags}"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show (question|post|answer) (.*)/ do |_,post_id|
+on :channel, /^#{Config['irc']['nick']}.* show (question|post|answer|reply) (.*)/ do |_,post_id|
   begin
     RestClient.get("#{Config.service_url}/posts/#{post_id}")
     msg channel, "#{nick}: #{Config.service_url}/posts/#{post_id}"

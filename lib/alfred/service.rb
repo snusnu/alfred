@@ -178,15 +178,18 @@ module Alfred
       end
 
       def twitter_message(post)
-        case post.post_type
-        when 'post'
-          "#{post.person.name} just posted a snippet to #{Config.service_url}/posts/#{post.id}"
-        when 'questions'
-          "#{post.person.name} just asked a question at #{Config.service_url}/posts/#{post.id}"
-        when 'answer'
-          "#{post.person.name} just answered a question at #{Config.service_url}/posts/#{question_id}"
+        url = "#{Config.service_url}/posts/#{post.id}"
+        case post.post_type.name
+        when 'documentation'
+          "#{post.person.name} just posted a documentation snippet at #{url}"
+        when 'question'
+          "#{post.person.name} just asked a question at #{url}"
+        when 'reply'
+          "#{post.person.name} just replied at #{url}"
+        when 'note'
+          "#{post.person.name} just posted a note at #{url}"
         else
-          nil
+          nil # prevents tweeting
         end
       end
 
