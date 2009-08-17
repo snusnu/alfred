@@ -394,6 +394,8 @@ ul#menu li a {
 }
 
 /* END Styles for Tag Cloud */
+
+/* START Styles for Commands page */
 .commands dt {
   margin-top: 8px;
   margin-bottom: 6px;
@@ -404,8 +406,8 @@ samp {
   padding: 1px 3px 3px 3px;
   background-color: #fff;
   border: solid 1px #888;
+  -moz-box-shadow: 1px 1px 1px #888;
   box-shadow: 1px 1px 1px #888;
 }
-/* START Styles for Commands page */
 
 /* END Styles for Commands page */
