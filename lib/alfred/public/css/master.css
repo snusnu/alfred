@@ -426,13 +426,13 @@ samp {
 	list-style-type:none;
 }
 
-#latest-tweets .hash { color:#0066CC; } 
+#latest-tweets .hash { color:#FFEE3B; } 
 
-#latest-tweets.reply { color:#0066CC; } 
+#latest-tweets.reply { color:#FFEE3B; } 
 
-#latest-tweets a:link { text-decoration:none; color:#0066CC;}
-#latest-tweets a:active { text-decoration:none; color:#0066CC;}
-#latest-tweets a:hover { text-decoration:underline; color:#0066CC;}
-#latest-tweets a:visited { text-decoration:none; color:#0066CC;}
+#latest-tweets a:link { text-decoration:none; color:#FFEE3B;}
+#latest-tweets a:active { text-decoration:none; color:#FFEE3B;}
+#latest-tweets a:hover { text-decoration:underline; color:#FFEE3B;}
+#latest-tweets a:visited { text-decoration:none; color:#FFEE3B;}
 /*END Twitter Styles */
 
