@@ -17,7 +17,7 @@ module Alfred
 
     set :root, File.dirname(__FILE__)
 
-    # ---------------------------- GET ROUTES -------------------------------------
+    # ---------------------------- POST ROUTES -------------------------------------
 
     post '/people' do
       person = Person.first_or_create(:name => params[:name])
@@ -181,13 +181,13 @@ module Alfred
         url = "#{Config.service_url}/posts/#{post.id}"
         case post.post_type.name
         when 'documentation'
-          "#{post.person.name} just posted a documentation snippet at #{url}"
+          "#{post.person.name} posted a documentation snippet at #{url}"
         when 'question'
-          "#{post.person.name} just asked a question at #{url}"
+          "#{post.person.name} asked a question at #{url}"
         when 'reply'
-          "#{post.person.name} just replied at #{url}"
+          "#{post.person.name} posted a reply at #{url}"
         when 'note'
-          "#{post.person.name} just posted a note at #{url}"
+          "#{post.person.name} posted a note at #{url}"
         else
           nil # prevents tweeting
         end
