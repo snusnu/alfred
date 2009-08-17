@@ -409,9 +409,14 @@ samp {
   padding-left: 20px;
   background: url(/img/twitter.png) no-repeat;
   display: block;
-  line-height: 20px;
+  line-height: 16px;
   vertical-align: center;
 }
+
+.twitter-follow:hover {
+  background: url(/img/twitter.png) no-repeat;
+}
+
 
 #latest-tweets {text-align: left;}
 
