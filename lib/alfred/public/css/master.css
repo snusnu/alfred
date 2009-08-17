@@ -81,31 +81,6 @@ a:hover {
  width: 970px;
 }
 
-#twitter {
-  color: #fff;
-  background-color: #11233D;
-  padding: 5px;
-  text-align: center;
-  -moz-border-radius-topleft: 8px;
-  -moz-border-radius-topright: 8px;
-  -webkit-border-radius-topleft: 8px;
-  -webkit-border-radius-topright: 8px;
-  border-radius-topleft: 8px;
-  border-radius-topright: 8px;
-
-}
-
-.twitter-follow {
-  color: #fff;
-  font-weight: bold;
-  text-decoration: none;
-  /*padding-left: 22px;*/
-  background: no-repeat;
-  display: block;
-  line-height: 20px;
-  vertical-align: center;
-}
-
 #sidebar {
   margin-left: 20px;
   padding-bottom: 7px;
@@ -411,3 +386,48 @@ samp {
 }
 
 /* END Styles for Commands page */
+
+/* START Twitter Styles */
+#twitter {
+  color: #fff;
+  background-color: #11233D;
+  padding: 5px;
+  text-align: center;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-radius-topleft: 8px;
+  -webkit-border-radius-topright: 8px;
+  border-radius-topleft: 8px;
+  border-radius-topright: 8px;
+
+}
+
+.twitter-follow {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  padding-left: 20px;
+  background: url(/img/twitter.png) no-repeat;
+  display: block;
+  line-height: 20px;
+  vertical-align: center;
+}
+
+#latest-tweets {text-align: left;}
+
+#latest-tweets li {
+	/*background:url(/img/twitter.png) no-repeat left top;*/
+	margin-top:8px;
+	list-style-type:none;
+}
+
+#latest-tweets .hash { color:#0066CC; } 
+
+#latest-tweets.reply { color:#0066CC; } 
+
+#latest-tweets a:link { text-decoration:none; color:#0066CC;}
+#latest-tweets a:active { text-decoration:none; color:#0066CC;}
+#latest-tweets a:hover { text-decoration:underline; color:#0066CC;}
+#latest-tweets a:visited { text-decoration:none; color:#0066CC;}
+/*END Twitter Styles */
+
