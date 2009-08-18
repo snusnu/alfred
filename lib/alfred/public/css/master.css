@@ -417,22 +417,5 @@ samp {
   background: url(/img/twitter.png) no-repeat;
 }
 
-
-#latest-tweets {text-align: left;}
-
-#latest-tweets li {
-	/*background:url(/img/twitter.png) no-repeat left top;*/
-	margin-top:8px;
-	list-style-type:none;
-}
-
-#latest-tweets .hash { color:#FFEE3B; } 
-
-#latest-tweets.reply { color:#FFEE3B; } 
-
-#latest-tweets a:link { text-decoration:none; color:#FFEE3B;}
-#latest-tweets a:active { text-decoration:none; color:#FFEE3B;}
-#latest-tweets a:hover { text-decoration:underline; color:#FFEE3B;}
-#latest-tweets a:visited { text-decoration:none; color:#FFEE3B;}
 /*END Twitter Styles */
 
