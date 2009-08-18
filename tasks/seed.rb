@@ -13,10 +13,10 @@ task :seed do
 
   bot = Config['irc']['nick']
 
-  documentation = PostType.create :name => 'documentation'
-  question      = PostType.create :name => 'question'
-  reply         = PostType.create :name => 'reply'
-  note          = PostType.create :name => 'note'
+  tip      = PostType.create :name => 'tip'
+  question = PostType.create :name => 'question'
+  reply    = PostType.create :name => 'reply'
+  note     = PostType.create :name => 'note'
 
   snusnu = Person.create(
     :name => 'snusnu',
@@ -76,8 +76,8 @@ task :seed do
     :target => reply_2
   )
 
-  documentation_1 = Post.create(
-    :post_type => documentation,
+  tip_1 = Post.create(
+    :post_type => tip,
     :person    => snusnu,
     :body      => "Be sure to checkout **#{bot}: show commands** to get an idea about what #{bot} can do for you",
     :tag_list  => "alfred"

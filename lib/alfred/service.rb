@@ -181,7 +181,7 @@ module Alfred
         url = "#{Config.service_url}/posts/#{post.id}"
         case post.post_type.name
         when 'documentation'
-          "#{post.person.name} posted a documentation snippet at #{url}"
+          "#{post.person.name} posted a tip at #{url}"
         when 'question'
           "#{post.person.name} asked a question at #{url}"
         when 'reply'

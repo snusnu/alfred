@@ -182,11 +182,11 @@ ul#menu li a {
   border-color: #803C3C;
 }
 
-.documentation .post-info, .documentation .post-date {
+.tip .post-info, .tip .post-date {
   background-color: #3b8078;
 }
 
-.documenation .person-stats {
+.tip .person-stats {
   border-color: #3b8078;
 }
 
