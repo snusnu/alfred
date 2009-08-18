@@ -38,8 +38,8 @@ on :channel, /^#{Config['irc']['nick']}.* show posts$/ do
   msg channel, "#{nick}: #{Config.service_url}/posts"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* show documentation$/ do
-  msg channel, "#{nick}: #{Config.service_url}/posts?type=documentation"
+on :channel, /^#{Config['irc']['nick']}.* show tips$/ do
+  msg channel, "#{nick}: #{Config.service_url}/posts?type=tip"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* show questions/ do
@@ -74,9 +74,9 @@ end
 
 
 
-on :channel, /^#{Config['irc']['nick']}.* document\[(.*)\](:,\,)? (.*)/ do |tags, _, example|
+on :channel, /^#{Config['irc']['nick']}.* tip\[(.*)\](:,\,)? (.*)/ do |tags, _, example|
   url = "#{Config.service_url}/posts"
-  post_id = RestClient.post(url, :type => 'documentation', :person => nick, :body => example, :tags => tags)
+  post_id = RestClient.post(url, :type => 'tip', :person => nick, :body => example, :tags => tags)
   reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
@@ -109,7 +109,7 @@ on :channel, /^#{Config['irc']['nick']}.* note\[(.*)\](:,\,)? (.*)/ do |tags, _,
 end
 
 
-on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|documentation|question|answer|reply) (.*)/ do |impact, post_type, post_id|
+on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|tip|question|answer|reply) (.*)/ do |impact, post_type, post_id|
   begin
     url = "#{Config.service_url}/votes"
     RestClient.post(url, :person => nick, :post_id => post_id, :impact => impact)

@@ -19,8 +19,8 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
   <dt>prints a link to all posts</dt>
   <dd><kbd><%= bot %>: show posts</kbd></dd>
 
-  <dt>prints a link to all documentation texts</dt>
-  <dd><kbd><%= bot %>: show documentation</kbd></dd>
+  <dt>prints a link to all tips</dt>
+  <dd><kbd><%= bot %>: show tips</kbd></dd>
 
   <dt>prints a link to the list of questions people asked (along with their answers)</dt>
   <dd><kbd><%= bot %>: show questions</kbd></dd>
@@ -35,8 +35,8 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
   <dt>prints a link to all posts tagged with the given tags</dt>
   <dd><kbd><%= bot %>: show posts tagged with <samp>tag_1, tag_2</samp> </kbd></dd>
 
-  <dt>prints a link to the post, question or answer you requested (or a message if no such post is present)</dt>
-  <dd><kbd><%= bot %>: show (post | question | answer | reply) <samp>some_id</samp></kbd></dd>
+  <dt>prints a link to the tip, note, question or answer you requested (or a message if no such post is present)</dt>
+  <dd><kbd><%= bot %>: show (tip | question | answer | reply | note) <samp>some_id</samp></kbd></dd>
 
 
   <dt>prints a link to the list of available tags</dt>
@@ -47,14 +47,14 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
 <h3>Post tagged messages (you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> for formatting)</h3>
 
 <dl class="commands">
-  <dt>posts documentation text to <%= bot %>'s website'</dt>
-  <dd><kbd><%= bot %>: document[<samp>tag1 tag2</samp>]: <samp>whatever you want to post</samp></kbd></dd>
+  <dt>posts a tip to <%= bot %>'s website'</dt>
+  <dd><kbd><%= bot %>: tip[<samp>tag1 tag2</samp>]: <samp>whatever you want to post</samp></kbd></dd>
 
   <dt>ask a question on <%= bot %>'s website</dt>
   <dd><kbd><%= bot %>: ask[<samp>tag1 tag2</samp>]: <samp>whatever you want to ask</samp></kbd></dd>
 
   <dt>answer a question on <%= bot %>'s website</dt>
-  <dd><kbd><%= bot %>: answer[<samp>id1,id2</samp>]: <samp>your answer to the question(s) with the given id(s)</samp> </kbd></dd>
+  <dd><kbd><%= bot %>: reply[<samp>id1,id2</samp>]: <samp>your answer to the question(s) with the given id(s)</samp> </kbd></dd>
 
   <dt>posts a tagged note on <%= bot %>'s website'</dt>
   <dd><kbd><%= bot %>: note[<samp>tag1 tag2</samp>]: <samp>whatever you want to post</samp></kbd></dd>
@@ -63,11 +63,11 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
 <h3>Vote for posts, question and answers</h3>
 
 <dl class="commands">
-  <dt>Vote up post, question or answer with id = 1</dt>
-  <dd><kbd><%= bot %>: +1 for (post | question | answer) <samp>1</samp></kbd></dd>
+  <dt>Vote up tip, note, question or answer with id = 1</dt>
+  <dd><kbd><%= bot %>: +1 for (tip | note | question | answer | reply) <samp>1</samp></kbd></dd>
 
-  <dt>Vote down post, question or answer with id = 1</dt>
-  <dd><kbd><%= bot %>: -1 for (post | question | answer) <samp>1</samp></kbd></dd>
+  <dt>Vote down tip, note, question or answer with id = 1</dt>
+  <dd><kbd><%= bot %>: -1 for (tip | note | question | answer | reply) <samp>1</samp></kbd></dd>
 </dl>
 
 <h3>Provide more information in your profile</h3>
