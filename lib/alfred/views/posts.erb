@@ -3,6 +3,8 @@
 
     <!-- FIXME weird dm bug workaround -->
     <% person = Person.get(post.person_id) %>
+    <% tag_ids = post.post_tags.map { |t| t.tag_id } %>
+    <% tags = Tag.all(:id => tag_ids) %>
 
     <% if post.post_type.name == 'question' %>
     <div id="post-<%= post.id %>" class="question">
@@ -14,6 +16,7 @@
           <a href="/posts/<%= post.id %>">#<%= post.id %></a>
         </span>
         <a href="/posts?person=<%= person.name %>"><%= person.name %></a> asked the following <a href="<%= "/posts/#{post.id}" %>">question</a>
+        <p class="tag-list">Tags: <%= tag_links(tags) %></p>
       </h3>
     <% elsif post.post_type.name == 'tip' %>
       <div id="post-<%= post.id %>" class="tip">
@@ -25,6 +28,7 @@
             <a href="/posts/<%= post.id %>">#<%= post.id %></a>
           </span>
           <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted this <a href="<%= "/posts/#{post.id}" %>">tip</a>
+          <p class="tag-list">Tags: <%= tag_links(tags) %></p>
         </h3>
     <% elsif post.post_type.name == 'reply' %>
     <div id="post-<%= post.id %>" class="reply">
@@ -36,6 +40,7 @@
           <a href="/posts/<%= post.id %>">#<%= post.id %></a>
         </span>
         <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted this <a href="<%= "/posts/#{post.id}" %>">answer</a> in reply to <%= referrer_links(post) %>
+        <p class="tag-list">Tags: <%= tag_links(tags) %></p>
       </h3>
     <% elsif post.post_type.name == 'note' %>
     <div id="post-<%= post.id %>" class="note">
@@ -47,6 +52,7 @@
           <a href="/posts/<%= post.id %>">#<%= post.id %></a>
         </span>
         <a href="/posts?person=<%= person.name %>"><%= person.name %></a> posted the following <a href="<%= "/posts/#{post.id}" %>">note</a>
+        <p class="tag-list">Tags: <%= tag_links(tags) %></p>
       </h3>
     <% end %>
       <%= post_body(post) %>

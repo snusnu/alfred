@@ -30,6 +30,7 @@ a:hover {
   margin-left: 20px;
   padding-left: 130px;
   margin-bottom: 20px;
+  margin-top: 20px;
   -moz-border-radius: 8px;
   -khtml-border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -208,6 +209,14 @@ ul#menu li a {
 .posts  p {
   margin: 5px;
   margin-left: 76px;
+}
+
+.posts .tag-list {
+  margin: 5px;
+  margin-left: 76px;
+  font-size: 12px;
+  margin-top: 8px;
+  margin-bottom: 10px;
 }
 
 .post-info, .post-date {
@@ -418,4 +427,3 @@ samp {
 }
 
 /*END Twitter Styles */
-
