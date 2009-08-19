@@ -15,7 +15,33 @@ module Alfred
 
     def tag_links(tags)
       tags = tags.map { |t| [t, t.post_tags.size] }
-      tags.map { |t| "<a href='/posts?tags=#{t[0].name}'>#{t[0].name}(#{t[1]})</a>" }.join(' ')
+      counts = tags.map { |t| t[1] }
+      min, max = counts.min, counts.max
+      tags.map do |t|
+        name, count = t[0].name, t[1]
+        "<a href='/posts?tags=#{name}' class='#{tag_class(min, max, count)}'>#{name}(#{count})</a>"
+      end.join(' ')
+    end
+
+    def tag_class(min, max, count)
+      distribution = (max - min) / 7
+      if count == min
+        'xx-small'
+      elsif count > (min + distribution)
+        'x-small'
+      elsif count > (min + distribution * 2)
+        'small'
+      elsif count > (min + distribution * 3)
+        'medium'
+      elsif count > (min + distribution * 4)
+        'medium'
+      elsif count > (min + distribution * 5)
+        'large'
+      elsif count > (min + distribution * 6)
+        'x-large'
+      elsif count == max
+        'xx-large'
+      end
     end
 
     def referrer_links(answer)
