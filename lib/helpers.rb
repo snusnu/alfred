@@ -5,7 +5,9 @@ module Alfred
     def post_header(post, person) # FIXME remove workaround for dm bug
       nick   = "<a href='/posts?person=#{person.name}'>#{person.name}</a>"
       header = "#{nick} posted the following <a href='/posts/#{post.id}'>#{post.post_type.name}</a>"
-      if post.reply?
+      if (count = post.follow_ups.size) > 0
+        header << " (#{count} #{count == 1 ? 'reply' : 'replies'})"
+      elsif post.reply?
         header << " to #{referrer_links(post)}"
       end
       header
