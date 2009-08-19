@@ -30,17 +30,17 @@ module Alfred
         'xx-small'
       elsif count == max
         'xx-large'
-      elsif count > (min + distribution * 6)
+      elsif count >= (min + distribution * 6)
         'x-large'
-      elsif count > (min + distribution * 5)
+      elsif count >= (min + distribution * 5)
         'large'
-      elsif count > (min + distribution * 4)
+      elsif count >= (min + distribution * 4)
         'medium'
-      elsif count > (min + distribution * 3)
+      elsif count >= (min + distribution * 3)
         'small'
-      elsif count > (min + distribution * 2)
+      elsif count >= (min + distribution * 2)
         'x-small'
-      elsif count > (min + distribution)
+      elsif count >= (min + distribution)
         'xx-small'
       end
     end
