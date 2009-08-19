@@ -211,14 +211,6 @@ ul#menu li a {
   margin-left: 76px;
 }
 
-.posts .tag-list {
-  margin: 5px;
-  margin-left: 76px;
-  font-size: 12px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
 .post-info, .post-date {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -338,6 +330,24 @@ ul#menu li a {
   font-size: 11px;
 }
 
+.posts .tag-list {
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.posts .tag-list  dt {
+  display: inline-block;
+  margin-right: 3px;
+  font-weight: bold;
+}
+
+.posts .tag-list dd {
+  display: inline-block;
+  margin-left: 3px;
+  margin-right: 3px;
+  
+}
 
 /*END Styles for Posts */
 
