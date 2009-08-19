@@ -26,7 +26,6 @@ module Alfred
 
     post '/posts' do
       post = create_post(params[:type], params[:person], params[:body], params[:tags], params[:referrers])
-      tweet(post)
       post.id.to_s
     end
 
@@ -88,11 +87,11 @@ module Alfred
         halt 404, "No post type called #{type} exists" unless type
         person = Person.first_or_create(:name => person)
         post = Post.create(:post_type => type, :person => person, :body => body, :tag_list => tags)
+        tweet(post)
         # silently filter duplicates and ignore invalid ids
         if referrers
           referrers.split(',').uniq.map { |id| Post.get(id) }.compact.each do |referrer|
             FollowUpPost.create(:source => referrer, :target => post)
-            tweet(referrer)
           end
         end
         post
@@ -179,15 +178,17 @@ module Alfred
 
       def twitter_message(post)
         url = "#{Config.service_url}/posts/#{post.id}"
+        # FIXME weird dm bug
+        person = Person.get(post.person_id)
         case post.post_type.name
-        when 'documentation'
-          "#{post.person.name} posted a tip at #{url}"
+        when 'tip'
+          "#{person.name} posted a tip at #{url}"
         when 'question'
-          "#{post.person.name} asked a question at #{url}"
+          "#{person.name} asked a question at #{url}"
         when 'reply'
-          "#{post.person.name} posted a reply at #{url}"
+          "#{person.name} posted a reply at #{url}"
         when 'note'
-          "#{post.person.name} posted a note at #{url}"
+          "#{person.name} posted a note at #{url}"
         else
           nil # prevents tweeting
         end
