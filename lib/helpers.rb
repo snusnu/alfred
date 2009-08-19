@@ -13,34 +13,35 @@ module Alfred
       header
     end
 
-    def tag_links(tags)
+    def tag_links(tags, cloud = false)
       tags = tags.map { |t| [t, t.post_tags.size] }
       counts = tags.map { |t| t[1] }
       min, max = counts.min, counts.max
       tags.map do |t|
         name, count = t[0].name, t[1]
-        "<a href='/posts?tags=#{name}' class='#{tag_class(min, max, count)}'>#{name}(#{count})</a>"
+        tag_class = cloud ? "class='#{tag_class(min, max, count)}'" : ''
+        "<a href='/posts?tags=#{name}' #{tag_class}>#{name}(#{count})</a>"
       end.join(' ')
     end
 
     def tag_class(min, max, count)
-      distribution = (max - min) / 7
+      distribution = (d = ((max - min) / 7) == 0) ? 1 : d
       if count == min
         'xx-small'
-      elsif count > (min + distribution)
-        'x-small'
-      elsif count > (min + distribution * 2)
-        'small'
-      elsif count > (min + distribution * 3)
-        'medium'
-      elsif count > (min + distribution * 4)
-        'medium'
-      elsif count > (min + distribution * 5)
-        'large'
-      elsif count > (min + distribution * 6)
-        'x-large'
       elsif count == max
         'xx-large'
+      elsif count > (min + distribution * 6)
+        'x-large'
+      elsif count > (min + distribution * 5)
+        'large'
+      elsif count > (min + distribution * 4)
+        'medium'
+      elsif count > (min + distribution * 3)
+        'small'
+      elsif count > (min + distribution * 2)
+        'x-small'
+      elsif count > (min + distribution)
+        'xx-small'
       end
     end
 
