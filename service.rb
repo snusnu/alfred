@@ -3,12 +3,12 @@ require 'pathname'
 require 'sinatra/base'
 require 'rdiscount'
 
-require 'utils'
-require 'models'
-require 'twitter'
+require 'lib/utils'
+require 'lib/twitter'
+require 'lib/helpers'
+require 'lib/partials'
 
-require 'helpers'
-require 'partials'
+require 'models'
 
 module Alfred
 

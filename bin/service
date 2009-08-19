@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'pathname'
 
-$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.parent.expand_path.join('lib', 'alfred'))
+$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.parent)
 
 require 'service'
 

@@ -4,39 +4,6 @@ require 'rake'
 
 ROOT = Pathname(__FILE__).dirname.expand_path
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-
-    gem.name = "alfred"
-    gem.summary = %Q{Alfred the friendly IRC butler}
-    gem.description = %Q{Alfred the friendly IRC butler is an IRC bot that lets you post stuff to its website}
-    gem.email = "gamsnjaga@gmail.com"
-    gem.homepage = "http://github.com/snusnu/alfred"
-    gem.authors = ["snusnu", "armitage", "michael"]
-
-    gem.bindir = 'bin'
-    gem.executables = ['bin/bot', 'bin/service']
-
-    gem.add_dependency('json',                   '>= 1.1.3' )
-    gem.add_dependency('isaac',                  '>= 0.2.5' )
-    gem.add_dependency('rdiscount',              '>= 1.3.5' )
-    gem.add_dependency('rest-client',            '>= 1.0.3' )
-    gem.add_dependency('sinatra',                '>= 0.10.1')
-    gem.add_dependency('dm-core',                '>= 0.10.0')
-    gem.add_dependency('dm-types',               '>= 0.10.0')
-    gem.add_dependency('dm-constraints',         '>= 0.10.0')
-    gem.add_dependency('dm-validations',         '>= 0.10.0')
-    gem.add_dependency('dm-timestamps',          '>= 0.10.0')
-    gem.add_dependency('dm-is-self_referential', '>= 0.0.1' )
-
-    gem.has_rdoc = false
-
-  end
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
-end
-
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
   spec.libs << 'lib' << 'spec'
@@ -67,4 +34,95 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-Pathname.glob(ROOT.join('tasks/**/*.rb').to_s).each { |f| require f }
+desc "Generate and seed the database"
+task :seed do
+
+  require 'rubygems'
+  require 'pathname'
+
+  $LOAD_PATH.unshift(File.dirname(__FILE__))
+
+  require 'models'
+
+  DataMapper.auto_migrate!
+
+  bot = Config['irc']['nick']
+
+  tip      = PostType.create :name => 'tip'
+  question = PostType.create :name => 'question'
+  reply    = PostType.create :name => 'reply'
+  note     = PostType.create :name => 'note'
+
+  snusnu = Person.create(
+    :name => 'snusnu',
+    :twitter_login => 'gmsmon',
+    :github_name   => 'snusnu',
+    :email_address => 'gamsnjaga@gmail.com',
+    :gravatar => true
+  )
+
+  armitage = Person.create(
+    :name => 'armitage',
+    :twitter_login => 'lordarmitage',
+    :github_name   => 'armitage',
+    :email_address => 'lord.armitage@gmail.com',
+    :gravatar => true
+  )
+
+  question_1 = Post.create(
+    :post_type => question,
+    :person    => snusnu,
+    :body      => "Are we up and running?",
+    :tag_list  => "alfred"
+  )
+
+  reply_1 = Post.create(
+    :post_type => reply,
+    :person    => snusnu,
+    :body      => "Yeah, sure thing!",
+    :tag_list  => "alfred"
+  )
+
+  reply_1.vote('armitage', '+')
+
+  FollowUpPost.create(
+    :source => question_1,
+    :target => reply_1
+  )
+
+  question_2 = Post.create(
+    :post_type => question,
+    :person    => snusnu,
+    :body      => "Do we have nice styles?",
+    :tag_list  => "alfred"
+  )
+
+  reply_2 = Post.create(
+    :post_type => reply,
+    :person    => armitage,
+    :body      => "Yeah, sure thing!",
+    :tag_list  => "alfred"
+  )
+
+  reply_2.vote('snusnu', '+')
+
+  FollowUpPost.create(
+    :source => question_2,
+    :target => reply_2
+  )
+
+  tip_1 = Post.create(
+    :post_type => tip,
+    :person    => snusnu,
+    :body      => "Be sure to checkout **#{bot}: show commands** to get an idea about what #{bot} can do for you",
+    :tag_list  => "alfred"
+  )
+
+  note_1 = Post.create(
+    :post_type => note,
+    :person    => snusnu,
+    :body      => "Have a look at #{bot}'s [sourcecode](http://github.com/snusnu/alfred)",
+    :tag_list  => "alfred"
+  )
+
+end

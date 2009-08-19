@@ -2,9 +2,9 @@ require 'rubygems'
 require 'isaac'
 require 'rest_client'
 require 'json'
-require 'twitter'
 
-require 'config'
+require 'lib/twitter'
+require 'lib/config'
 
 Config.load_config(File.dirname(__FILE__) + '/config.yml')
 

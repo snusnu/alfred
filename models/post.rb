@@ -1,5 +1,3 @@
-require 'utils'
-
 class Post
 
   include DataMapper::Resource

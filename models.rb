@@ -13,7 +13,8 @@ require 'models/post_tag'
 require 'models/tag'
 require 'models/vote'
 
-require 'config'
+require 'lib/utils'
+require 'lib/config'
 
 Config.load_config(File.dirname(__FILE__) + '/config.yml')
 
