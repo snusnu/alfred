@@ -191,22 +191,22 @@ ul#menu li a {
   border-color: #3b8078;
 }
 
-.posts div {
+.post {
   overflow:auto;
   margin-bottom: 5px;
 }
 
-.posts h3 {
+.post h3 {
   margin-bottom: 0;
   margin-left: 10px;
 }
 
-.posts .gravatar {
+.post .gravatar {
   display:block;
   margin-bottom:4px;
 }
 
-.posts  p {
+.post  p {
   margin: 5px;
   margin-left: 86px;
   margin-right: 130px;
@@ -331,19 +331,19 @@ ul#menu li a {
   font-size: 11px;
 }
 
-.posts .tag-list {
+.post .tag-list {
   font-size: 12px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-.posts .tag-list  dt {
+.post .tag-list  dt {
   display: inline-block;
   margin-right: 3px;
   font-weight: bold;
 }
 
-.posts .tag-list dd {
+.post .tag-list dd {
   display: inline-block;
   margin-left: 3px;
   margin-right: 3px;
