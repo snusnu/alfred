@@ -1,7 +1,7 @@
 module Sinatra
   module Partials
     def partial(template, *args)
-      options = args.extract_options!
+      options = args.last.is_a?(Hash) ? args.pop : {}
       options.merge!(:layout => false)
       if collection = options.delete(:collection) then
         collection.inject([]) do |buffer, member|
