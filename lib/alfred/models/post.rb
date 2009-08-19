@@ -33,6 +33,10 @@ class Post
     :children => :follow_ups
 
 
+  def reply?
+    referrers.all.size > 0
+  end
+
   def has_follow_ups?
     follow_ups.all.size > 0
   end

@@ -103,19 +103,28 @@ module Alfred
 
       def show_posts(type, person, tags)
         conditions = { :order => [ :created_at.desc ] }
+
+        # FIXME weird dm bug workaround
         conditions.merge!(:post_type_id => type.id)   if type   = PostType.first(:name => type)
         conditions.merge!(:person_id    => person.id) if person = Person.first(:name => person)
         if tags
           tags = Alfred::Utils.tag_list(tags).map { |name| Tag.first(:name => name).id }
           conditions.merge!('post_tags.tag_id' => tags) unless tags.empty?
         end
+
         erb :posts, :locals => { :posts => Post.all(conditions) }
       end
 
       def show_post(post_id)
+
         post = Post.get(post_id)
+
+        # FIXME weird dm bug workaround
+        person = Person.get(post.person_id)
+        tags = Tag.all(:id => post.post_tags.map { |t| t.tag_id })
+
         halt 404, "No post with id = #{post_id} exists" unless post
-        erb :post, :locals => { :post => post }
+        erb :post, :locals => { :post => post, :person => person, :tags => tags, :detail_view => true }
       end
 
     end

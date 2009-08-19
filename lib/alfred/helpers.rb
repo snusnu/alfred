@@ -2,6 +2,15 @@ module Alfred
 
   module Helpers
 
+    def post_header(post, person) # FIXME remove workaround for dm bug
+      nick   = "<a href='/posts?person=#{person.name}'>#{person.name}</a>"
+      header = "#{nick} posted the following <a href='/posts/#{post.id}'>#{post.post_type.name}</a>"
+      if post.reply?
+        header << " to #{referrer_links(post)}"
+      end
+      header
+    end
+
     def tag_links(tags)
       tags = tags.map { |t| [t, t.post_tags.size] }
       tags.map { |t| "<a href='/posts?tags=#{t[0].name}'>#{t[0].name}(#{t[1]})</a>" }.join(' ')
