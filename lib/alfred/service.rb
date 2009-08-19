@@ -88,9 +88,9 @@ module Alfred
         person = Person.first_or_create(:name => person)
         post = Post.create(:post_type => type, :person => person, :body => body, :tag_list => tags)
         tweet(post)
-        # silently filter duplicates and ignore invalid ids
         if referrers
-          referrers.split(',').uniq.map { |id| Post.get(id) }.compact.each do |referrer|
+          # silently filter duplicates and ignore invalid ids
+          Post.all(:id => referrers.split(',').uniq.compact).each do |referrer|
             FollowUpPost.create(:source => referrer, :target => post)
           end
         end
