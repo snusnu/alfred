@@ -53,9 +53,9 @@ module Alfred
 
     def gravatar_image(person)
       if person.has_gravatar?
-        "<img class='gravatar' src=http://www.gravatar.com/avatar/#{person.gravatar_hash}?s=40 />"
+        "<img class='gravatar' src='http://www.gravatar.com/avatar/#{person.gravatar_hash}?s=40' alt='gravatar' />"
       else
-        "<img class='gravatar' src='/img/waiter.gif' />"
+        "<img class='gravatar' src='/img/waiter.gif' alt='gravatar' />"
       end
     end
 
