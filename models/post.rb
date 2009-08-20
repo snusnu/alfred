@@ -61,8 +61,8 @@ class Post
     end
 
     Vote.create(:post => self, :person => person, :impact => impact)
-    vote_sum   += impact
-    vote_count += 1
+    self.vote_sum   += impact
+    self.vote_count += 1
     save
 
   end
