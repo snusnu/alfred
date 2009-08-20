@@ -47,23 +47,17 @@ class Post
     end
   end
 
-  def vote(person, impact)
+  def vote(person_name, increment_or_decrement)
+    return unless person = Person.first(:name => person_name)
+    return if votes.first(:person => person) # FIXME this always returns an empty array
+    return unless %w[ + - ].include?(increment_or_decrement)
 
-    # silently ignore errors for now
-    return unless person = Person.first(:name => person)
-    return if Vote.first(:post => self, :person => person)
+    vote = votes.create(
+      :person => person,
+      :impact => increment_or_decrement == '+' ? 1 : -1
+    )
 
-    impact = case impact
-    when '+' then  1
-    when '-' then -1
-    else
-      return # silently do nothing
-    end
-
-    Vote.create(:post => self, :person => person, :impact => impact)
-    self.vote_sum   += impact
-    self.vote_count += 1
-    save
-
+    update(:vote_sum => vote_sum + vote.impact, :vote_count => vote_count + 1)
   end
+
 end
