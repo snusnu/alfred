@@ -74,16 +74,16 @@ end
 
 
 
-on :channel, /^#{Config['irc']['nick']}.* tip\[(.+?)\](:,\,)? (.*)/ do |tags, _, example|
+on :channel, /^#{Config['irc']['nick']}.* tip\[([^\]]+)\](\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, example|
   url = "#{Config.service_url}/posts"
-  post_id = RestClient.post(url, :type => 'tip', :person => nick, :body => example, :tags => tags)
+  post_id = RestClient.post(url, :type => 'tip', :person => nick, :via => via, :body => example, :tags => tags)
   reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* ask\[(.+?)\](:,\,)? (.*)/ do |tags, _, question|
+on :channel, /^#{Config['irc']['nick']}.* ask\[([^\]]+)\](\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, example|
   url = "#{Config.service_url}/posts"
-  post_id = RestClient.post(url, :type => 'question', :person => nick, :body => question, :tags => tags)
+  post_id = RestClient.post(url, :type => 'question', :person => nick, :via => via, :body => question, :tags => tags)
   reply = "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
@@ -101,9 +101,9 @@ on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\[(.+?)\](:,\,)? (.*)/ d
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* note\[(.+?)\](:,\,)? (.*)/ do |tags, _, example|
+on :channel, /^#{Config['irc']['nick']}.* note\[([^\]]+)\](\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, example|
   url = "#{Config.service_url}/posts"
-  post_id = RestClient.post(url, :type => 'note', :person => nick, :body => example, :tags => tags)
+  post_id = RestClient.post(url, :type => 'note', :person => nick, :via => via, :body => example, :tags => tags)
   reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end

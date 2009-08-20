@@ -3,8 +3,6 @@ class Post
   include DataMapper::Resource
 
   property :id,            Serial
-  property :person_id,     Integer, :nullable => false
-  property :post_type_id,  Integer, :nullable => false
 
   # denormalized for performance reasons
   property :vote_sum,      Integer, :nullable => false, :default => 0
@@ -14,9 +12,9 @@ class Post
 
   property :created_at,    UTCDateTime
 
-
-  belongs_to :person
   belongs_to :post_type
+  belongs_to :person
+  belongs_to :via, 'Person', :nullable => true
 
   has n, :votes
 

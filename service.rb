@@ -26,7 +26,7 @@ module Alfred
     end
 
     post '/posts' do
-      post = create_post(params[:type], params[:person], params[:body], params[:tags], params[:referrers])
+      post = create_post(params[:type], params[:person], params[:via], params[:body], params[:tags], params[:referrers])
       post.id.to_s
     end
 
@@ -86,11 +86,12 @@ module Alfred
       include Sinatra::Partials
       include Alfred::Helpers
 
-      def create_post(type, person, body, tags, referrers)
+      def create_post(type, person, via, body, tags, referrers)
         type = PostType.first(:name => type)
         halt 404, "No post type called #{type} exists" unless type
         person = Person.first_or_create(:name => person)
-        post = Post.create(:post_type => type, :person => person, :body => body, :tag_list => tags)
+        via    = Person.first_or_create(:name => via)
+        post = Post.create(:post_type => type, :person => person, :via => via, :body => body, :tag_list => tags)
         tweet(post)
         if referrers
           referring_posts = []

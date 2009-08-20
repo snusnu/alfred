@@ -20,3 +20,7 @@ Config.load_config(File.dirname(__FILE__) + '/config.yml')
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, Config['database'])
+
+DataMapper::Model.descendants.each do |model|
+  model.relationships.each_value { |r| r.child_key }
+end
