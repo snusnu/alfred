@@ -178,11 +178,6 @@ on :private, /^register email: (\S+)/ do |email|
   msg nick, "thx #{nick}, stored your email address in your profile"
 end
 
-on :private, /^i have a gravatar$/ do |email|
-  url = "#{Config.service_url}/people/#{nick}"
-  RestClient.put(url, :gravatar => true)
-  msg nick, "thx #{nick}, i will display your gravatar image on the website from now on"
-end
 
 on :private, /^allow (\S+)/ do
   ensure_permissions
