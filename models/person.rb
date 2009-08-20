@@ -10,7 +10,6 @@ class Person
   property :twitter_login, String
   property :github_name,   String
   property :email_address, String
-  property :gravatar,      Boolean, :nullable => false, :default => false
 
   property :created_at,    UTCDateTime
 
