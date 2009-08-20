@@ -25,15 +25,15 @@ class Person
 
 
   def tweets?
-    !self.twitter_name.nil?
+    !twitter_name.nil?
   end
 
   def has_gravatar?
-    !self.email_address.nil? && self.gravatar
+    !email_address.nil? && gravatar
   end
 
   def gravatar_hash
-    MD5::md5(self.email_address)
+    MD5::md5(email_address)
   end
 
 end
