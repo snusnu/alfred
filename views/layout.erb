@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-  <% bot = Config['irc']['nick'] %>
+  <% bot     = "<em><a href='http://github.com/snusnu/alfred'>#{Config['irc']['nick']}</a></em>" %>
+  <% channel = Config['irc']['channel'] %>
+  <% server  = Config['irc']['server'] %>
   <head>
     <title>Alfred the IRC butler</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -9,7 +11,7 @@
   <body>
     <div id="page">
       <div id="header">
-        <h1><%= bot %> gladly serving <em>#<%= Config['irc']['channel'] %></em></h1>
+        <h1><%= Config['irc']['nick'] %> gladly serving <em>#<%= Config['irc']['channel'] %></em></h1>
         <a href="http://quasipartikel.at/"><span>quasipartikel.at</span></a>
       </div>
 
@@ -31,23 +33,43 @@
           </ul>
           <h2>about</h2>
           <p>
-            <em><%= bot %></em> can help you collect useful information from irc channels.
+            <em><%= bot %></em> can help you collect useful information from irc channels. 
           </p>
           <p>
-            You can store away posts so that you can use them later on when you're writing
-            your project's documentation, wiki pages, blog articles or whatever. You can tag
+            Currently, the only way to manipulate the content of this website is to join the
+            <em>#<%= channel %></em> channel on <em><%= server %></em> and use the available
+            <strong><a href="/commands">commands</a></strong> to tell <%= bot %> to post content to, or lookup
+            content on this website.
+          </p>
+          <p>
+            You can quickly store away <em>tips, notes, questions, replies</em> so that you can use them later on when
+            you're writing your project's documentation, FAQ, wiki pages, blog articles or whatever. You can also tag
             these posts so that they are easier to find later on.
+          </p>
+          <p>
+            <%= bot %> also allows irc users to vote certain posts up or down. This should probably give a good
+            indicator on the usefulness of the posted content.
           </p>
           <p>
             Of course you're not limited to posting snippets of text. Just post a link to <em><%= bot %></em>,
             say to a <a href="http://pastie.org">pastie</a>, a <a href="http://gist.github.com">gist</a>
             or some interesting blogpost and tag them as you wish. <em><%= bot %></em> has convenient
-            <a href="/commands">commands</a> to retrieve them later on.
+            <strong><a href="/commands">commands</a></strong> to retrieve them later on.
           </p>
           <p>
-            You can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>
+            You can use <strong><a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a></strong>
             for basic formatting of your messages. Use this especially for links, so that <em><%= bot %></em>
             can correctly format them on the website.
+          </p>
+          <p>
+            <%= bot %> is built using some wonderful <strong><a href="http://www.ruby-lang.org">ruby</a></strong> 
+            <strong><a href="http://rubygems.org/">gems</a></strong>. We would like to thank every committer to the
+            following projects very much (and in no particular order)!
+            <strong><a href="http://github.com/ichverstehe/isaac">isaac</a></strong>,
+            <strong><a href="http://github.com/sinatra/sinatra">sinatra</a></strong>,
+            <strong><a href="http://github.com/datamapper">datamapper</a></strong>
+            <strong><a href="http://github.com/adamwiggins/restclient">restclient</a></strong> and
+            <strong><a href="http://github.com/rtomayko/rdiscount">rdiscount</a></strong>
           </p>
         </div>
 
