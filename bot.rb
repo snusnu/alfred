@@ -74,21 +74,21 @@ end
 
 
 
-on :channel, /^#{Config['irc']['nick']}.* tip\[(.*)\](:,\,)? (.*)/ do |tags, _, example|
+on :channel, /^#{Config['irc']['nick']}.* tip\[(.+?)\](:,\,)? (.*)/ do |tags, _, example|
   url = "#{Config.service_url}/posts"
   post_id = RestClient.post(url, :type => 'tip', :person => nick, :body => example, :tags => tags)
   reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* ask\[(.*)\](:,\,)? (.*)/ do |tags, _, question|
+on :channel, /^#{Config['irc']['nick']}.* ask\[(.+?)\](:,\,)? (.*)/ do |tags, _, question|
   url = "#{Config.service_url}/posts"
   post_id = RestClient.post(url, :type => 'question', :person => nick, :body => question, :tags => tags)
   reply = "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\[(.*)\](:,\,)? (.*)/ do |_, ids, _, reply|
+on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\[(.+?)\](:,\,)? (.*)/ do |_, ids, _, reply|
   url = "#{Config.service_url}/posts"
   referrer_ids = ids.gsub(',', ' ').split(' ').uniq.join(',')
   post_ids = RestClient.post(url, :type => 'reply', :person => nick, :body => reply, :referrers => referrer_ids)
@@ -101,7 +101,7 @@ on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\[(.*)\](:,\,)? (.*)/ do
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* note\[(.*)\](:,\,)? (.*)/ do |tags, _, example|
+on :channel, /^#{Config['irc']['nick']}.* note\[(.+?)\](:,\,)? (.*)/ do |tags, _, example|
   url = "#{Config.service_url}/posts"
   post_id = RestClient.post(url, :type => 'note', :person => nick, :body => example, :tags => tags)
   reply = "thx #{nick}, stored your post at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
