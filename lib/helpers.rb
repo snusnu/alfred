@@ -10,7 +10,7 @@ module Alfred
       elsif post.reply?
         header << " to #{referrer_links(post)}"
       end
-      header << " (via <a href='/people/#{post.via.name}'>#{post.via.name}</a>)" if post.via
+      header << " (via <a href='/posts?person=#{post.via.name}'>#{post.via.name}</a>)" if post.via
       header
     end
 
