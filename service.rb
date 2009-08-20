@@ -93,10 +93,18 @@ module Alfred
         post = Post.create(:post_type => type, :person => person, :body => body, :tag_list => tags)
         tweet(post)
         if referrers
+          referring_posts = []
           # silently filter duplicates and ignore invalid ids
           Post.all(:id => referrers.split(',').uniq.compact).each do |referrer|
+            referring_posts << referrer
             FollowUpPost.create(:source => referrer, :target => post)
           end
+          # tag the reply with all tags used in the referrers
+          referring_tags = referring_posts.map do |p|
+            Post.get(p.id).tag_list # FIXME weird dm bug workaround
+          end.join(',').split(',').compact.uniq
+          post.tag_list = referring_tags.join(',')
+          post.save
         end
         post
       end
