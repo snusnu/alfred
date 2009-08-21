@@ -91,7 +91,7 @@ module Alfred
     end
 
     def gravatar_image(person)
-      "<img class='gravatar' src='http://www.gravatar.com/avatar/#{person.gravatar_hash}?s=40&d=monsterid' alt='gravatar' />"
+      "<img class='gravatar' src='http://www.gravatar.com/avatar/#{person.gravatar_hash}?s=40&amp;d=monsterid' alt='gravatar' />"
     end
 
 
