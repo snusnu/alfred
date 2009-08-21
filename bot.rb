@@ -74,7 +74,7 @@ end
 
 
 
-on :channel, /^#{Config['irc']['nick']}.* tip\[([^\]]+)\](\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
+on :channel, /^#{Config['irc']['nick']}.* tip\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
@@ -82,7 +82,7 @@ on :channel, /^#{Config['irc']['nick']}.* tip\[([^\]]+)\](\(via ([^\)]+)\)?)?(:,
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* note\[([^\]]+)\](\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
+on :channel, /^#{Config['irc']['nick']}.* note\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
@@ -90,7 +90,7 @@ on :channel, /^#{Config['irc']['nick']}.* note\[([^\]]+)\](\(via ([^\)]+)\)?)?(:
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* ask\[([^\]]+)\](\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
+on :channel, /^#{Config['irc']['nick']}.* ask\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
@@ -98,7 +98,7 @@ on :channel, /^#{Config['irc']['nick']}.* ask\[([^\]]+)\](\(via ([^\)]+)\)?)?(:,
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\[(.+?)\](:,\,)? (.*)/ do |_, ids, _, body|
+on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\s*\[(.+?)\](:,\,)? (.*)/ do |_, ids, _, body|
   url = "#{Config.service_url}/posts"
   referrer_ids = ids.gsub(',', ' ').split(' ').uniq.join(',')
   post_ids = RestClient.post(url, :type => 'reply', :person => nick, :body => body, :referrers => referrer_ids)
@@ -111,7 +111,7 @@ on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\[(.+?)\](:,\,)? (.*)/ d
   msg channel, reply
 end
 
-on :channel, /^#{Config['irc']['nick']}.* remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\](\(([^\)]+)\)?)?(:,\,)? (.*)\z/ do |start, stop, tags, _, people, _, body|
+on :channel, /^#{Config['irc']['nick']}.* remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/ do |start, stop, tags, _, people, _, body|
   url = "#{Config.service_url}/posts"
   post_id = create_post(url, 'conversation', nick, body, tags, nil, start, stop, people)
   reply = "thx #{nick}, remembered the conversation at #{url}/#{post_id} and tagged it with '#{tags}'"
