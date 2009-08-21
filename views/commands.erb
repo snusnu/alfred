@@ -58,6 +58,13 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
 
   <dt>posts a tagged note on <%= bot %>'s website (the "via irc_nick" part is optional)</dt>
   <dd><kbd><%= bot %>: note[<samp>tag1 tag2</samp>](via <samp>irc_nick</samp>) <samp>whatever you want to post</samp></kbd></dd>
+
+  <dt>remember an IRC conversation between nick1 and nick2 that happened from 20 to 10 minutes ago</dt>
+  <dd><kbd><%= bot %>: remember from <samp>-20</samp> to <samp>-10</samp> [<samp>tag1 tag2</samp>](<samp>nick1 nick2</samp>) <samp>some description</samp></kbd></dd>
+
+  <dt>remember the complete IRC conversation that happened from 20 minutes ago until now</dt>
+  <dd><kbd><%= bot %>: remember from <samp>-20</samp> to <samp>now</samp> [<samp>tag1 tag2</samp>] <samp>some description</samp></kbd></dd>
+
 </dl>
 
 <h3>Vote for posts, question and answers</h3>

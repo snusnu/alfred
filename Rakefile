@@ -48,25 +48,24 @@ task :seed do
 
   bot = Config['irc']['nick']
 
-  tip      = PostType.create :name => 'tip'
-  question = PostType.create :name => 'question'
-  reply    = PostType.create :name => 'reply'
-  note     = PostType.create :name => 'note'
+  tip          = PostType.create :name => 'tip'
+  question     = PostType.create :name => 'question'
+  reply        = PostType.create :name => 'reply'
+  note         = PostType.create :name => 'note'
+  conversation = PostType.create :name => 'conversation'
 
   snusnu = Person.create(
     :name => 'snusnu',
     :twitter_login => 'gmsmon',
     :github_name   => 'snusnu',
-    :email_address => 'gamsnjaga@gmail.com',
-    :gravatar => true
+    :email_address => 'gamsnjaga@gmail.com'
   )
 
   armitage = Person.create(
     :name => 'armitage',
     :twitter_login => 'lordarmitage',
     :github_name   => 'armitage',
-    :email_address => 'lord.armitage@gmail.com',
-    :gravatar => true
+    :email_address => 'lord.armitage@gmail.com'
   )
 
   question_1 = Post.create(

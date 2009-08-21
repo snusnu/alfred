@@ -26,7 +26,18 @@ module Alfred
     end
 
     post '/posts' do
-      post = create_post(params[:type], params[:person], params[:via], params[:body], params[:tags], params[:referrers])
+      post = create_post(
+        params[:type],
+        params[:person],
+        params[:body],
+        params[:tags],
+        params[:via],
+        params[:start],
+        params[:stop],
+        params[:people],
+        params[:referrers]
+      )
+      halt 500, "Failed to create post" unless post
       post.id.to_s
     end
 
@@ -85,13 +96,29 @@ module Alfred
       include Sinatra::Partials
       include Alfred::Helpers
 
-      def create_post(type, person, via, body, tags, referrers)
-        type = PostType.first(:name => type)
-        halt 404, "No post type called #{type} exists" unless type
+      def create_post(type, person, body, tags, via, start, stop, people, referrers)
+
+        unless post_type = PostType.first(:name => type)
+          halt 404, "No post type called #{type} exists"
+        end
+
+        if (conversation = (post_type.name == 'conversation')) && !(start && stop)
+          halt 500, "No start and stop dates given for conversation"
+        end
+
         person = Person.first_or_create(:name => person)
-        via    = Person.first_or_create(:name => via)
-        post = Post.create(:post_type => type, :person => person, :via => via, :body => body, :tag_list => tags)
+        via    = Person.first_or_create(:name => via   ) if via
+        post   = Post.create(:post_type => post_type, :person => person, :via => via, :body => body, :tag_list => tags)
+
+        if conversation
+          names  = people.gsub(',',' ').strip.split(' ')
+          people = names.map { |name| Person.first_or_create(:name => name) }
+          post.conversation = Conversation.new(:start => start, :stop => stop, :people => people)
+          post.save
+        end
+
         tweet(post)
+
         if referrers
           referring_posts = []
           # silently filter duplicates and ignore invalid ids

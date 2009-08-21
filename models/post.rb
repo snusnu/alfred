@@ -1,3 +1,5 @@
+require 'models/conversation'
+
 class Post
 
   include DataMapper::Resource
@@ -23,11 +25,17 @@ class Post
   has n, :tags,
     :through => :post_tags
 
+  has 0..1, :conversation
+
 
   is :self_referential, :through => 'FollowUpPost',
     :parents  => :referrers,
     :children => :follow_ups
 
+
+  def conversation?
+    post_type.name == 'conversation'
+  end
 
   def reply?
     referrers.all.size > 0

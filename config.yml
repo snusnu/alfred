@@ -11,7 +11,7 @@ database:
 irc:
   realname: Alfred the friendly IRC butler
   port: 6667
-  nick: alfredbutler
+  nick: btlr
   server: irc.freenode.net
   version: 0.0.1
   channel: quasipartikel

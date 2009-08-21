@@ -12,7 +12,7 @@
     <dt>Tags:</dt>
      <dd><%= tag_links(tags) %></dd>
   </dl>
-  <%= post_body(post) %>
+  <%= render_post(post) %>
 </div>
 
 <% if detail_view && post.has_follow_ups? %>

@@ -95,8 +95,29 @@ module Alfred
     end
 
 
+    def render_post(post)
+      if c = post.conversation
+        partial(:conversation, :locals => {
+          :post => post,
+          :conversation => fetch_conversation(c.start, c.stop, c.people)
+        })
+      else
+        post_body(post)
+      end
+    end
+
     def post_body(post)
       RDiscount.new(post.body).to_html
+    end
+
+    def fetch_conversation(start, stop, people)
+      base_url = "http://irclogger.com/sinatra" ##{Config['irc']['channel']}"
+      url = "#{base_url}/slice/#{start.to_time.to_i}/#{stop.to_time.to_i}"
+      response = JSON.parse(RestClient.get(url))
+      names = people.map { |p| p.name }
+      response.select do |message|
+        names.include?(message['nick'])
+      end
     end
 
     def twitter_message(post)
