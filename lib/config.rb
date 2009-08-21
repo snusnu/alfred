@@ -44,7 +44,11 @@ module Config
   end
 
   def service_url
-    "http://#{config['service']['host']}:#{config['service']['port']}"
+    if config['service']['port']
+      "http://#{config['service']['host']}:#{config['service']['port']}"
+    else
+      "http://#{config['service']['host']}"
+    end
   end
 
 end
