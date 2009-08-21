@@ -188,6 +188,14 @@ ul#menu li a {
   border-color: #3b8078;
 }
 
+.conversation .post-info, .conversation .post-date {
+  background-color: #7a644b;
+}
+
+.conversation .person-stats {
+  border-color: #7a644b;
+}
+
 .post {
   overflow:auto;
   margin-bottom: 5px;
@@ -203,10 +211,10 @@ ul#menu li a {
   margin-bottom:4px;
 }
 
-.post  p {
+.post  p, .post  ol.conversation, .conversation-header {
   margin: 5px;
   margin-left: 86px;
-  margin-right: 130px;
+  margin-right: 140px;
 }
 
 .post-info, .post-date {
@@ -347,26 +355,75 @@ ul#menu li a {
 
 }
 
-.conversation {
+.post ol.conversation {
   list-style-type: none;
+  margin-top: 0;
+  padding: 0;
+}
+
+.conversation-header {
+  background-color:rgba(70, 70, 70, 0.1);
+  margin-top: 30px;
+  margin-bottom: 0;
+  border: solid rgba(0,0,0,0.3) 2px;
+  border-bottom: none;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 6px;
+}
+
+ol.conversation li:last-child {
+  border: solid rgba(0,0,0,0.2) 2px;
+  border-top: none;
+  padding-bottom: 6px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+ol.conversation li {
+  overflow: auto;
+  padding: 6px;
+}
+
+ol.conversation cite {
+  font-weight: bold;
+  font-style: normal;
+  opacity: 0.8;
+  display: block;
+  line-height: 1em;
+  margin-right: 10px;
+  float: left;
+  /*
+  padding: 3px;
+  -moz-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(141,204,58,0.5);
+  */
+}
+
+ol.conversation cite a {
+  border-bottom: solid black 1px;
+  text-decoration: none;
+}
+
+ol.conversation blockquote {
   margin: 0;
 }
 
-.conversation li {
-  overflow: auto;
-  margin-bottom: 5px;
+ol.conversation abbr {
+  font-style: normal;
 }
 
-.conversation cite {
-  font-style: italic;
-  display: inline-block;
-  margin-right: 3px;
-  float: left;
-}
-
-.conversation blockquote{
-  
-}
 
 /*END Styles for Posts */
 
@@ -414,6 +471,11 @@ ul#menu li a {
   margin-bottom: 6px;
 }
 
+.commands dd {
+  margin-left: 25px;
+}
+
+
 samp {
   display: inline-block;
   padding: 1px 3px 3px 3px;
@@ -448,7 +510,7 @@ samp {
   background: url(/img/twitter.png) no-repeat;
   display: block;
   line-height: 16px;
-  vertical-align: center;
+  vertical-align: middle;
 }
 
 .twitter-follow:hover {
