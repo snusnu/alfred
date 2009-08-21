@@ -78,24 +78,21 @@ on :channel, /^#{Config['irc']['nick']}.* tip\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
-  reply = "thx #{nick}, stored your tip at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
-  msg channel, reply
+  msg channel, "thx #{nick}, stored your tip at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* note\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
-  reply = "thx #{nick}, stored your note at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
-  msg channel, reply
+  msg channel, "thx #{nick}, stored your note at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* ask\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
-  reply = "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
-  msg channel, reply
+  msg channel, "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\s*\[(.+?)\](:,\,)? (.*)/ do |_, ids, _, body|
@@ -107,15 +104,13 @@ on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\s*\[(.+?)\](:,\,)? (.*)
   end
   answer_word   = link_list.size > 1 ? 'replies'   : 'reply'
   question_word = link_list.size > 1 ? 'questions' : 'question'
-  reply = "thx #{nick}, stored your #{answer_word} to the following #{question_word}: #{link_list.join(' and ')}"
-  msg channel, reply
+  msg channel, "thx #{nick}, stored your #{answer_word} to the following #{question_word}: #{link_list.join(' and ')}"
 end
 
 on :channel, /^#{Config['irc']['nick']}.* remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/ do |start, stop, tags, _, people, _, body|
   url = "#{Config.service_url}/posts"
   post_id = create_post(url, 'conversation', nick, body, tags, nil, start, stop, people)
-  reply = "thx #{nick}, remembered the conversation at #{url}/#{post_id} and tagged it with '#{tags}'"
-  msg channel, reply
+  msg channel, "thx #{nick}, remembered the conversation at #{url}/#{post_id} and tagged it with '#{tags}'"
 end
 
 
@@ -123,8 +118,7 @@ on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|tip|question|a
   begin
     url = "#{Config.service_url}/votes"
     RestClient.post(url, :person => nick, :post_id => post_id, :impact => impact)
-    reply = "thx #{nick}, stored your vote at #{Config.service_url}/posts/#{post_id}"
-    msg channel, reply
+    msg channel, "thx #{nick}, stored your vote at #{Config.service_url}/posts/#{post_id}"
   rescue RestClient::ResourceNotFound
     msg channel, "sorry #{nick}, there is no post with ID = #{post_id}"
   end
