@@ -73,29 +73,37 @@ on :channel, /^#{Config['irc']['nick']}.* show (question|post|answer|reply) (.*)
 end
 
 
+# Use http://rubular.com to inspect these (especially to get at the match group ordering)
 
-on :channel, /^#{Config['irc']['nick']}.* tip\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
+TIP          = /^#{Config['irc']['nick']}.* tip\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
+NOTE         = /^#{Config['irc']['nick']}.* note\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
+QUESTION     = /^#{Config['irc']['nick']}.* ask\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
+REPLY        = /^#{Config['irc']['nick']}.* (answer|reply)\s*\[(.+?)\](:,\,)? (.*)\z/
+CONVERSATION = /^#{Config['irc']['nick']}.* remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/
+VOTE         = /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|tip|question|answer|reply) (.*)\z/
+
+on :channel, TIP do |tags, _, via, _, body|
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
   msg channel, "thx #{nick}, stored your tip at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* note\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
+on :channel, NOTE do |tags, _, via, _, body|
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
   msg channel, "thx #{nick}, stored your note at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* ask\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/ do |tags, _, via, _, body|
+on :channel, QUESTION do |tags, _, via, _, body|
   url = "#{Config.service_url}/posts"
   params = { :type => 'tip', :person => nick, :body => body, :tags => tags }
   post_id = RestClient.post(url, via ? params.merge!(:via => via) : params)
   msg channel, "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\s*\[(.+?)\](:,\,)? (.*)/ do |_, ids, _, body|
+on :channel, REPLY do |_, ids, _, body|
   url = "#{Config.service_url}/posts"
   referrer_ids = ids.gsub(',', ' ').split(' ').uniq.join(',')
   post_ids = RestClient.post(url, :type => 'reply', :person => nick, :body => body, :referrers => referrer_ids)
@@ -107,14 +115,14 @@ on :channel, /^#{Config['irc']['nick']}.* (answer|reply)\s*\[(.+?)\](:,\,)? (.*)
   msg channel, "thx #{nick}, stored your #{answer_word} to the following #{question_word}: #{link_list.join(' and ')}"
 end
 
-on :channel, /^#{Config['irc']['nick']}.* remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/ do |start, stop, tags, _, people, _, body|
+on :channel, CONVERSATION do |start, stop, tags, _, people, _, body|
   url = "#{Config.service_url}/posts"
   post_id = create_post(url, 'conversation', nick, body, tags, nil, start, stop, people)
   msg channel, "thx #{nick}, remembered the conversation at #{url}/#{post_id} and tagged it with '#{tags}'"
 end
 
 
-on :channel, /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|tip|question|answer|reply) (.*)/ do |impact, post_type, post_id|
+on :channel, VOTE do |impact, post_type, post_id|
   begin
     url = "#{Config.service_url}/votes"
     RestClient.post(url, :person => nick, :post_id => post_id, :impact => impact)
