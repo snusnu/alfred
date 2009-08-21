@@ -111,9 +111,10 @@ module Alfred
     end
 
     def fetch_conversation(start, stop, people)
-      base_url = "http://irclogger.com/sinatra" ##{Config['irc']['channel']}"
+      base_url = "http://irclogger.com/#{Config['irc']['channel']}"
       url = "#{base_url}/slice/#{start.to_time.to_i}/#{stop.to_time.to_i}"
       response = JSON.parse(RestClient.get(url))
+      return response if people.size == 0
       names = people.map { |p| p.name }
       response.select do |message|
         names.include?(message['nick'])
