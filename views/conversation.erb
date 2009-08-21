@@ -1,9 +1,10 @@
 <%= post_body(post) %>
 <% if conversation.size > 0 %>
+<h4 class="conversation-header">origin: <a title="<%= "#{Config['irc']['server']} #{conversation.first['channel']}" %>" href="irc://<%= "#{Config['irc']['server']}/#{conversation.first['channel']}" %>"><%= "#{conversation.first['channel']}" %></a></h4>
 <ol class="conversation">
   <% conversation.each do |message| %>
   <li>
-    <cite><%= message['nick'] %> at <%= Time.at(message['timestamp']) %></cite>
+    <cite><a href="/posts?person=<%= message['nick'] %>"><%= message['nick'] %></a> <abbr title="<%= Time.at(message['timestamp']) %>"><%= Time.at(message['timestamp']).strftime("%H:%M") %></abbr></cite>
     <blockquote cite='<%= message['permalink'] %>'><%= message['line'] %></blockquote>
   </li>
   <% end %>
