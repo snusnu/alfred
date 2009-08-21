@@ -5,7 +5,7 @@
   <% conversation.each do |message| %>
   <li>
     <cite><a href="/posts?person=<%= message['nick'] %>"><%= message['nick'] %></a> <abbr title="<%= Time.at(message['timestamp']) %>"><%= Time.at(message['timestamp']).strftime("%H:%M") %></abbr></cite>
-    <blockquote cite='<%= message['permalink'] %>'><%= message['line'] %></blockquote>
+    <blockquote cite='<%= message['permalink'] %>'><%= auto_link_urls(message['line']) %></blockquote>
   </li>
   <% end %>
 </ol>
