@@ -82,6 +82,14 @@ module Alfred
       erb :tags, :locals => { :tags => Tag.all }
     end
 
+    get '/tags.json' do
+      Tag.all.map do |t|
+        { 'name'  => t.name,
+          'count' => t.post_tags.size,
+          'link'  => "#{Config.service_url}/posts?tags=#{t.name}"
+        }
+      end.to_json
+    end
 
     get '/commands' do
       erb :commands
