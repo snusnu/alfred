@@ -1,4 +1,6 @@
 ---
+project:
+  name: datamapper
 service:
   host: localhost
   port: 9090
