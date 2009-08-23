@@ -51,7 +51,7 @@ helpers do
     reply_target = personal ? nick : channel
     if Alfred::Utils.logged_channel?(channel)
       post = create_post(channel, 'conversation', nick, body, tags, nil, start, stop, people)
-      msg reply_target, "thx #{nick}, remembered the conversation at #{url}/#{post['id']} and tagged it with '#{tags}'"
+      msg reply_target, "thx #{nick}, remembered the conversation at #{Config.service_url}/#{post['id']} and tagged it with '#{tags}'"
     else
       msg reply_target, "sorry #{nick}, can't remember that conversation because this channel isn't currently logged by irclogger.com"
     end
