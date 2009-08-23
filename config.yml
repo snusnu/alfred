@@ -14,7 +14,8 @@ irc:
   nick: btlr
   server: irc.freenode.net
   version: 0.0.1
-  channel: quasipartikel
+  channels:
+  - alfredbutler
   nickserv: change_this
   verbose: true
 allowed:

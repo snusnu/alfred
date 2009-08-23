@@ -46,7 +46,17 @@ task :seed do
 
   DataMapper.auto_migrate!
 
+
   bot = Config['irc']['nick']
+
+  # channel about alfred himself, also used for initial seed data
+
+  irc_channel = IrcChannel.create(
+    :server => 'irc.freenode.net',
+    :channel => 'alfredbutler',
+    :logged => false
+  )
+
 
   tip          = PostType.create :name => 'tip'
   question     = PostType.create :name => 'question'
@@ -69,17 +79,19 @@ task :seed do
   )
 
   question_1 = Post.create(
-    :post_type => question,
-    :person    => snusnu,
-    :body      => "Are we up and running?",
-    :tag_list  => "alfred"
+    :irc_channel => irc_channel,
+    :post_type   => question,
+    :person      => snusnu,
+    :body        => "Are we up and running?",
+    :tag_list    => "alfred"
   )
 
   reply_1 = Post.create(
-    :post_type => reply,
-    :person    => snusnu,
-    :body      => "Yeah, sure thing!",
-    :tag_list  => "alfred"
+    :irc_channel => irc_channel,
+    :post_type   => reply,
+    :person      => snusnu,
+    :body        => "Yeah, sure thing!",
+    :tag_list    => "alfred"
   )
 
   reply_1.vote('armitage', '+')
@@ -90,17 +102,19 @@ task :seed do
   )
 
   question_2 = Post.create(
-    :post_type => question,
-    :person    => snusnu,
-    :body      => "Do we have nice styles?",
-    :tag_list  => "alfred"
+    :irc_channel => irc_channel,
+    :post_type   => question,
+    :person      => snusnu,
+    :body        => "Do we have nice styles?",
+    :tag_list    => "alfred"
   )
 
   reply_2 = Post.create(
-    :post_type => reply,
-    :person    => armitage,
-    :body      => "Yeah, sure thing!",
-    :tag_list  => "alfred"
+    :irc_channel => irc_channel,
+    :post_type   => reply,
+    :person      => armitage,
+    :body        => "Yeah, sure thing!",
+    :tag_list    => "alfred"
   )
 
   reply_2.vote('snusnu', '+')
@@ -111,17 +125,19 @@ task :seed do
   )
 
   tip_1 = Post.create(
-    :post_type => tip,
-    :person    => snusnu,
-    :body      => "Be sure to checkout **#{bot}: show commands** to get an idea about what #{bot} can do for you",
-    :tag_list  => "alfred"
+    :irc_channel => irc_channel,
+    :post_type   => tip,
+    :person      => snusnu,
+    :body        => "Be sure to checkout **#{bot}: show commands** to get an idea about what #{bot} can do for you",
+    :tag_list    => "alfred"
   )
 
   note_1 = Post.create(
-    :post_type => note,
-    :person    => snusnu,
-    :body      => "Have a look at #{bot}'s [sourcecode](http://github.com/snusnu/alfred)",
-    :tag_list  => "alfred"
+    :irc_channel => irc_channel,
+    :post_type   => note,
+    :person      => snusnu,
+    :body        => "Have a look at #{bot}'s [sourcecode](http://github.com/snusnu/alfred)",
+    :tag_list    => "alfred"
   )
 
 end

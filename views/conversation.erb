@@ -1,6 +1,6 @@
 <%= post_body(post) %>
 <% if conversation.size > 0 %>
-<h4 class="conversation-header">origin: <a title="<%= "#{Config['irc']['server']} #{conversation.first['channel']}" %>" href="irc://<%= "#{Config['irc']['server']}/#{conversation.first['channel']}" %>"><%= "#{conversation.first['channel']}" %></a></h4>
+<h4 class="conversation-header">origin: <%= irc_link(post) %></h4>
 <ol class="conversation">
   <% conversation.each do |message| %>
   <li>

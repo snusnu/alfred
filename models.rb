@@ -6,6 +6,7 @@ require 'dm-validations'
 require 'dm-is-self_referential'
 
 require 'models/utc_support'
+require 'models/irc_channel'
 require 'models/person'
 require 'models/post_type'
 require 'models/post'

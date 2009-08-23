@@ -14,6 +14,7 @@ class Post
 
   property :created_at,    UTCDateTime
 
+  belongs_to :irc_channel
   belongs_to :post_type
   belongs_to :person
   belongs_to :via, 'Person', :nullable => true
@@ -32,6 +33,10 @@ class Post
     :parents  => :referrers,
     :children => :follow_ups
 
+
+  def logged?
+    irc_channel.logged?
+  end
 
   def conversation?
     post_type.name == 'conversation'

@@ -5,12 +5,13 @@ module Alfred
     def post_header(post, person) # FIXME remove workaround for dm bug
       nick   = "<a href='/posts?person=#{person.name}'>#{person.name}</a>"
       header = "#{nick} posted the following <a href='/posts/#{post.id}'>#{post.post_type.name}</a>"
+      via    = Person.get(post.via_id) if post.via_id
       if (count = post.follow_ups.size) > 0
         header << " (#{count} #{count == 1 ? 'reply' : 'replies'})"
       elsif post.reply?
         header << " to #{referrer_links(post)}"
       end
-      header << " (via <a href='/posts?person=#{post.via.name}'>#{post.via.name}</a>)" if post.via
+      header << " (via <a href='/posts?person=#{via.name}'>#{via.name}</a>)" if via
       header
     end
 
@@ -56,6 +57,11 @@ module Alfred
       "<a href='/posts?person=#{person.name}' title='#{person.name}`s posts'>#{person.name}</a>"
     end
 
+    def irc_link(post)
+      server, channel = post.irc_channel.server, post.irc_channel.channel
+      "<a title='#{server} #{channel}' href='irc://#{server}/#{channel}'>##{channel}</a>"
+    end
+
     def vote_text(post)
       sign = post.vote_sum > 0 ? '+' : ''
       <<-HTML
@@ -96,10 +102,10 @@ module Alfred
 
 
     def render_post(post)
-      if c = post.conversation
+      if post.conversation
         partial(:conversation, :locals => {
           :post => post,
-          :conversation => fetch_conversation(c.start, c.stop, c.people)
+          :conversation => fetch_conversation(post)
         })
       else
         post_body(post)
@@ -110,12 +116,14 @@ module Alfred
       RDiscount.new(post.body).to_html
     end
 
-    def fetch_conversation(start, stop, people)
+    def fetch_conversation(post)
+      return unless post.logged?
+      c = post.conversation
       base_url = "http://irclogger.com/#{Config['irc']['channel']}"
-      url = "#{base_url}/slice/#{start.to_time.to_i}/#{stop.to_time.to_i}"
+      url = "#{base_url}/slice/#{c.start.to_time.to_i}/#{c.stop.to_time.to_i}"
       response = JSON.parse(RestClient.get(url))
-      return response if people.size == 0
-      names = people.map { |p| p.name }
+      return response if c.people.size == 0
+      names = c.people.map { |p| p.name }
       response.select do |message|
         names.include?(message['nick'])
       end
@@ -149,24 +157,24 @@ module Alfred
 
     unless const_defined?(:AUTO_LINK_RE)
       AUTO_LINK_RE = %r{
-       	(                          # leading text
-       	  <\w+.*?>|                # leading HTML tag, or
-       	  [^=!:'"/]|               # leading punctuation, or
-       	  ^                        # beginning of line
-       	)
-       	(
-       	  (?:https?://)|           # protocol spec, or
-       	  (?:www\.)                # www.*
-       	)
-       	(
-       	  [-\w]+                   # subdomain or domain
-       	  (?:\.[-\w]+)*            # remaining subdomains or domain
-       	  (?::\d+)?                # port
-       	  (?:/(?:(?:[~\w\+@%=\(\)-]|(?:[,.;:'][^\s$])))*)* # path
-       	  (?:\?[\w\+@%&=.;-]+)?    # query string
-       	  (?:\#[\w\-]*)?           # trailing anchor
-       	)
-       	([[:punct:]]|<|$|)         # trailing text
+        (                          # leading text
+          <\w+.*?>|                # leading HTML tag, or
+          [^=!:'"/]|               # leading punctuation, or
+          ^                        # beginning of line
+        )
+        (
+          (?:https?://)|           # protocol spec, or
+          (?:www\.)                # www.*
+        )
+        (
+          [-\w]+                   # subdomain or domain
+          (?:\.[-\w]+)*            # remaining subdomains or domain
+          (?::\d+)?                # port
+          (?:/(?:(?:[~\w\+@%=\(\)-]|(?:[,.;:'][^\s$])))*)* # path
+          (?:\?[\w\+@%&=.;-]+)?    # query string
+          (?:\#[\w\-]*)?           # trailing anchor
+        )
+        ([[:punct:]]|<|$|)         # trailing text
       }x
     end
 

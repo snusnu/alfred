@@ -27,6 +27,7 @@ module Alfred
 
     post '/posts' do
       post = create_post(
+        params[:channel],
         params[:type],
         params[:person],
         params[:body],
@@ -104,7 +105,7 @@ module Alfred
       include Sinatra::Partials
       include Alfred::Helpers
 
-      def create_post(type, person, body, tags, via, start, stop, people, referrers)
+      def create_post(channel, type, person, body, tags, via, start, stop, people, referrers)
 
         unless post_type = PostType.first(:name => type)
           halt 404, "No post type called #{type} exists"
@@ -114,9 +115,18 @@ module Alfred
           halt 500, "No start and stop dates given for conversation"
         end
 
-        person = Person.first_or_create(:name => person)
-        via    = Person.first_or_create(:name => via   ) if via
-        post   = Post.create(:post_type => post_type, :person => person, :via => via, :body => body, :tag_list => tags)
+        channel = IrcChannel.channel(:server => Config['irc']['server'], :channel => channel)
+        person  = Person.first_or_create(:name => person)
+        via     = Person.first_or_create(:name => via   ) if via
+
+        post = Post.create(
+          :irc_channel => channel,
+          :post_type => post_type,
+          :person => person,
+          :via => via,
+          :body => body,
+          :tag_list => tags
+        )
 
         if conversation
           names  = people.gsub(',',' ').strip.split(' ')
