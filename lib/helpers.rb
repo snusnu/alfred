@@ -26,7 +26,7 @@ module Alfred
     end
 
     def tag_class(min, max, count)
-      distribution = (d = ((max - min) / 7) == 0) ? 1 : d
+      distribution = ((d = ((max - min) / 7)) == 0) ? 1 : d
       if count == min
         'xx-small'
       elsif count == max
