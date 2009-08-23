@@ -24,6 +24,40 @@ end
 
 helpers do
 
+  def handle_tip(channel, nick, body, tags, via)
+    post = create_post(channel, 'tip', nick, body, tags, via)
+    msg channel, "thx #{nick}, stored your tip at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
+  end
+
+  def handle_question(channel, nick, body, tags, via)
+    post = create_post(channel, 'question', nick, body, tags, via)
+    msg channel, "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
+  end
+
+  def handle_reply(channel, nick, body, referrer_ids)
+    referrers = referrer_ids.gsub(',', ' ').split(' ').uniq.join(',')
+    post = create_post(channel, 'reply', nick, body, nil, nil, nil, nil, nil, referrers)
+    msg channel, "thx #{nick}, stored your reply at #{Config.service_url}/posts/#{post['id']}"
+  end
+
+
+  def handle_note(channel, nick, body, tags, via, personal = false)
+    post = create_post(channel, 'note', nick, body, tags, via)
+    reply_target = personal ? nick : channel
+    msg reply_target, "thx #{nick}, stored your note at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
+  end
+
+  def handle_conversation(channel, nick, body, tags, start, stop, people, personal = false)
+    reply_target = personal ? nick : channel
+    if Alfred::Utils.logged_channel?(channel)
+      post = create_post(channel, 'conversation', nick, body, tags, nil, start, stop, people)
+      msg reply_target, "thx #{nick}, remembered the conversation at #{url}/#{post['id']} and tagged it with '#{tags}'"
+    else
+      msg reply_target, "sorry #{nick}, can't remember that conversation because this channel isn't currently logged by irclogger.com"
+    end
+  end
+
+
   def create_post(channel, type, person, body, tags, via = nil, start = nil, stop = nil, people = nil, referrers = nil)
     params = { :channel => channel, :type => type, :person => person, :body => body }
     # nil value gets posted as empty string apparently
@@ -79,34 +113,40 @@ CONVERSATION = /^#{Config['irc']['nick']}.* remember from (\-\d+) to (\-\d+|now)
 VOTE         = /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|tip|question|answer|reply) (.*)\z/
 
 on :channel, TIP do |tags, _, via, _, body|
-  post = create_post(channel, 'tip', nick, body, tags, via)
-  msg channel, "thx #{nick}, stored your tip at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
-end
-
-on :channel, NOTE do |tags, _, via, _, body|
-  post = create_post(channel, 'note', nick, body, tags, via)
-  msg channel, "thx #{nick}, stored your note at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
+  handle_tip(channel, nick, body, tags, via)
 end
 
 on :channel, QUESTION do |tags, _, via, _, body|
-  post = create_post(channel, 'question', nick, body, tags, via)
-  msg channel, "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
+  handle_question(channel, nick, body, tags, via)
 end
 
-on :channel, REPLY do |_, ids, _, body|
-  referrers = ids.gsub(',', ' ').split(' ').uniq.join(',')
-  post = create_post(channel, 'reply', nick, body, nil, nil, nil, nil, nil, referrers)
-  msg channel, "thx #{nick}, stored your reply at #{Config.service_url}/posts/#{post['id']}"
+on :channel, REPLY do |_, referrer_ids, _, body|
+  handle_reply(channel, nick, body, referrer_ids)
+end
+
+
+on :channel, NOTE do |tags, _, via, _, body|
+  handle_note(channel, nick, body, tags, via)
 end
 
 on :channel, CONVERSATION do |start, stop, tags, _, people, _, body|
-  if Alfred::Utils.logged_channel?(channel)
-    post = create_post(channel, 'conversation', nick, body, tags, nil, start, stop, people)
-    msg channel, "thx #{nick}, remembered the conversation at #{url}/#{post['id']} and tagged it with '#{tags}'"
-  else
-    msg channel, "sorry #{nick}, can't remember that conversation because this channel isn't currently logged by irclogger.com"
-  end
+  handle_conversation(channel, nick, body, tags, start, stop, people)
 end
+
+
+
+# FIXME these currently have no effect
+# -------------------------------------------------------------------------
+
+on :private, NOTE do |tags, _, via, _, body|
+  handle_note(channel, nick, body, tags, via, true)
+end
+
+on :private, CONVERSATION do |start, stop, tags, _, people, _, body|
+  handle_conversation(channel, nick, body, tags, start, stop, people, true)
+end
+
+# -------------------------------------------------------------------------
 
 
 on :channel, VOTE do |impact, post_type, post_id|
