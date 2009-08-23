@@ -1,5 +1,6 @@
 require 'dm-core'
 require 'dm-types'
+require 'dm-serializer'
 #require 'dm-constraints'
 require 'dm-timestamps'
 require 'dm-validations'

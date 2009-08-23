@@ -33,7 +33,7 @@ helpers do
     params[:stop      ] = stop      if stop
     params[:people    ] = people    if people
     params[:referrers ] = referrers if referrers
-    RestClient.post("#{Config.service_url}/posts", params)
+    JSON.parse(RestClient.post("#{Config.service_url}/posts", params))
   end
 
   def ensure_permissions
@@ -79,30 +79,30 @@ CONVERSATION = /^#{Config['irc']['nick']}.* remember from (\-\d+) to (\-\d+|now)
 VOTE         = /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|tip|question|answer|reply) (.*)\z/
 
 on :channel, TIP do |tags, _, via, _, body|
-  post_id = create_post(channel, 'tip', nick, body, tags, via)
-  msg channel, "thx #{nick}, stored your tip at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
+  post = create_post(channel, 'tip', nick, body, tags, via)
+  msg channel, "thx #{nick}, stored your tip at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
 end
 
 on :channel, NOTE do |tags, _, via, _, body|
-  post_id = create_post(channel, 'note', nick, body, tags, via)
-  msg channel, "thx #{nick}, stored your note at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
+  post = create_post(channel, 'note', nick, body, tags, via)
+  msg channel, "thx #{nick}, stored your note at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
 end
 
 on :channel, QUESTION do |tags, _, via, _, body|
-  post_id = create_post(channel, 'question', nick, body, tags, via)
-  msg channel, "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post_id} and tagged it with '#{tags}'"
+  post = create_post(channel, 'question', nick, body, tags, via)
+  msg channel, "thx #{nick}, stored your question at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
 end
 
 on :channel, REPLY do |_, ids, _, body|
   referrers = ids.gsub(',', ' ').split(' ').uniq.join(',')
-  post_id = create_post(channel, 'reply', nick, body, nil, nil, nil, nil, nil, referrers)
-  msg channel, "thx #{nick}, stored your reply at #{Config.service_url}/posts/#{post_id}"
+  post = create_post(channel, 'reply', nick, body, nil, nil, nil, nil, nil, referrers)
+  msg channel, "thx #{nick}, stored your reply at #{Config.service_url}/posts/#{post['id']}"
 end
 
 on :channel, CONVERSATION do |start, stop, tags, _, people, _, body|
   if Alfred::Utils.logged_channel?(channel)
-    post_id = create_post(channel, 'conversation', nick, body, tags, nil, start, stop, people)
-    msg channel, "thx #{nick}, remembered the conversation at #{url}/#{post_id} and tagged it with '#{tags}'"
+    post = create_post(channel, 'conversation', nick, body, tags, nil, start, stop, people)
+    msg channel, "thx #{nick}, remembered the conversation at #{url}/#{post['id']} and tagged it with '#{tags}'"
   else
     msg channel, "sorry #{nick}, can't remember that conversation because this channel isn't currently logged by irclogger.com"
   end
@@ -112,8 +112,9 @@ end
 on :channel, VOTE do |impact, post_type, post_id|
   begin
     url = "#{Config.service_url}/votes"
-    RestClient.post(url, :person => nick, :post_id => post_id, :impact => impact)
-    msg channel, "thx #{nick}, stored your vote at #{Config.service_url}/posts/#{post_id}"
+    post = JSON.parse(RestClient.post(url, :person => nick, :post_id => post_id, :impact => impact))
+    vote_stats = "(#{post['vote_count']}/#{post['vote_sum']})"
+    msg channel, "thx #{nick}, stored your vote at #{Config.service_url}/posts/#{post['id']}, current vote stats: #{vote_stats}"
   rescue RestClient::ResourceNotFound
     msg channel, "sorry #{nick}, there is no post with ID = #{post_id}"
   end

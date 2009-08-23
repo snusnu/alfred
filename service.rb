@@ -2,6 +2,7 @@ require 'rubygems'
 require 'pathname'
 require 'sinatra/base'
 require 'rdiscount'
+require 'json'
 
 require 'lib/utils'
 require 'lib/twitter'
@@ -21,8 +22,7 @@ module Alfred
     # ---------------------------- POST ROUTES -------------------------------------
 
     post '/people' do
-      person = Person.first_or_create(:name => params[:name])
-      person.id.to_s
+      Person.first_or_create(:name => params[:name]).to_json
     end
 
     post '/posts' do
@@ -39,14 +39,14 @@ module Alfred
         params[:referrers]
       )
       halt 500, "Failed to create post" unless post
-      post.id.to_s
+      post.to_json
     end
 
     post '/votes' do
       post = Post.get(params[:post_id])
       halt 404, 'No post to vote was specified' unless post
       post.vote(params[:person], params[:impact])
-      "#{post.vote_sum},#{post.vote_count}"
+      post.to_json
     end
 
     put '/people/:person' do
@@ -56,6 +56,7 @@ module Alfred
       person.github_name   = params[:github_name  ] if params[:github_name  ]
       person.email_address = params[:email_address] if params[:email_address]
       person.save
+      person.to_json
     end
 
     # ---------------------------- GET ROUTES -------------------------------------
