@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
   <% bot           = "<em><a href='http://github.com/snusnu/alfred'>#{Config['irc']['nick']}</a></em>" %>
-  <% channel_names = Config['irc']['channels'] %>
-  <% channels      = channel_names.map { |c| IrcChannel.first(:channel => c) } %>
+  <% channel_names = Config['irc']['channels'].map { |c| "##{c}"} %>
+  <% channels      = IrcChannel.all(:channel => channel_names) %>
   <% channel_word  = channel_names.size > 1 ? 'channels' : 'channel' %>
   <head>
     <title>Alfred the IRC butler</title>
@@ -39,7 +39,7 @@
           </p>
           <p>
             Currently, the only way to manipulate the content of this website is to join the
-            <em>#<%= irc_links(channels) %></em> <%= channel_word %> and use the available
+            <em><%= irc_links(channels) %></em> <%= channel_word %> and use the available
             <strong><a href="/commands">commands</a></strong> to tell <%= bot %> to post content to, or lookup
             content on this website.
           </p>
