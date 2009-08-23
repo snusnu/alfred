@@ -25,4 +25,8 @@ class IrcChannel
     create(attributes)
   end
 
+  def raw_channel_name
+    channel.gsub('#', '')
+  end
+
 end

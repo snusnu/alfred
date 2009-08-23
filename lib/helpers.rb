@@ -119,7 +119,7 @@ module Alfred
     def fetch_conversation(post)
       return unless post.logged?
       c = post.conversation
-      base_url = "http://irclogger.com/#{Config['irc']['channel']}"
+      base_url = "http://irclogger.com/#{post.irc_channel.raw_channel_name}"
       url = "#{base_url}/slice/#{c.start.to_time.to_i}/#{c.stop.to_time.to_i}"
       response = JSON.parse(RestClient.get(url))
       return response if c.people.size == 0
