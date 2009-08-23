@@ -179,9 +179,9 @@ on :private, /^register github name: (\S+)/ do |github_name|
   msg nick, "thx #{nick}, stored your github name in your profile"
 end
 
-on :private, /^register twitter name: (\S+)/ do |twitter_login|
+on :private, /^register twitter name: (\S+)/ do |twitter_name|
   url = "#{Config.service_url}/people/#{nick}"
-  RestClient.put(url, :twitter_login => twitter_login)
+  RestClient.put(url, :twitter_name => twitter_name)
   msg nick, "thx #{nick}, stored your twitter name in your profile"
 end
 

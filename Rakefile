@@ -66,14 +66,14 @@ task :seed do
 
   snusnu = Person.create(
     :name => 'snusnu',
-    :twitter_login => 'gmsmon',
+    :twitter_name  => 'gmsmon',
     :github_name   => 'snusnu',
     :email_address => 'gamsnjaga@gmail.com'
   )
 
   armitage = Person.create(
     :name => 'armitage',
-    :twitter_login => 'lordarmitage',
+    :twitter_name  => 'lordarmitage',
     :github_name   => 'armitage',
     :email_address => 'lord.armitage@gmail.com'
   )

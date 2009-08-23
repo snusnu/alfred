@@ -52,8 +52,8 @@ module Alfred
     put '/people/:person' do
       person = Person.first(:name => params[:person])
       halt 404, "No person with name #{params[:person]}" unless person
-      person.twitter_login = params[:twitter_login] if params[:twitter_login]
-      person.twitter_login = params[:github_name  ] if params[:github_name  ]
+      person.twitter_name  = params[:twitter_name ] if params[:twitter_name ]
+      person.github_name   = params[:github_name  ] if params[:github_name  ]
       person.email_address = params[:email_address] if params[:email_address]
       person.save
     end
