@@ -57,9 +57,13 @@ module Alfred
       "<a href='/posts?person=#{person.name}' title='#{person.name}`s posts'>#{person.name}</a>"
     end
 
-    def irc_link(post)
-      server, channel = post.irc_channel.server, post.irc_channel.channel
+    def irc_link(irc_channel)
+      server, channel = irc_channel.server, irc_channel.channel
       "<a title='#{server} #{channel}' href='irc://#{server}/#{channel}'>#{channel}</a>"
+    end
+
+    def irc_links(irc_channels, separator = ', ')
+      irc_channels.map { |c| irc_link(c) }.join(separator)
     end
 
     def vote_text(post)
