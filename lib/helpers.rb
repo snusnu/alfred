@@ -59,7 +59,7 @@ module Alfred
 
     def irc_link(post)
       server, channel = post.irc_channel.server, post.irc_channel.channel
-      "<a title='#{server} #{channel}' href='irc://#{server}/#{channel}'>##{channel}</a>"
+      "<a title='#{server} #{channel}' href='irc://#{server}/#{channel}'>#{channel}</a>"
     end
 
     def vote_text(post)
