@@ -185,4 +185,6 @@ module Alfred
 
   end
 
+  Service.run! :host => Config['service']['host'], :port => Config['service']['port']
+
 end

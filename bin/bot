@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby -KU
-
-require 'rubygems'
-require 'pathname'
-
-$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.parent)
-
-require 'bot'
