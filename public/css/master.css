@@ -362,7 +362,7 @@ ul#menu li a {
 }
 
 .conversation-header {
-  background-color:rgba(70, 70, 70, 0.1);
+  background: rgba(70, 70, 70, 0.1) url(/img/arrow_up.png) no-repeat center right;
   margin-top: 30px;
   margin-bottom: 0;
   border: solid rgba(0,0,0,0.3) 2px;
@@ -374,6 +374,15 @@ ul#menu li a {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   padding: 6px;
+  cursor: pointer;
+}
+
+.conversation-closed {
+  background: rgba(70, 70, 70, 0.1) url(/img/arrow_down.png) no-repeat center right;
+  border: solid rgba(0,0,0,0.3) 2px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
 }
 
 ol.conversation li:last-child {
