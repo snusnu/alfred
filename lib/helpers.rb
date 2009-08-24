@@ -146,6 +146,8 @@ module Alfred
         "#{person.name} posted a reply at #{url}"
       when 'note'
         "#{person.name} posted a note at #{url}"
+      when 'conversation'
+        "#{person.name} posted a conversation at #{url}"
       else
         nil # prevents tweeting
       end
