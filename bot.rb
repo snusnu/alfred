@@ -109,7 +109,7 @@ TIP          = /^(#{Config['irc']['nick']})?.*tip\s*\[([^\]]+)\]\s*(\(via ([^\)]
 NOTE         = /^(#{Config['irc']['nick']})?.*note\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
 QUESTION     = /^(#{Config['irc']['nick']})?.*ask\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
 REPLY        = /^(#{Config['irc']['nick']})?.*(answer|reply)\s*\[(.+?)\](:,\,)? (.*)\z/
-CONVERSATION = /^(#{Config['irc']['nick']})?.* remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/
+CONVERSATION = /^(#{Config['irc']['nick']})?.*remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/
 VOTE         = /^(#{Config['irc']['nick']})?.*(\+|\-)1 for (post|note|tip|question|answer|reply) (.*)\z/
 
 on :channel, TIP do |_, tags, _, via, _, body|
