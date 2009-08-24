@@ -49,7 +49,7 @@ helpers do
 
   def handle_conversation(channel, nick, body, tags, start, stop, people, personal = false)
     reply_target = personal ? nick : channel
-    if Alfred::Utils.logged_channel?(channel)
+    if Alfred::Utils.logged_channel?("##{channel}")
       post = create_post(channel, 'conversation', nick, body, tags, nil, start, stop, people, nil, personal)
       msg reply_target, "thx #{nick}, remembered the conversation at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
     else
@@ -59,7 +59,7 @@ helpers do
 
 
   def create_post(channel, type, person, body, tags, via = nil, start = nil, stop = nil, people = nil, referrers = nil, personal = false)
-    params = { :channel => channel, :type => type, :person => person, :body => body, :personal => personal }
+    params = { :channel => "##{channel}", :type => type, :person => person, :body => body, :personal => personal }
     # nil value gets posted as empty string apparently
     params[:tags      ] = tags      if tags
     params[:via       ] = via       if via
