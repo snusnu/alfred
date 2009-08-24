@@ -42,7 +42,7 @@ helpers do
 
 
   def handle_note(channel, nick, body, tags, via, personal = false)
-    post = create_post(channel, 'note', nick, body, tags, via)
+    post = create_post(channel, 'note', nick, body, tags, via, nil, nil, nil, nil, personal)
     reply_target = personal ? nick : channel
     msg reply_target, "thx #{nick}, stored your note at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
   end
@@ -50,7 +50,7 @@ helpers do
   def handle_conversation(channel, nick, body, tags, start, stop, people, personal = false)
     reply_target = personal ? nick : channel
     if Alfred::Utils.logged_channel?(channel)
-      post = create_post(channel, 'conversation', nick, body, tags, nil, start, stop, people)
+      post = create_post(channel, 'conversation', nick, body, tags, nil, start, stop, people, nil, personal)
       msg reply_target, "thx #{nick}, remembered the conversation at #{Config.service_url}/posts/#{post['id']} and tagged it with '#{tags}'"
     else
       msg reply_target, "sorry #{nick}, can't remember that conversation because this channel isn't currently logged by irclogger.com"
@@ -58,8 +58,8 @@ helpers do
   end
 
 
-  def create_post(channel, type, person, body, tags, via = nil, start = nil, stop = nil, people = nil, referrers = nil)
-    params = { :channel => channel, :type => type, :person => person, :body => body }
+  def create_post(channel, type, person, body, tags, via = nil, start = nil, stop = nil, people = nil, referrers = nil, personal = false)
+    params = { :channel => channel, :type => type, :person => person, :body => body, :personal => personal }
     # nil value gets posted as empty string apparently
     params[:tags      ] = tags      if tags
     params[:via       ] = via       if via
@@ -105,51 +105,26 @@ end
 
 # Use http://rubular.com to inspect these (especially to get at the match group ordering)
 
-TIP          = /^#{Config['irc']['nick']}.* tip\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
-NOTE         = /^#{Config['irc']['nick']}.* note\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
-QUESTION     = /^#{Config['irc']['nick']}.* ask\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
-REPLY        = /^#{Config['irc']['nick']}.* (answer|reply)\s*\[(.+?)\](:,\,)? (.*)\z/
-CONVERSATION = /^#{Config['irc']['nick']}.* remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/
-VOTE         = /^#{Config['irc']['nick']}.* (\+|\-)1 for (post|note|tip|question|answer|reply) (.*)\z/
+TIP          = /^(#{Config['irc']['nick']})?.*tip\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
+NOTE         = /^(#{Config['irc']['nick']})?.*note\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
+QUESTION     = /^(#{Config['irc']['nick']})?.*ask\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
+REPLY        = /^(#{Config['irc']['nick']})?.*(answer|reply)\s*\[(.+?)\](:,\,)? (.*)\z/
+CONVERSATION = /^(#{Config['irc']['nick']})?.* remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/
+VOTE         = /^(#{Config['irc']['nick']})?.*(\+|\-)1 for (post|note|tip|question|answer|reply) (.*)\z/
 
-on :channel, TIP do |tags, _, via, _, body|
+on :channel, TIP do |_, tags, _, via, _, body|
   handle_tip(channel, nick, body, tags, via)
 end
 
-on :channel, QUESTION do |tags, _, via, _, body|
+on :channel, QUESTION do |_, tags, _, via, _, body|
   handle_question(channel, nick, body, tags, via)
 end
 
-on :channel, REPLY do |_, referrer_ids, _, body|
+on :channel, REPLY do |_, _, referrer_ids, _, body|
   handle_reply(channel, nick, body, referrer_ids)
 end
 
-
-on :channel, NOTE do |tags, _, via, _, body|
-  handle_note(channel, nick, body, tags, via)
-end
-
-on :channel, CONVERSATION do |start, stop, tags, _, people, _, body|
-  handle_conversation(channel, nick, body, tags, start, stop, people)
-end
-
-
-
-# FIXME these currently have no effect
-# -------------------------------------------------------------------------
-
-on :private, NOTE do |tags, _, via, _, body|
-  handle_note(channel, nick, body, tags, via, true)
-end
-
-on :private, CONVERSATION do |start, stop, tags, _, people, _, body|
-  handle_conversation(channel, nick, body, tags, start, stop, people, true)
-end
-
-# -------------------------------------------------------------------------
-
-
-on :channel, VOTE do |impact, post_type, post_id|
+on :channel, VOTE do |_, impact, post_type, post_id|
   begin
     url = "#{Config.service_url}/votes"
     post = JSON.parse(RestClient.post(url, :person => nick, :post_id => post_id, :impact => impact))
@@ -158,6 +133,24 @@ on :channel, VOTE do |impact, post_type, post_id|
   rescue RestClient::ResourceNotFound
     msg channel, "sorry #{nick}, there is no post with ID = #{post_id}"
   end
+end
+
+
+on :channel, NOTE do |_, tags, _, via, _, body|
+  handle_note(channel, nick, body, tags, via)
+end
+
+on :channel, CONVERSATION do |_, start, stop, tags, _, people, _, body|
+  handle_conversation(channel, nick, body, tags, start, stop, people)
+end
+
+
+on :private, NOTE do |_, tags, _, via, _, body|
+  handle_note(channel, nick, body, tags, via, true)
+end
+
+on :private, CONVERSATION do |_, start, stop, tags, _, people, _, body|
+  handle_conversation(channel, nick, body, tags, start, stop, people, true)
 end
 
 

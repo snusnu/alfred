@@ -11,6 +11,7 @@ class Post
   property :vote_count,    Integer, :nullable => false, :default => 0, :min => 0
 
   property :body,          Text,    :nullable => false
+  property :personal,      Boolean, :nullable => false, :default => false
 
   property :created_at,    UTCDateTime
 

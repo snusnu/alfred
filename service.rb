@@ -36,7 +36,8 @@ module Alfred
         params[:start],
         params[:stop],
         params[:people],
-        params[:referrers]
+        params[:referrers],
+        params[:personal]
       )
       halt 500, "Failed to create post" unless post
       post.to_json
@@ -106,7 +107,7 @@ module Alfred
       include Sinatra::Partials
       include Alfred::Helpers
 
-      def create_post(channel, type, person, body, tags, via, start, stop, people, referrers)
+      def create_post(channel, type, person, body, tags, via, start, stop, people, referrers, personal)
 
         unless post_type = PostType.first(:name => type)
           halt 404, "No post type called #{type} exists"
@@ -126,7 +127,8 @@ module Alfred
           :person => person,
           :via => via,
           :body => body,
-          :tag_list => tags
+          :tag_list => tags,
+          :personal => personal
         )
 
         if conversation
@@ -136,7 +138,7 @@ module Alfred
           post.save
         end
 
-        tweet(post)
+        tweet(post) unless post.personal
 
         if referrers
           referring_posts = []
@@ -155,8 +157,8 @@ module Alfred
         post
       end
 
-      def show_posts(type, person, tags)
-        conditions = { :order => [ :created_at.desc ] }
+      def show_posts(type, person, tags, personal = false)
+        conditions = { :order => [ :created_at.desc ], :personal => personal }
 
         # FIXME weird dm bug workaround
         conditions.merge!(:post_type_id => type.id)   if type   = PostType.first(:name => type)
