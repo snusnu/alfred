@@ -22,12 +22,15 @@ module Alfred
       tags.map do |t|
         name, count = t[0].name, t[1]
         tag_class = cloud ? "class='#{tag_class(min, max, count)}'" : ''
+        tag_element_open = cloud ? "<li>" : '<dd>'
+        tag_element_close = cloud ? "</li>" : '</dd>'
+        tag_element_label = cloud ? "<span>#{count} posts are tagged with </span>" : ''
         
         <<-HTML
-        <li>
-          <span>#{count} posts are tagged with </span>
+        #{tag_element_open}
+          #{tag_element_label}
           <a href='/posts?tags=#{name}' #{tag_class}>#{name}(#{count})</a>
-        </li>
+        #{tag_element_close}
         HTML
       end.join(' ')
     end
