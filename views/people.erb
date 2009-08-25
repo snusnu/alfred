@@ -7,12 +7,10 @@
     </h3>
     <dl class="person-data">
       <dt>posts</dt>
-      <% if person.posts.size > 0 %>
       <dd>
         <a href="/posts?person=<%= person.name %>">public</a>
         <a href="/posts?person=<%= person.name %>&amp;personal=true">personal</a>
       </dd>
-      <% end %>
       <dt>twitter</dt>
       <dd><a href="http://twitter.com/<%= person.twitter_name %>"><%= person.twitter_name %></a></dd>
       <dt>github</dt>
