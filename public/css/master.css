@@ -437,10 +437,26 @@ ol.conversation abbr {
 /*END Styles for Posts */
 
 /* START Styles for Tag Cloud */
-#tag-cloud {
+.tag-cloud {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-#tag-cloud a {
+.tag-cloud li {
+  display: inline-block;
+  padding: 3px;
+}
+
+
+.tag-cloud span {
+  left:-999px;
+  position:absolute;
+  width:990px;
+}
+
+.tag-cloud a {
   text-decoration: none;
 }
 
