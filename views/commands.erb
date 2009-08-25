@@ -42,13 +42,13 @@ Here's a quick list of commands you can send to <%= bot %>. Maybe they'll grow s
 <dl class="commands">
 
   <dt>posts a tagged note on <%= bot %>'s website (the "via irc_nick" part is optional)/dt>
-  <dd><kbd>/msg <%= bot %> note[<samp>tag1 tag2</samp>](via <samp>irc_nick</samp>) <samp>whatever you want to post</samp></kbd></dd>
+  <dd><kbd>/msg <%= bot %> note from <samp>#irc_channel</samp> [<samp>tag1 tag2</samp>](via <samp>irc_nick</samp>) <samp>text</samp></kbd></dd>
 
   <dt>remember an IRC conversation between nick1 and nick2 that happened from 20 to 10 minutes ago</dt>
-  <dd><kbd>/msg <%= bot %> remember from <samp>-20</samp> to <samp>-10</samp> [<samp>tag1 tag2</samp>](<samp>nick1 nick2</samp>) <samp>some description</samp></kbd></dd>
+  <dd><kbd>/msg <%= bot %> remember <samp>#irc_channel</samp> from <samp>-20</samp> to <samp>-10</samp> [<samp>tag1 tag2</samp>](<samp>nick1 nick2</samp>) <samp>text</samp></kbd></dd>
 
   <dt>remember the complete IRC conversation that happened from 20 minutes ago until now</dt>
-  <dd><kbd>/msg <%= bot %> remember from <samp>-20</samp> to <samp>now</samp> [<samp>tag1 tag2</samp>] <samp>some description</samp></kbd></dd>
+  <dd><kbd>/msg <%= bot %> remember <samp>#irc_channel</samp> from <samp>-20</samp> to <samp>now</samp> [<samp>tag1 tag2</samp>] <samp>text</samp></kbd></dd>
 
 </dl>
 
