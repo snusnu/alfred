@@ -4,7 +4,7 @@ $(document).ready(function(){
   $("ol.conversation").hide();
   $(".conversation-header").addClass("conversation-closed");
 
-  
+
   $(".conversation-header").click(function(event){
     $(event.target).next("ol.conversation").slideToggle("fast");
     if ($(event.target).hasClass("conversation-closed")) {

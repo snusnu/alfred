@@ -25,7 +25,7 @@ module Alfred
         tag_element_open = cloud ? "<li>" : '<dd>'
         tag_element_close = cloud ? "</li>" : '</dd>'
         tag_element_label = cloud ? "<span>#{count} posts are tagged with </span>" : ''
-        
+
         <<-HTML
         #{tag_element_open}
           #{tag_element_label}
