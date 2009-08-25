@@ -361,6 +361,18 @@ ul#menu li a {
   padding: 0;
 }
 
+.post .log-link {
+  display: block;
+  background: url(/img/receipt_text.png) no-repeat;
+  text-indent: -20000px;
+  float: left;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  margin-right: 3px;
+
+}
+
 .conversation-header {
   background: rgba(70, 70, 70, 0.1) url(/img/arrow_up.png) no-repeat center right;
   margin-top: 30px;
