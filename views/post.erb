@@ -1,4 +1,4 @@
-<div id="post-<%= post.id %>" class="post <%= post.post_type.name %>">
+<li id="post-<%= post.id %>" class="post <%= post.post_type.name %>">
   <h3>
     <%= post_date(post) %>
     <%= person_stats(person) %>
@@ -15,7 +15,7 @@
      <%= tag_links(tags) %>
   </dl>
   <%= render_post(post) %>
-</div>
+</li>
 
 <% if detail_view && post.has_follow_ups? %>
 <% post.follow_ups.all.each do |reply| %>

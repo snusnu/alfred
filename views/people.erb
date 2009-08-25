@@ -1,3 +1,14 @@
-<% people.all.each do |person| %>
-  <%= person_link(person) %>
-<% end %>
+<ol class="persons">
+  <% people.all.each do |person| %>
+  <li class="person">
+    <h3>
+      <%= person_stats(person) %>
+      <%= person_link(person) %>
+    </h3>
+    <dl class="person-data">
+      <dt>Property </dt>
+      <dd>Value</dd>
+    </dl>
+   </li>
+  <% end %>
+</ol>

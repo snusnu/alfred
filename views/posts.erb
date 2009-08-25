@@ -1,4 +1,4 @@
-<div class="posts">
+<ol class="posts">
   <% posts.each do |post| %>
 
     <!-- FIXME weird dm bug workaround -->
@@ -8,4 +8,4 @@
     <%= partial :post, :locals => { :post => post, :person => person, :tags => tags, :detail_view => false } %>
 
   <% end %>
-</div>
+</ol>

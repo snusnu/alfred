@@ -151,7 +151,15 @@ ul#menu li a {
 }
 
 
+ol {
+  padding: 0;
+  margin:0;
+  list-style-type: none;
+}
+
+
 /* START Styles for Posts */
+
 .post-info, .post-date, .person-stats {
   font-family: Consolas, "Vera Sans Mono", "Courier New", monospace;
 }
@@ -196,17 +204,17 @@ ul#menu li a {
   border-color: #7a644b;
 }
 
-.post {
+.post, .person {
   overflow:auto;
   margin-bottom: 5px;
 }
 
-.post h3 {
+.post h3, .person h3 {
   margin-bottom: 0;
   margin-left: 10px;
 }
 
-.post .gravatar {
+.post .gravatar, .person .gravatar {
   display:block;
   margin-bottom:4px;
 }
@@ -336,6 +344,8 @@ ul#menu li a {
   font-size: 11px;
 }
 
+
+
 .post .tag-list {
   font-size: 12px;
   margin-top: 5px;
@@ -444,6 +454,37 @@ ol.conversation blockquote {
 ol.conversation abbr {
   font-style: normal;
 }
+
+
+.person .person-stats {
+  float: left;
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+.person .person-data {
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  overflow:auto;
+  
+}
+
+.person .person-data  dt {
+  display: block;
+  float: left;
+  margin-right: 3px;
+  font-weight: bold;
+  clear: left;
+}
+
+.person .person-data dd {
+  margin-left: 3px;
+  margin-right: 3px;
+
+}
+
+
 
 
 /*END Styles for Posts */
