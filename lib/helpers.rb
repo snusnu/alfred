@@ -104,7 +104,7 @@ module Alfred
           #{gravatar_image(person)}
           <sup title='person activity' class='person-activity'>23</sup>
           /
-          <sub title='person accuracy' class='person-accuracy'>426</sub>
+          <sub title='person accuracy' class='person-accuracy'>42</sub>
         </span>
       HTML
     end
