@@ -69,7 +69,7 @@ module Alfred
 
 
     get '/posts' do
-      show_posts(params[:type], params[:person], params[:tags])
+      show_posts(params[:type], params[:person], params[:tags], params[:personal])
     end
 
     get '/posts/:id' do
@@ -158,7 +158,7 @@ module Alfred
       end
 
       def show_posts(type, person, tags, personal = false)
-        conditions = { :order => [ :created_at.desc ], :personal => personal }
+        conditions = { :order => [ :created_at.desc ], :personal => personal || false }
 
         # FIXME weird dm bug workaround
         conditions.merge!(:post_type_id => type.id)   if type   = PostType.first(:name => type)
