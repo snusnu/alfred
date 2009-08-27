@@ -26,12 +26,9 @@ class Person
     !twitter_name.nil?
   end
 
-  def has_gravatar?
-    !email_address.nil? && gravatar
-  end
-
   def gravatar_hash
-    MD5::md5(email_address)
+    # default to pseudo email(s) to display distinct monster ids
+    MD5::md5(email_address ? email_address : "alfred+#{name}@snusnu.info")
   end
 
 end
