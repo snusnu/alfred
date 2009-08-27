@@ -1,5 +1,3 @@
-require 'models/conversation'
-
 class Post
 
   include DataMapper::Resource
@@ -12,6 +10,8 @@ class Post
 
   property :body,          Text,    :nullable => false
   property :personal,      Boolean, :nullable => false, :default => false
+
+  property :timestamp,     Integer # optional irclogger backlink anchor
 
   property :created_at,    UTCDateTime
 
@@ -35,8 +35,17 @@ class Post
     :children => :follow_ups
 
 
+  def permalink
+    return conversation.permalink if conversation?
+    timestamp ? Alfred::Utils.remote_permalink(irc_channel, timestamp) : '#'
+  end
+
   def logged?
     irc_channel.logged?
+  end
+
+  def note?
+    post_type.name == 'note'
   end
 
   def conversation?
@@ -72,6 +81,27 @@ class Post
     )
 
     update(:vote_sum => vote_sum + vote.impact, :vote_count => vote_count + 1)
+  end
+
+  def remember
+    return unless logged?
+    if conversation?
+      conversation.remember
+    else
+      Thread.new do
+        remembered = false
+        while !remembered # retry in case the irclogger bot hasn't registered the message yet
+          remote_messages = Alfred::Utils.fetch_remote_conversation(self, created_at.to_time - 30, created_at.to_time + 5)
+          remote_messages.each do |message|
+            if message['nick'] == person.name && message['line'].include?(body)
+              update!(:timestamp => message['timestamp'])
+              remembered = true
+            end
+          end
+          sleep 1
+        end
+      end
+    end
   end
 
 end

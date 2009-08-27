@@ -116,10 +116,7 @@ module Alfred
 
     def render_post(post)
       if post.conversation
-        partial(:conversation, :locals => {
-          :post => post,
-          :conversation => fetch_conversation(post)
-        })
+        partial(:conversation, :locals => { :conversation => post.conversation })
       else
         post_body(post)
       end
@@ -127,19 +124,6 @@ module Alfred
 
     def post_body(post)
       RDiscount.new(post.body).to_html
-    end
-
-    def fetch_conversation(post)
-      return unless post.logged?
-      c = post.conversation
-      base_url = "http://irclogger.com/#{post.irc_channel.raw_channel_name}"
-      url = "#{base_url}/slice/#{c.start.to_time.to_i}/#{c.stop.to_time.to_i}"
-      response = JSON.parse(RestClient.get(url))
-      return response if c.people.size == 0
-      names = c.people.map { |p| p.name }
-      response.select do |message|
-        names.include?(message['nick'])
-      end
     end
 
     def twitter_message(post)

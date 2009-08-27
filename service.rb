@@ -138,7 +138,6 @@ module Alfred
           post.save
         end
 
-        tweet(post) unless post.personal
 
         if referrers
           referring_posts = []
@@ -154,6 +153,12 @@ module Alfred
           post.tag_list = referring_tags.join(',')
           post.save
         end
+
+        # these run in separate threads
+
+        tweet(post)   unless post.personal
+        post.remember unless post.note? && post.personal
+
         post
       end
 

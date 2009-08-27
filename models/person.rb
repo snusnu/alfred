@@ -1,5 +1,3 @@
-require 'md5'
-
 class Person
 
   include DataMapper::Resource

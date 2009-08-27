@@ -1,6 +1,3 @@
-require 'json'
-require 'restclient'
-
 class IrcChannel
 
   include DataMapper::Resource
