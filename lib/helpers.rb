@@ -62,8 +62,8 @@ module Alfred
       end.join(', ')
     end
 
-    def person_link(person)
-      "<a href='/posts?person=#{person.name}' title='#{person.name}`s posts'>#{person.name}</a>"
+    def person_link(person_name)
+      "<a href='/posts?person=#{person_name}' title='#{person_name}`s posts'>#{person_name}</a>"
     end
 
     def irc_link(irc_channel)
