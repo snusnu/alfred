@@ -219,10 +219,14 @@ ol {
   margin-bottom:4px;
 }
 
-.post  p, .post  ol.conversation, .conversation-header {
+.post  p, .post  ol.conversation, .conversation-header, .post  pre {
   margin: 5px;
   margin-left: 86px;
   margin-right: 140px;
+}
+
+.post pre {
+  white-space: normal;
 }
 
 .post-info, .post-date {
@@ -456,35 +460,55 @@ ol.conversation abbr {
 }
 
 
+li.person {
+  display: inline-block;
+  overflow:auto;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: solid 2px #555555;
+  padding: 2px;
+  min-width: 180px;
+  margin-right:8px;
+}
+
+.person h3 {
+  margin-top: 0;
+  margin-left: 0;
+}
+
 .person .person-stats {
   float: left;
   margin-left: 0;
-  margin-right: 10px;
+  margin-right: 5x;
+  border: none;
+  padding-bottom: 0;
 }
 
 .person .person-data {
-  font-size: 12px;
+  font-size: 10px;
   margin-top: 5px;
-  margin-bottom: 5px;
   overflow:auto;
+  line-height:14px;
+  float: left;
   
 }
 
 .person .person-data  dt {
-  display: block;
+  display:block;
+  clear:left;
   float: left;
   margin-right: 3px;
   font-weight: bold;
-  clear: left;
 }
 
 .person .person-data dd {
+  display:block;
+  float: left;
   margin-left: 3px;
   margin-right: 3px;
 
 }
-
-
 
 
 /*END Styles for Posts */
