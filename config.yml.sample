@@ -1,0 +1,35 @@
+# This is an example configuration file
+# Copy the content of this file to a file
+# called config.yml to the toplevel directory
+# of your alfred clone, change it to your needs
+# and you should be good to go.
+
+---
+project:
+  name: your project
+service:
+  host: localhost
+  port: 9090
+database:
+  path: alfred
+  adapter: mysql
+  username: root
+  password:
+  host: localhost
+irc:
+  realname: Alfred the friendly IRC butler
+  port: 6667
+  nick: your_bot_name
+  server: irc.freenode.net
+  version: 0.0.1
+  channels:
+  - alfredbutler
+  nickserv: your_bot_nickserv_password
+  verbose: true
+allowed:
+- you_on_twitter
+twitter:
+  owner_login: your_twitter_login
+  owner_password: your_twitter_password
+  bot_login: your_bot_name
+  bot_password: your_bot_twitter_password
