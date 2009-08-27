@@ -460,6 +460,10 @@ ol.conversation abbr {
 }
 
 
+ol.persons {
+  margin-top: 8px;
+}
+
 li.person {
   display: inline-block;
   overflow:auto;
