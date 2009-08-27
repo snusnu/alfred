@@ -5,6 +5,7 @@ class Person
   property :id,            Serial
   property :name,          String, :nullable => false, :unique => true, :unique_index => true
 
+  property :real_name,     String
   property :twitter_name,  String
   property :github_name,   String
   property :email_address, String

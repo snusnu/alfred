@@ -211,19 +211,25 @@ on :private, /^register$/ do
   msg nick, "thx #{nick}, created your profile on the website"
 end
 
-on :private, /^register github name: (\S+)/ do |github_name|
+on :private, /^register real name: (.*)\z/ do |real_name|
+  url = "#{Config.service_url}/people/#{nick}"
+  RestClient.put(url, :real_name => real_name)
+  msg nick, "thx #{nick}, stored your real name in your profile"
+end
+
+on :private, /^register github name: (\S+)\z/ do |github_name|
   url = "#{Config.service_url}/people/#{nick}"
   RestClient.put(url, :github_name => github_name)
   msg nick, "thx #{nick}, stored your github name in your profile"
 end
 
-on :private, /^register twitter name: (\S+)/ do |twitter_name|
+on :private, /^register twitter name: (\S+)\z/ do |twitter_name|
   url = "#{Config.service_url}/people/#{nick}"
   RestClient.put(url, :twitter_name => twitter_name)
   msg nick, "thx #{nick}, stored your twitter name in your profile"
 end
 
-on :private, /^register email: (\S+)/ do |email|
+on :private, /^register email: (\S+)\z/ do |email|
   url = "#{Config.service_url}/people/#{nick}"
   RestClient.put(url, :email_address => email)
   msg nick, "thx #{nick}, stored your email address in your profile"
