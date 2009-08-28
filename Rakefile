@@ -34,6 +34,12 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+
+desc "Generate a sample config"
+file "config.yml" => "config.yml.sample" do |t|
+  sh "cp #{t.prerequisites.first} #{t.name}"
+end
+
 desc "Generate and seed the database"
 task :seed do
 
