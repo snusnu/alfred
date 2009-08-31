@@ -113,8 +113,8 @@ VOTE         = /^#{Config['irc']['nick']}.*(\+|\-)1 for (post|note|tip|question|
 NOTE         = /^#{Config['irc']['nick']}.*note\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
 CONVERSATION = /^#{Config['irc']['nick']}.*remember from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/
 
-PERSONAL_NOTE         = /\s*note from (#\w+)\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
-PERSONAL_CONVERSATION = /\s*remember (#\w+) from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/
+PERSONAL_NOTE         = /\s*note from (#[a-z\-]+)\s*\[([^\]]+)\]\s*(\(via ([^\)]+)\)?)?(:,\,)? (.*)\z/
+PERSONAL_CONVERSATION = /\s*remember (#[a-z\-]+) from (\-\d+) to (\-\d+|now)\s*\[([^\]]+)\]\s*(\(([^\)]+)\)?)?(:,\,)? (.*)\z/
 
 on :channel, TIP do |tags, _, via, _, body|
   handle_tip(channel, nick, body, tags, via)
