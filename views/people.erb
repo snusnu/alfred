@@ -10,6 +10,10 @@
       <dd><a href="http://twitter.com/<%= person.twitter_name %>"><%= person.twitter_name %></a></dd>
       <dt>github</dt>
       <dd><a href="http://github.com/<%= person.github_name %>"><%= person.github_name %></a></dd>
+      <% if person.has_personal_posts? %>
+      <dt>personal stuff</dt>
+      <dd><a href="/posts?person=<%= person.name %>&personal=true">posts</a></dd>
+      <% end %>
     </dl>
    </li>
   <% end %>

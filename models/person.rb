@@ -14,6 +14,7 @@ class Person
 
 
   has n, :posts
+  has n, :personal_posts, 'Post', :personal => true
 
   has n, :votes
 
@@ -21,6 +22,10 @@ class Person
     :through => :votes,
     :via => :post
 
+
+  def has_personal_posts?
+    !personal_posts.empty?
+  end
 
   def tweets?
     !twitter_name.nil?
