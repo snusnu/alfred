@@ -27,4 +27,6 @@ gem 'json',                   '~> 1.2.4'
 gem 'rest-client',            '~> 1.4.2'
 gem 'tzinfo',                 '~> 0.3'
 
+gem 'isaac',                  '~> 0.2.6'
+
 gem 'rake',                   '~> 0.8.7'
