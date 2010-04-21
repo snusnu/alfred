@@ -5,4 +5,5 @@ rdoc
 pkg
 config.yml
 .bundle
+nohup.out
 
