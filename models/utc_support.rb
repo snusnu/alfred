@@ -63,7 +63,7 @@ module DataMapper
           case name
             when *TIMESTAMP_PROPERTIES.keys
               type = TIMESTAMP_PROPERTIES[name].first
-              property name, type, :nullable => false, :auto_validation => false
+              property name, type, :required => true, :auto_validation => false
 
               if type == DateTime && @utc # UTC makes no sense for Date
                 define_method "#{name}=", UTC::PROPERTY_WRITER.call(name, type)

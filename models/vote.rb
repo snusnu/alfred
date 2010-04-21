@@ -4,10 +4,10 @@ class Vote
 
   property :id,         Serial
 
-  property :post_id,    Integer, :nullable => false, :unique => true, :unique_index => true
-  property :person_id,  Integer, :nullable => false, :unique => true, :unique_index => true
+  property :post_id,    Integer, :required => true, :unique => true, :unique_index => true
+  property :person_id,  Integer, :required => true, :unique => true, :unique_index => true
 
-  property :impact,     Integer, :nullable => false
+  property :impact,     Integer, :required => true
 
   property :created_at, UTCDateTime
 

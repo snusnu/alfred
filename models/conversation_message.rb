@@ -4,8 +4,8 @@ class ConversationMessage
 
   property :id, Serial
 
-  property :timestamp, Integer, :nullable => false
-  property :body,      String,  :nullable => false, :length => 1024
+  property :timestamp, Integer, :required => true
+  property :body,      String,  :required => true, :length => 1024
   
   belongs_to :conversation
   belongs_to :person

@@ -3,7 +3,7 @@ class Person
   include DataMapper::Resource
 
   property :id,            Serial
-  property :name,          String, :nullable => false, :unique => true, :unique_index => true
+  property :name,          String, :required => true, :unique => true, :unique_index => true
 
   property :real_name,     String
   property :twitter_name,  String

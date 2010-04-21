@@ -4,15 +4,15 @@ class IrcChannel
 
   property :id,         Serial
 
-  property :server,     String,  :nullable => false, :unique_index => :unique_channels
-  property :channel,    String,  :nullable => false, :unique_index => :unique_channels
-  property :logged,     Boolean, :nullable => false, :default => false
+  property :server,     String,  :required => true, :unique_index => :unique_channels
+  property :channel,    String,  :required => true, :unique_index => :unique_channels
+  property :logged,     Boolean, :required => true, :default => false
 
   property :created_at, UTCDateTime
 
   has n, :posts
 
-  validates_is_unique :channel, :scope => [ :server ]
+  validates_uniqueness_of :channel, :scope => [ :server ]
 
 
   def self.channel(attributes)

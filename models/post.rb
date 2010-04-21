@@ -5,11 +5,11 @@ class Post
   property :id,            Serial
 
   # denormalized for performance reasons
-  property :vote_sum,      Integer, :nullable => false, :default => 0
-  property :vote_count,    Integer, :nullable => false, :default => 0, :min => 0
+  property :vote_sum,      Integer, :required => true, :default => 0
+  property :vote_count,    Integer, :required => true, :default => 0, :min => 0
 
-  property :body,          Text,    :nullable => false
-  property :personal,      Boolean, :nullable => false, :default => false
+  property :body,          Text,    :required => true
+  property :personal,      Boolean, :required => true, :default => false
 
   property :timestamp,     Integer # optional irclogger backlink anchor
 
@@ -18,7 +18,7 @@ class Post
   belongs_to :irc_channel
   belongs_to :post_type
   belongs_to :person
-  belongs_to :via, 'Person', :nullable => true
+  belongs_to :via, 'Person', :required => false
 
   has n, :votes
 

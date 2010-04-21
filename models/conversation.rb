@@ -3,10 +3,10 @@ class Conversation
   include DataMapper::Resource
 
   property :id,         Serial
-  property :post_id,    Integer, :nullable => false, :unique => true, :unique_index => true
+  property :post_id,    Integer, :required => true, :unique => true, :unique_index => true
 
-  property :start,      UTCDateTime, :nullable => false
-  property :stop,       UTCDateTime, :nullable => false
+  property :start,      UTCDateTime, :required => true
+  property :stop,       UTCDateTime, :required => true
 
   property :created_at, UTCDateTime
 
