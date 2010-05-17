@@ -151,10 +151,20 @@ ul#menu li a {
 }
 
 
-ol {
+ol, ul {
   padding: 0;
   margin:0;
   list-style-type: none;
+}
+
+.pager {
+  overflow: auto;
+  margin: 10px auto 10px auto;
+}
+
+.pager li {
+  float:left;
+  margin-right: 8px;
 }
 
 
