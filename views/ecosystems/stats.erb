@@ -1,0 +1,44 @@
+<h3>Stats</h3>
+
+<table>
+  <thead></thead>
+  <tbody>
+    <tr><td>Number of members</td><td><%= User.count %></td></tr><hr>
+    <tr><td>Number of projects</td><td><%= Project.count %></td></tr>
+    <tr><td>Number of watchers</td><td><%= Involvement.nr_of_watchers %></td></tr>
+    <tr><td>Number of forkers</td><td><%= Involvement.nr_of_forkers %></td></tr>
+    <tr><td>Number of collaborators</td><td><%= Involvement.nr_of_collaborators %></td></tr>
+    <tr><td>Number of contributors</td><td><%= Involvement.nr_of_contributors %></td></tr>
+  </tbody>
+</table>
+
+<h3>Contributors</h3>
+
+<ol class="posts">
+
+  <% Ecosystem.stats(ecosystem_name).each_with_index do |info, idx| %>
+
+  <% name, commits = info.first, info.last %>
+  <% user = User.first(:github_name => name) %>
+
+
+  <li class="person">
+    <h3>
+      <span class="person-stats">
+        <%= gravatar_image(user) %>
+        <sup title='person activity' class='person-activity'><%= commits %></sup>
+      </span>
+      <a href="http://github.com/<%= user.github_name %>" title="<%= user.github_name%>'s Github account">
+        <%= user.github_name %>
+      </a>
+    </h3>
+    <dl class="person-data">
+      <dt>github</dt>
+      <dd><a href="http://github.com/<%= user.github_name %>"><%= user.github_name %></a></dd>
+      <dt>twitter</dt>
+      <dd><a href="http://twitter.com/<%= user.twitter_name %>"><%= user.twitter_name %></a></dd>
+    </dl>
+   </li>
+
+  <% end %>
+</ol>

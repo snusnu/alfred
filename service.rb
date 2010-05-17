@@ -68,6 +68,19 @@ module Alfred
       redirect '/posts'
     end
 
+    get '/projects' do
+      options = if params[:category]
+        tag = Tag.first(:name => params[:category])
+        { 'project_categories.tag_id' => tag.id }
+      else
+        {}
+      end
+      erb :'projects/index', :locals => { :options => options }
+    end
+
+    get '/ecosystems/:name/stats' do
+      erb :'ecosystems/stats', :locals => { :ecosystem_name => params[:name] }
+    end
 
     get '/posts' do
       show_posts(params[:type], params[:person], params[:tags], params[:personal])
@@ -79,7 +92,7 @@ module Alfred
 
 
     get '/people' do
-      erb :people, :locals => { :people => Person.all(:order => [ :name.asc ]) }
+      erb :people
     end
 
     get '/tags' do
@@ -99,11 +112,22 @@ module Alfred
       erb :commands
     end
 
+    # ----------------------- POST RECEIVE HOOKS -----------------------------
+
+    post '/github/hook' do
+      payload = JSON.parse(params[:payload])
+      user_name      = payload['repository']['owner']['name']
+      project_name   = payload['repository']['name']
+      watchers_count = payload['repository']['watchers']
+    end
 
     # ----------------------------- HELPERS ----------------------------------
 
 
     helpers do
+
+      include Rack::Utils
+      alias_method :h, :escape_html
 
       include Sinatra::Partials
       include Alfred::Helpers

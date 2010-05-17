@@ -15,13 +15,22 @@ gem 'dm-mysql-adapter',       DM_VERSION, :git => "#{DATAMAPPER}/dm-mysql-adapte
 
 gem 'dm-types',               DM_VERSION, :git => "#{DATAMAPPER}/dm-types.git"
 gem 'dm-constraints',         DM_VERSION, :git => "#{DATAMAPPER}/dm-constraints.git"
+gem 'dm-aggregates',          DM_VERSION, :git => "#{DATAMAPPER}/dm-aggregates.git"
 gem 'dm-serializer',          DM_VERSION, :git => "#{DATAMAPPER}/dm-serializer.git"
 gem 'dm-timestamps',          DM_VERSION, :git => "#{DATAMAPPER}/dm-timestamps.git"
 gem 'dm-validations',         DM_VERSION, :git => "#{DATAMAPPER}/dm-validations.git"
+gem 'dm-is-remixable',        DM_VERSION, :git => "#{DATAMAPPER}/dm-is-remixable.git"
+gem 'dm-transactions',        DM_VERSION, :git => "#{DATAMAPPER}/dm-transactions.git"
 
 gem 'dm-is-self_referential', '~> 0.0.2', :git => 'git://github.com/snusnu/dm-is-self_referential.git'
+gem 'dm-is-localizable',      '~> 0.10',  :git => 'git://github.com/snusnu/dm-is-localizable.git'
+gem 'dm-accepts_nested_attributes', '~> 0.12.0', :git => 'git://github.com/snusnu/dm-accepts_nested_attributes.git'
 
+gem 'dm-pager',               '~> 1.1.0'
+
+gem 'thin',                   '~> 1.2.7'
 gem 'sinatra',                '~> 1.0'
+gem 'nokogiri',               '~> 1.4.1'
 gem 'rdiscount',              '~> 1.6.3'
 gem 'json',                   '~> 1.2.4'
 gem 'rest-client',            '~> 1.4.2'

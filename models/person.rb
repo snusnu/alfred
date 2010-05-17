@@ -36,4 +36,8 @@ class Person
     MD5::md5(email_address ? email_address : "alfred+#{name}@snusnu.info")
   end
 
+  def email
+    self.email_address
+  end
+
 end

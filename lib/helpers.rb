@@ -110,9 +110,12 @@ module Alfred
     end
 
     def gravatar_image(person)
-      "<img class='gravatar' src='http://www.gravatar.com/avatar/#{person.gravatar_hash}?s=40&amp;d=monsterid' alt='gravatar' />"
+      "<img class='gravatar' src='http://www.gravatar.com/avatar/#{gravatar_hash(person.email)}?s=40&amp' alt='gravatar' />"
     end
 
+    def gravatar_hash(email_address)
+      MD5::md5(email_address)
+    end
 
     def render_post(post)
       if post.conversation
@@ -150,6 +153,19 @@ module Alfred
       if message = twitter_message(post)
         Thread.new { Alfred::Twitter.tweet(Config.twitter_bot_credentials, message) }
       end
+    end
+
+    def projects_url
+      category = params[:category] ? "?category=#{params[:category]}" : ''
+      "/projects#{category}"
+    end
+
+    def pager_for(model)
+      model.page(current_page).pager
+    end
+
+    def current_page
+      params[:page] || 1
     end
 
     # Stolen from cschneid/irclogger (and thus rails)

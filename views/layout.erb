@@ -24,10 +24,21 @@
           <div id="twitter">
             <a class="twitter-follow" href="http://twitter.com/<%= Config['irc']['nick'] %>">follow me on twitter</a>
           </div>
+          <h2>ecosystem</h2>
+          <ul id="menu">
+            <li><a href="/ecosystems/<%= Config['ecosystem']['name'] %>/stats">stats</a></li>
+            <li><a href="/people">people (<%= User.count %>)</a></li>
+            <li><a href="/projects">all projects (<%= Project.count %>)</a></li>
+            <% ProjectCategory.all(:fields => [:tag_id], :unique => true).each do |pc| %>
+              <li>
+                <% url, name = "/projects?category=#{pc.tag.name}", pc.tag.name %>
+                <a href="<%= url %>"><%= name %> (<%= ProjectCategory.count(:tag => pc.tag) %>)</a>
+              </li>
+            <% end %>
+          </ul>
           <h2>find</h2>
           <ul id="menu">
             <li><a href="/tags">tags</a></li>
-            <li><a href="/people">people</a></li>
             <li><a href="/posts">all posts</a></li>
             <li><a href="/posts?type=tip">tips</a></li>
             <li><a href="/posts?type=question">questions</a></li>

@@ -4,41 +4,45 @@ require 'rake'
 
 ROOT = Pathname(__FILE__).dirname.expand_path
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
-task :spec => :check_dependencies
-
-task :default => :spec
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  if File.exist?('VERSION')
-    version = File.read('VERSION')
-  else
-    version = ""
-  end
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "alfred #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
-
 desc "Generate a sample config"
 file "config.yml" => "config.yml.sample" do |t|
   sh "cp #{t.prerequisites.first} #{t.name}"
 end
+
+desc "Import the specified github account (default to datamapper)"
+task :import do
+
+  $LOAD_PATH.unshift(File.dirname(__FILE__))
+  require 'models'
+  require 'lib/github'
+
+  DataMapper.auto_migrate! if ENV['AUTOMIGRATE']
+
+  Language.first_or_create(:code => 'en-US', :name => 'English')
+  Language.first_or_create(:code => 'de-DE', :name => 'Deutsch')
+
+  InvolvementKind.first_or_create(:name => 'collaborator')
+  InvolvementKind.first_or_create(:name => 'contributor')
+  InvolvementKind.first_or_create(:name => 'forker')
+  InvolvementKind.first_or_create(:name => 'watcher')
+
+  core       = Role.first_or_create(:name => 'core')
+  evangelist = Role.first_or_create(:name => 'evangelist')
+
+  Github.import(Config['ecosystem'])
+
+  ecosystem  = Ecosystem.first(:name => Config['ecosystem']['name'])
+
+  dkubb      = User.first(:github_name => 'dkubb')
+  snusnu     = User.first(:github_name => 'snusnu')
+  knowtheory = User.first(:github_name => 'knowtheory')
+
+  EcosystemRole.create(:ecosystem => ecosystem, :user => dkubb,      :role => core)
+  EcosystemRole.create(:ecosystem => ecosystem, :user => snusnu,     :role => core)
+  EcosystemRole.create(:ecosystem => ecosystem, :user => knowtheory, :role => evangelist)
+
+end
+
 
 desc "Generate and seed the database"
 task :seed do
