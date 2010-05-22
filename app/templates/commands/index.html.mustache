@@ -1,0 +1,143 @@
+<h2>All available commands for <a href="http://github.com/snusnu/alfred">{{{bot}}}</a></h2>
+
+Here's a quick list of commands you can send to {{{bot}}}. Maybe they'll grow some more as we discover useful scenarios.
+
+<h3>Post tagged messages (you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> for formatting)</h3>
+
+<p>
+  Messages that you posted with one of the following commands are shown in the public activity feed.
+</p>
+
+<dl class="commands">
+  <dt>posts a tip to {{{bot}}} 's website (the "via irc_nick" part is optional)</dt>
+  <dd><kbd>{{{bot}}}: tip[<samp>tag1 tag2</samp>](via <samp>irc_nick</samp>) <samp>whatever you want to post</samp></kbd></dd>
+
+  <dt>ask a question on {{{bot}}}'s website (the "via irc_nick" part is optional)</dt>
+  <dd><kbd>{{{bot}}}: ask[<samp>tag1 tag2</samp>](via <samp>irc_nick</samp>) <samp>whatever you want to ask</samp></kbd></dd>
+
+  <dt>answer a question on {{{bot}}}'s website (the "via irc_nick" part is optional)</dt>
+  <dd><kbd>{{{bot}}}: reply[<samp>id1,id2</samp>](via <samp>irc_nick</samp>) <samp>whatever you want to reply</samp> </kbd></dd>
+
+  <dt>posts a tagged note on {{{bot}}}'s website (the "via irc_nick" part is optional)</dt>
+  <dd><kbd>{{{bot}}}: note[<samp>tag1 tag2</samp>](via <samp>irc_nick</samp>) <samp>whatever you want to post</samp></kbd></dd>
+
+  <dt>remember an IRC conversation between nick1 and nick2 that happened from 20 to 10 minutes ago</dt>
+  <dd><kbd>{{{bot}}}: remember from <samp>-20</samp> to <samp>-10</samp> [<samp>tag1 tag2</samp>](<samp>nick1 nick2</samp>) <samp>some description</samp></kbd></dd>
+
+  <dt>remember the complete IRC conversation that happened from 20 minutes ago until now</dt>
+  <dd><kbd>{{{bot}}}: remember from <samp>-20</samp> to <samp>now</samp> [<samp>tag1 tag2</samp>] <samp>some description</samp></kbd></dd>
+
+</dl>
+
+<h3>Post personal notes and conversation reminders (you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> for formatting)</h3>
+
+<p>
+  Messages that you posted with one of the following commands are <em>not shown in the public activity feed</em>.
+  However, everyone can browse them by following a link on the respective person's detail page.
+</p>
+
+<dl class="commands">
+
+  <dt>posts a tagged note on {{{bot}}}'s website (the "via irc_nick" part is optional)</dt>
+  <dd><kbd>/msg {{{bot}}} note from <samp>#irc_channel</samp> [<samp>tag1 tag2</samp>](via <samp>irc_nick</samp>) <samp>text</samp></kbd></dd>
+
+  <dt>remember an IRC conversation between nick1 and nick2 that happened from 20 to 10 minutes ago</dt>
+  <dd><kbd>/msg {{{bot}}} remember <samp>#irc_channel</samp> from <samp>-20</samp> to <samp>-10</samp> [<samp>tag1 tag2</samp>](<samp>nick1 nick2</samp>) <samp>text</samp></kbd></dd>
+
+  <dt>remember the complete IRC conversation that happened from 20 minutes ago until now</dt>
+  <dd><kbd>/msg {{{bot}}} remember <samp>#irc_channel</samp> from <samp>-20</samp> to <samp>now</samp> [<samp>tag1 tag2</samp>] <samp>text</samp></kbd></dd>
+
+</dl>
+
+<h3>Vote for posts, question and answers</h3>
+
+<dl class="commands">
+  <dt>Vote up tip, note, question or answer with id = 1</dt>
+  <dd><kbd>{{{bot}}}: +1 for (tip | note | question | answer | reply) <samp>1</samp></kbd></dd>
+
+  <dt>Vote down tip, note, question or answer with id = 1</dt>
+  <dd><kbd>{{{bot}}}: -1 for (tip | note | question | answer | reply) <samp>1</samp></kbd></dd>
+</dl>
+
+<h3>Provide more information in your profile</h3>
+
+<dl class="commands">
+
+  <dt>Register your irc nick</dt>
+  <dd><kbd>/msg {{{bot}}} register</kbd></dd>
+
+  <dt>Register your real name</dt>
+  <dd><kbd>/msg {{{bot}}} register real name: <samp>your real name</samp></kbd></dd>
+
+  <dt>Register your github name</dt>
+  <dd><kbd>/msg {{{bot}}} register github name: <samp>your github name</samp></kbd></dd>
+
+  <dt>Register your twitter name</dt>
+  <dd><kbd>/msg {{{bot}}} register twitter name: <samp>your twitter name</samp></kbd></dd>
+
+  <dt>Register your email address (necessary to display your <a href="http://gravatar.com">gravatar</a> image on the site)</dt>
+  <dd><kbd>/msg {{{bot}}} register email: <samp>you@yourmail.com</samp></kbd></dd>
+
+</dl>
+
+
+<h3>Tweet in the name of <em>{{twitter}}</em></h3>
+
+<dl class="commands">
+
+  <dt>people currently allowed to tweet in the name of <em>{{twitter}}</em></dt>
+  <dd>
+    {{#twitter_links}}
+      {{twitter_link}}
+    {{/twitter_links}}
+  </dd>
+
+  <dt>allow someone to tweet as <em>{{twitter}}</em> (you must be allowed to do so)</dt>
+  <dd><kbd>/msg {{{bot}}} allow <samp>irc_nick</samp></kbd></dd>
+
+  <dt>send a tweet as <em>{{twitter}}</em> (you must be allowed to do so)</dt>
+  <dd><kbd>{{{bot}}}: tweet: <samp>the message you want to tweet</samp></kbd></dd>
+
+  <dt>let <em>{{twitter}}</em> follow someone on twitter (you must be allowed to do so)</dt>
+  <dd><kbd>{{{bot}}}: follow <samp>twitter_name</samp></kbd></dd>
+
+</dl>
+
+<h3>Get some info from {{{bot}}}</h3>
+
+<dl class="commands">
+
+  <dt>prints a little info about {{{bot}}}</dt>
+  <dd><kbd>{{{bot}}}: identify</kbd></dd>
+
+  <dt>prints a link to this list of commands</dt>
+  <dd><kbd>{{{bot}}}: show commands</kbd></dd>
+
+
+  <dt>prints a link to all posts</dt>
+  <dd><kbd>{{{bot}}}: show posts</kbd></dd>
+
+  <dt>prints a link to all tips</dt>
+  <dd><kbd>{{{bot}}}: show tips</kbd></dd>
+
+  <dt>prints a link to the list of questions people asked (along with their answers)</dt>
+  <dd><kbd>{{{bot}}}: show questions</kbd></dd>
+
+  <dt>prints a link to the list of answers people provided (along with links to the questions)</dt>
+  <dd><kbd>{{{bot}}}: show answers</kbd></dd>
+
+  <dt>prints a link to all notes</dt>
+  <dd><kbd>{{{bot}}}: show notes</kbd></dd>
+
+
+  <dt>prints a link to all posts tagged with the given tags</dt>
+  <dd><kbd>{{{bot}}}: show posts tagged with <samp>tag_1, tag_2</samp> </kbd></dd>
+
+  <dt>prints a link to the tip, note, question or answer you requested (or a message if no such post is present)</dt>
+  <dd><kbd>{{{bot}}}: show (tip | question | answer | reply | note) <samp>some_id</samp></kbd></dd>
+
+
+  <dt>prints a link to the list of available tags</dt>
+  <dd><kbd>{{{bot}}}: show tags</kbd></dd>
+
+</dl>

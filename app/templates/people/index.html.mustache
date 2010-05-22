@@ -1,0 +1,26 @@
+<ol class="people">
+
+  {{{pagination_links}}}
+
+  {{#people}}
+  <li class="person">
+    <h3>
+      <span class="person-stats">{{{gravatar}}}</span>
+      {{{github_link}}}
+    </h3>
+    <dl class="person-data">
+      <dt>Github</dt>
+      <dd>{{{github_link}}}</dd>
+      <dt>Twitter</dt>
+      <dd>{{{twitter_link}}}</dd>
+      {{#has_personal_posts?}}
+        <dt>personal stuff</dt>
+        <dd>{{personal_posts}}</dd>
+      {{/has_personal_posts?}}
+    </dl>
+   </li>
+  {{/people}}
+
+  {{{pagination_links}}}
+
+</ol>

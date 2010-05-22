@@ -1,0 +1,135 @@
+body {
+  background-color: #fff;
+  color: #333; 
+  text-align:center;
+}
+
+body, p, ol, ul, td {
+  font-family: helvetica, arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+a { color: #000; }
+a:visited { color: #666; }
+a:hover { color: #fff; background-color: #000; }
+
+div.notice {
+  margin: 3px auto 5px;
+}
+
+div.notice p {
+  border: 1px solid #CCA;
+  background: #FFD url(../images/rails_metrics/tick.png) no-repeat 5px 4px;
+  color: #363;
+  display: inline;
+  padding: 5px 7px 5px 25px;
+}
+
+div.actions, .actions form {
+  display: inline;
+}
+
+.actions a:hover{
+  background-color: transparent;
+}
+
+#rails_metrics_header {
+  padding: 5px 3px 5px;
+}
+
+#rails_metrics_header form {
+  display: inline;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+  padding: 5px 0;
+}
+
+h1 a, h1 a:visited, h1 a:hover {
+  background-color: transparent;
+  color: #000;
+  text-decoration: none;
+}
+
+h4 {
+  font-size: 16px;
+  font-weight: 0;
+}
+
+#rails_metrics_table {
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+
+  background-color: #c33;
+  border-bottom: 1px solid #f0f0f0;
+  border-collapse: collapse;
+  margin: 5px auto 20px;
+  text-align: center;
+}
+
+#rails_metrics_table tr.odd {
+  background-color: #f0f0f0;
+}
+
+#rails_metrics_table tr.even {
+  background-color: #fafafa;
+}
+
+#rails_metrics_table th {
+  color: #fff;
+  padding: 5px 5px 3px;
+}
+
+#rails_metrics_table th a:hover {
+  background-color: transparent;
+}
+
+#rails_metrics_table td {
+  padding: 0 10px;
+}
+
+#rails_metrics_table td.name,
+#rails_metrics_table td.payload,
+#rails_metrics_table td.path {
+  text-align: left;
+}
+
+#rails_metrics_table td.payload p {
+  margin: 5px 0;
+  padding: 0;
+}
+
+#rails_metrics_table.show {
+  text-align: left;
+}
+
+#rails_metrics_table.show td{
+  padding: 5px;
+  vertical-align: top;
+}
+
+#rails_metrics_table.show td:first-child{
+  font-weight: bold;
+  padding-left: 3px;
+  width: 150px;
+}
+
+#rails_metrics_table.requests td {
+  padding: 5px 10px;
+}
+
+#chart_container {
+  margin: 0 auto;
+  width: 800px;
+  height: 300px;
+}
+
+#rails_metrics_footlinks {
+  margin: 30px 0;
+  text-align: center;
+}

@@ -1,0 +1,25 @@
+<li id="post-{{post_id}}" class="post {{post_type_name}}">
+
+  <h3>
+    {{{date}}}
+    {{{statistics}}}
+    <span class="post-info">
+      {{{vote_info}}}
+      <a href="/posts/{{post_id}}">#{{post_id}}</a>
+    </span>
+    <a title="IRC Log" href="{{permalink}}" class="log-link">IRC Log</a>
+    {{{header}}}
+  </h3>
+
+  <dl class="tag-list">
+    <dt>Tags:</dt>
+    {{{tag_list}}}
+  </dl>
+
+  {{>body}}
+
+</li>
+
+{{#follow_ups}}
+  {{>post}}
+{{/follow_ups}}

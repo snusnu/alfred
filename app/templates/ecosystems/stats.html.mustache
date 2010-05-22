@@ -1,0 +1,39 @@
+<h3>Stats</h3>
+
+<table>
+  <thead></thead>
+  <tbody>
+    <tr><td>Number of members      </td><td>{{total_user_count}}           </td></tr>
+    <tr><td>Number of projects     </td><td>{{project_count_without_forks}}</td></tr>
+    <tr><td>Number of watchers     </td><td>{{total_watcher_count}}        </td></tr>
+    <tr><td>Number of forks        </td><td>{{total_fork_count}}           </td></tr>
+    <tr><td>Number of collaborators</td><td>{{total_collaborator_count}}   </td></tr>
+    <tr><td>Number of contributors </td><td>{{total_contributor_count}}    </td></tr>
+  </tbody>
+</table>
+
+<h3>Contributors</h3>
+
+<ol class="posts">
+  {{pagination_links}}
+
+  {{#stats}}
+    <li class="person">
+      <h3>
+        <span class="person-stats">
+          {{gravatar}}
+          <sup title='person activity' class='person-activity'>{{commits}}</sup>
+        </span>
+        {{github_link}}
+      </h3>
+      <dl class="person-data">
+        <dt>Github</dt>
+        <dd>{{github_link}}</dd>
+        <dt>Twitter</dt>
+        <dd>{{twitter_link}}</dd>
+      </dl>
+    </li>
+  {{/stats}}
+
+  {{pagination_links}}
+</ol>

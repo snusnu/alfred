@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+
+  <head>
+    <title>Alfred</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link href="/css/master.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/application.js"></script>
+  </head>
+
+  <body>
+    <div id="page">
+      <div id="header">
+        <h1>{{bot_name}} gladly serving <em>{{project_name}} channels</em></h1>
+        <a href="http://quasipartikel.at/"><span>quasipartikel.at</span></a>
+      </div>
+
+      <div id="content">
+        <div id="sidebar">
+          <div id="twitter">
+            <a class="twitter-follow" href="http://twitter.com/{{bot_name}}">follow me on twitter</a>
+          </div>
+          <h2>ecosystem</h2>
+          <ul id="menu">
+            <li><a href="/ecosystems/{{ecosystem_name}}/stats">stats</a></li>
+            <li><a href="/people">people ({{total_user_count}})</a></li>
+            <li><a href="/projects">all projects ({{project_count_without_forks}})</a></li>
+            {{#project_categories}}
+              <li>
+                <a href="{{url}}">{{category_name}} ({{project_count}})</a>
+              </li>
+            {{/project_categories}}
+          </ul>
+          <h2>find</h2>
+          <ul id="menu">
+            <li><a href="/tags">tags</a></li>
+            <li><a href="/posts">all posts</a></li>
+            <li><a href="/posts?type=tip">tips</a></li>
+            <li><a href="/posts?type=question">questions</a></li>
+            <li><a href="/posts?type=reply">replies</a></li>
+            <li><a href="/posts?type=note">notes</a></li>
+            <li><a href="/posts?type=conversation">conversations</a></li>
+            <li><a href="/commands">commands</a></li>
+          </ul>
+          <h2>about</h2>
+          <p>
+            <em>{{{bot}}}</em> can help you collect useful information from irc channels.
+          </p>
+          <p>
+            Currently, the only way to manipulate the content of this website is to join the
+            <em>{{{irc_links}}}</em> channels and use the available <strong><a href="/commands">commands</a></strong> 
+            to tell {{{bot}}} to post content to, or lookup content on this website.
+          </p>
+          <p>
+            You can quickly store away <em>tips, notes, questions, replies</em> so that you can use them later on when
+            you're writing your project's documentation, FAQ, wiki pages, blog articles or whatever. You can also tag
+            these posts so that they are easier to find later on.
+          </p>
+          <p>
+            You can also remember complete IRC conversations, filter them by IRC nicks, give them a short description
+            and tag them as wish. You can specify a time range and a list of IRC nicks to filter out noise. Thx to
+            <strong><a href="http://irclogger.com">irclogger</a></strong> by <a href="http://github.com/cschneid">cschneid</a>,
+            {{{bot}}} is able to present to you just the parts of the conversation that were interesting. Have a look at
+            the <strong><a href="/commands">commands</a></strong> for an explanation of how to do that exactly.
+          </p>
+          <p>
+            {{{bot}}} also allows irc users to vote certain posts up or down. This should probably give a good
+            indicator on the usefulness of the posted content.
+          </p>
+          <p>
+            Of course you're not limited to posting snippets of text. Just post a link to <em>{{{bot}}}</em>,
+            say to a <a href="http://pastie.org">pastie</a>, a <a href="http://gist.github.com">gist</a>
+            or some interesting blogpost and tag them as you wish. <em>{{{bot}}}</em> has convenient
+            <strong><a href="/commands">commands</a></strong> to retrieve them later on.
+          </p>
+          <p>
+            You can use <strong><a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a></strong>
+            for basic formatting of your messages. Use this especially for links, so that <em>{{{bot}}}</em>
+            can correctly format them on the website.
+          </p>
+          <p>
+            {{{bot}}} is built using some wonderful <strong><a href="http://www.ruby-lang.org">ruby</a></strong>
+            <strong><a href="http://rubygems.org/">gems</a></strong>. We would like to thank every committer to the
+            following projects very much! (and in no particular order)
+            <strong><a href="http://github.com/datamapper">datamapper</a></strong>
+            <strong><a href="http://github.com/rails/rails">rails</a></strong>,
+            <strong><a href="http://github.com/sinatra/sinatra">sinatra</a></strong>,
+            <strong><a href="http://github.com/ichverstehe/isaac">isaac</a></strong>,
+            <strong><a href="http://github.com/ichverstehe/nancie">nancie</a></strong>,
+            <strong><a href="http://github.com/adamwiggins/rest-client">rest-client</a></strong> and
+            <strong><a href="http://github.com/rtomayko/rdiscount">rdiscount</a></strong>
+          </p>
+        </div>
+
+        <div id="main">
+          {{{yield}}}
+        </div>
+
+      </div>
+      <div id="footer">
+        <p>
+          a <a href="http://quasipartikel.at">quasipartikel</a> production
+        </p>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("{{{ga_tracker}}}");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>

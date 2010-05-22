@@ -3,7 +3,10 @@
 coverage
 rdoc
 pkg
-config.yml
+config/alfred.yml
+config/database.yml
 .bundle
 nohup.out
+tmp
+log
 

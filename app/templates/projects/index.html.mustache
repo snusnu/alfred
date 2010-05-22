@@ -1,0 +1,23 @@
+<ol class="posts">
+
+  {{pagination_links}}
+
+  {{#projects}}
+
+    <li id="{{project_dom_id}}" class="post tip">
+      <h3>
+        <span class="post-info"></span>
+        <a title="Github" href="{{github_url}}" class="log-link">Github</a>
+        <a title="Github" href="{{github_url}}">{{name}}{{fork_count}}</a>
+      </h3>
+      <dl class="tag-list">
+        <dt>Tags:</dt>
+      </dl>
+      {{description}}
+    </li>
+
+  {{/projects}}
+
+  {{pagination_links}}
+
+</ol>

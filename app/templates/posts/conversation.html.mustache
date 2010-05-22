@@ -1,0 +1,19 @@
+{{{body}}}
+
+{{#conversation?}}
+<h4 class="conversation-header">origin: {{{conversation_irc_link}}}</h4>
+<ol class="conversation">
+  {{#conversation_messages}}
+  <li>
+    {{message_nick}}
+    <cite>
+      <a href="/posts?person={{message_nick}}">{{message_nick}}</a>
+      <abbr title="{{message_timestamp}}">{{message_timestamp}}</abbr>
+    </cite>
+    <blockquote cite="{{{message_permalink}}}">
+      {{message_body}}
+    </blockquote>
+  </li>
+  {{/conversation_messages}}
+</ol>
+{{/conversation?}}
