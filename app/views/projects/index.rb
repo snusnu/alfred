@@ -9,7 +9,7 @@ module Projects
         {}
       end
       options.merge!(:order => [:github_url.asc], :parent => nil, :per_page => 20)
-      Project.page(current_page, options).each do |project|
+      Project.page(current_page, options).map do |project|
         {
           :name           => project.name,
           :description    => project.description(:en_US),

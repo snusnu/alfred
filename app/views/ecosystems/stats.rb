@@ -19,7 +19,7 @@ module Ecosystems
 
     def pagination_links
       @pagination_links ||= begin
-        pager = DataMapper::Pager.new(:page => current_page.to_i, :limit => 60, :total => Ecosystem.committers.count / 60)
+        pager = DataMapper::Pager.new(:page => current_page.to_i, :limit => 60, :total => Ecosystem.committers.count)
         pager.to_html("/ecosystems/#{Alfred.config['ecosystem']['name']}/stats", :size => 3)
       end
     end

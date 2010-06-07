@@ -43,10 +43,10 @@ module Layouts
 
 
     def project_categories
-      ProjectCategory.all(:fields => [:tag_id], :unique => true).each do |pc|
-        { :url           => "/projects?category=#{pc.tag.name}".html_safe,
+      ProjectCategory.all(:fields => [:tag_id], :unique => true).map do |pc|
+        { :url           => "/projects?category=#{pc.tag.name}",
           :category_name => pc.tag.name,
-          :project_count => ProjectCategory.count(:tag => pc.tag, Project.parent_id => nil)
+          :project_count => ProjectCategory.count(:tag => pc.tag, 'project.parent_id' => nil)
         }
       end
     end

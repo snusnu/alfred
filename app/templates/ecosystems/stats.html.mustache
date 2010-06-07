@@ -15,25 +15,25 @@
 <h3>Contributors</h3>
 
 <ol class="posts">
-  {{pagination_links}}
+  {{{pagination_links}}}
 
   {{#stats}}
     <li class="person">
       <h3>
         <span class="person-stats">
-          {{gravatar}}
+          {{{gravatar}}}
           <sup title='person activity' class='person-activity'>{{commits}}</sup>
         </span>
-        {{github_link}}
+        {{{github_link}}}
       </h3>
       <dl class="person-data">
         <dt>Github</dt>
-        <dd>{{github_link}}</dd>
+        <dd>{{{github_link}}}</dd>
         <dt>Twitter</dt>
-        <dd>{{twitter_link}}</dd>
+        <dd>{{{twitter_link}}}</dd>
       </dl>
     </li>
   {{/stats}}
 
-  {{pagination_links}}
+  {{{pagination_links}}}
 </ol>
