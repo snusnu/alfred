@@ -1,3 +1,5 @@
+require 'rdiscount'
+
 module Posts
 
   module Helpers
@@ -61,7 +63,7 @@ module Posts
     end
 
     def body
-      RDiscount.new(post.body).to_html
+      ::RDiscount.new(post.body).to_html
     end
 
     def person
