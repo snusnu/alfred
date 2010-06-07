@@ -1,8 +1,8 @@
-= alfred
+# alfred
 
 Alfred aims to make project ecosystems on github more accessible
 
-== TODO LIST WEBSITE - In no particular order
+## TODO LIST WEBSITE - In no particular order
 
 * Finish the github integration refactoring
 * Implement a UTCDateTime property that works with 1.0
@@ -19,13 +19,13 @@ Alfred aims to make project ecosystems on github more accessible
 * Visualize all kinds of information with envision[http://github.com/michael/envision] technology
 * Keep the TODO list alive, no idea shall be left out
 
-== TODO LIST IRC BOT - In no particular order
+## TODO LIST IRC BOT - In no particular order
 
 * Implement our own IRC channel logging instead of relying on irclogger[http://irclogger.com]
 * Allow to respond to questions asked from other communication channels (website, twitter, etc)
 * Think about additional useful commands
 
-== Note on Patches/Pull Requests
+## Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -36,6 +36,6 @@ Alfred aims to make project ecosystems on github more accessible
    bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+## Copyright
 
 Copyright (c) 2009 Martin Gamsjäger (snusnu). See LICENSE for details.
