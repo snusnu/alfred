@@ -9,4 +9,5 @@ config/database.yml
 nohup.out
 tmp
 log
+*.rbc
 
