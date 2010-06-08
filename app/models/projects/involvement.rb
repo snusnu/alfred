@@ -5,26 +5,28 @@ class Involvement
   property :commit_count, Integer, :required => true, :default => 0, :min => 0
 
   belongs_to :project,          :key => true
-  belongs_to :user,             :key => true
+  belongs_to :person,           :key => true
   belongs_to :involvement_kind, :key => true, :child_key => [:kind], :parent_key => [:name]
 
+  # works
 
   def self.nr_of_forkers
-    all(:fields => [ :user_id ], :kind => 'forker').map(&:user_id).uniq.size
+    all(:fields => [ :person_id ], :kind => 'forker').map(&:person_id).uniq.size
   end
 
   def self.nr_of_watchers
-    all(:fields => [ :user_id ], :kind => 'watcher').map(&:user_id).uniq.size
+    all(:fields => [ :person_id ], :kind => 'watcher').map(&:person_id).uniq.size
   end
 
   def self.nr_of_collaborators
-    all(:fields => [ :user_id ], :kind => 'collaborator').map(&:user_id).uniq.size
+    all(:fields => [ :person_id ], :kind => 'collaborator').map(&:person_id).uniq.size
   end
 
   def self.nr_of_contributors
-    all(:fields => [ :user_id ], :kind => 'contributor').map(&:user_id).uniq.size
+    all(:fields => [ :person_id ], :kind => 'contributor').map(&:person_id).uniq.size
   end
 
+  # TODO doesn't work
 
   def self.forkers
     all_of_kind('forker')
@@ -43,7 +45,7 @@ class Involvement
   end
 
   def self.all_of_kind(kind)
-    all(:fields => [ :user_id ], :kind => kind, :unique => true).size
+    all(:fields => [ :person_id ], :kind => kind, :unique => true).size
   end
 
 end

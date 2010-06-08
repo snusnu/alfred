@@ -4,7 +4,7 @@ class Project
   
   property :id,            Serial
 
-  property :github_url,    String, :length => 255, :required => true, :unique => true, :unique_index => true
+  property :github_url,    String, :length => 255, :required => true, :unique => true
 
   property :homepage,      URI
   property :documentation, URI
@@ -35,9 +35,9 @@ class Project
 
   has n, :involvements
 
-  has n, :members, 'User',
+  has n, :members, 'Person',
     :through => :involvements,
-    :via     => :user
+    :via     => :person
 
   has n, :project_channels
 

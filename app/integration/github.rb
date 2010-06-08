@@ -55,61 +55,68 @@ module Github
         "#{root}/#{user}/#{repo}"
       end
 
-    end # module Endpoints
+      def watchers_content_selector
+        '#watchers li a:nth-child(2)'
+      end
 
-  private
+    end # module Endpoints
 
     include Endpoints
 
-    def fetch_contributors(repo)
+    module Transport
+
+      def fetch_html(url, wait = 1)
+        Nokogiri::HTML(fetch(url, wait))
+      end
+
+      def fetch_json(url, wait = 1)
+        JSON.parse(fetch(url, wait))
+      end
+
+      def fetch(url, wait)
+        sleep(wait);
+        puts "ALFRED: fetching #{url}"
+        RestClient.get(url).body
+      rescue Exception => e
+        puts e.backtrace
+      end
+
+    end # module Transport
+
+    include Transport
+
+    def contributors(repo)
       fetch_json(contributors_url(repo['owner'], repo['name']))['contributors']
     end
 
-    def fetch_followers(user)
+    def followers(user)
       fetch_json(followers_url(user))['users']
     end
 
-    def fetch_followings(user)
+    def followings(user)
       fetch_json(followings_url(user))['users']
     end
 
-    def fetch_collaborators(user, repo)
+    def collaborators(user, repo)
       fetch_json(collaborators_url(user, repo))['collaborators']
     end
 
-    def fetch_network(user, repo)
+    def network(user, repo)
       fetch_json(network_url(user, repo))['network']
     end
 
-    def fetch_watchers(user, repo, nr_of_watchers)
-      nr_of_pages    = (nr_of_watchers / 20.0).ceil
-      (1..nr_of_pages).inject([]) do |watchers, page_num|
-        watchers + parse_watchers(watchers_url(user, repo, page_num))
+    def watchers(user, repo, nr_of_watchers)
+      nr_of_pages = (nr_of_watchers / 20.0).ceil
+      (1..nr_of_pages).inject([]) do |result, page_num|
+        watchers_page = fetch_html(watchers_url(user, repo, page_num))
+        result + watchers_page.css(watchers_content_selector).inject([]) do |watchers, a|
+          watchers << a.content
+        end
       end
-    end
-
-    def parse_watchers(url)
-      fetch_html(url).css('#watchers li a:nth-child(2)').inject([]) do |watchers, a|
-        watchers << a.content
-      end
-    end
-
-
-    def fetch_html(url, wait = 1)
-      Nokogiri::HTML(fetch(url, wait))
-    end
-
-    def fetch_json(url, wait = 1)
-      JSON.parse(fetch(url, wait))
-    end
-
-    def fetch(url, wait)
-      sleep(wait);
-      puts "ALFRED: fetching #{url}"
-      RestClient.get(url).body
-    rescue Exception => e
-      puts e.backtrace
     end
 
   end # module API
+
+  extend API
+
 end # module Github

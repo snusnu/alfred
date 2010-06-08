@@ -2,7 +2,7 @@ class ConversationMessage
 
   include DataMapper::Resource
 
-  property :id, Serial
+  property :id,        Serial
 
   property :timestamp, Integer, :required => true
   property :body,      String,  :required => true, :length => 1024

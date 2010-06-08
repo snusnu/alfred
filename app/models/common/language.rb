@@ -6,7 +6,7 @@ class Language
 
   property :id,   Serial
 
-  property :code, String, :required => true, :unique => true, :unique_index => true
+  property :code, String, :required => true, :unique => true
   property :name, String, :required => true
 
   # locale string like 'en-US'

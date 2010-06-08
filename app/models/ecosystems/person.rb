@@ -1,19 +1,25 @@
-require 'digest/md5'
-
 class Person
 
   include DataMapper::Resource
 
   property :id,            Serial
-  property :name,          String, :required => true, :unique => true, :unique_index => true
 
-  property :real_name,     String
-  property :twitter_name,  String
-  property :github_name,   String
-  property :email_address, String
+  property :github_name,  String, :required => true, :unique => true
+  property :name,         String
+  property :company,      String
+  property :email,        String
+  property :twitter_name, String
+  property :irc_name,     String
+  property :location,     String
+  property :blog,         String, :length => 255
 
-  property :created_at,    UTCDateTime
+  property :created_at,   UTCDateTime
 
+
+  has n, :involvements
+
+  has n, :projects,
+    :through => :involvements
 
   has n, :posts
   has n, :personal_posts, 'Post', :personal => true
@@ -25,17 +31,16 @@ class Person
     :via => :post
 
 
+  def commit_count
+    involvements.sum(:commit_count, :commit_count.gt => 0, :kind => 'contributor')
+  end
+
   def has_personal_posts?
     !personal_posts.empty?
   end
 
   def tweets?
     !twitter_name.nil?
-  end
-
-  def gravatar_hash
-    # default to pseudo email(s) to display distinct monster ids
-    MD5::md5(email_address ? email_address : "alfred+#{name}@snusnu.info")
   end
 
   def email
