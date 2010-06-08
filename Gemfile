@@ -39,7 +39,10 @@ gem 'dm-accepts_nested_attributes', DM_VERSION, :git => "#{SNUSNU}/dm-accepts_ne
 
 gem 'dm-pager',                     '~> 1.1.0'
 
-gem 'rails_metrics',                '~> 0.1', :git => 'git://github.com/snusnu/rails_metrics', :branch => 'datamapper-compatibility'
+# TODO make this compatible with current rails master (no more ActionDispatch::Cascade in rails)
+# gem 'astaire',                   '~> 0.3.0', :path => '/Users/snusnu/projects/github/forks/astaire' #:git => 'git://github.com/carllerche/astaire.git'
+
+gem 'rails_metrics',                '~> 0.1',   :git => 'git://github.com/snusnu/rails_metrics', :branch => 'datamapper-compatibility'
 gem 'mustache',                     '~> 0.11.2'
 gem 'thin',                         '~> 1.2.7'
 gem 'sinatra',                      '~> 1.0'
