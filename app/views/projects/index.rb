@@ -20,6 +20,12 @@ module Projects
       end
     end
 
+    def pagination_links
+      url = "/projects"
+      url += "?category=#{params[:category]}" if params[:category]
+      @pagination_links ||= pager_for(Project).to_html(url, :size => 3)
+    end
+
     def project_dom_id(project)
       "project-#{project.id}"
     end
