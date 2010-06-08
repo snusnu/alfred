@@ -17,6 +17,7 @@ Alfred aims to make project ecosystems on github more accessible
 * Link to rdoc / yardoc
 * Think about some kind of user profile (twitter, irc nicks, etc)
 * Visualize all kinds of information with [envision](http://github.com/michael/envision) technology
+* Allow proper multi language support of user entered content where that makes sense
 * Keep the TODO list alive, no idea shall be left out
 
 ## TODO LIST IRC BOT - In no particular order
