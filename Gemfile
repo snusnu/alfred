@@ -4,7 +4,7 @@ DATAMAPPER = 'git://github.com/datamapper'
 SNUSNU     = 'git://github.com/snusnu'
 
 RAILS_VERSION = '~> 3.0.0.beta3'
-DM_VERSION    = '~> 1.0.0.rc3'
+DM_VERSION    = '~> 1.0.0'
 DO_VERSION    = '~> 0.10.3'
 
 git 'git://github.com/rails/rails.git' do
