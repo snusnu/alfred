@@ -1,6 +1,6 @@
 require 'pp'
 
-require 'app/github'
+require 'app/integration/github'
 
 module Alfred
 

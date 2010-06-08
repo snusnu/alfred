@@ -1,4 +1,4 @@
-require 'integration/github'
+require 'app/integration/github'
 
 module Alfred
   class Repository
