@@ -10,4 +10,5 @@ nohup.out
 tmp
 log
 *.rbc
+Gemfile.lock
 
