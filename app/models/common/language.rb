@@ -6,12 +6,8 @@ class Language
 
   property :id,   Serial
 
-  property :code, String, :required => true, :unique => true
+  property :code, String, :required => true, :unique => true, :format => /\A[a-z]{2}-[A-Z]{2}\z/
   property :name, String, :required => true
-
-  # locale string like 'en-US'
-  validates_format_of :code, :with => /\A[a-z]{2}-[A-Z]{2}\z/
-
 
   def self.[](code)
     return nil if code.nil?
