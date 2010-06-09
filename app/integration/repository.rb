@@ -88,13 +88,13 @@ module Alfred
           contributors(repository).each do |contributor|
             # TODO Github API will change to be a hash instead of an array
             name, commit_count = contributor[0], contributor[1]
-            if user = User.first(:github_name => name)
+            if user = Person.first(:github_name => name)
               create_involvement(project, user, 'contributor', commit_count)
             end
           end
 
           collaborators(repo_owner, repo_name).each do |collaborator|
-            if user = User.first(:github_name => collaborator)
+            if user = Person.first(:github_name => collaborator)
               create_involvement(project, user, 'collaborator')
             end
           end

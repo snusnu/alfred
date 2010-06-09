@@ -3,7 +3,7 @@ module Ecosystems
 
     def stats
       Ecosystem.stats(params[:id], current_page).map do |info|
-        user = User.first(:github_name => info.first)
+        user = Person.first(:github_name => info.first)
         github_name  = user.github_name
         twitter_name = user.twitter_name
         {

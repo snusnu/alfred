@@ -32,7 +32,7 @@ module Alfred
     end
 
     def self.create_user(github_name)
-      user = User.first_or_new(:github_name => github_name)
+      user = Person.first_or_new(:github_name => github_name)
       return user if user.saved?
 
       details       = fetch_json(Github.user_url(github_name), 1)

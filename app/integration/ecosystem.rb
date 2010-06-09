@@ -62,13 +62,13 @@ module Alfred
     end
 
     def fetch_user_details
-      User.all.each do |user|
+      Person.all.each do |person|
         begin
-          details = fetch(user_url(user.github_name), 1)
-          user.update(:email => details['user']['email'])
+          details = fetch(user_url(person.github_name), 1)
+          person.update(:email => details['user']['email'])
         rescue RestClient::ResourceNotFound
-          puts "FOUND ORPHAN: #{user.github_name} - deleting user"
-          user.destroy
+          puts "FOUND ORPHAN: #{person.github_name} - deleting person"
+          person.destroy
         rescue Exception => e
           puts e.backtrace
         end

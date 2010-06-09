@@ -18,7 +18,7 @@ module Layouts
     end
 
     def total_user_count
-      User.count
+      Person.count
     end
 
     def total_watcher_count

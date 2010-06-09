@@ -18,9 +18,9 @@ task :import => :load_env do
 
   ecosystem  = Ecosystem.first(:name => Config['ecosystem']['name'])
 
-  dkubb      = User.first(:github_name => 'dkubb')
-  snusnu     = User.first(:github_name => 'snusnu')
-  knowtheory = User.first(:github_name => 'knowtheory')
+  dkubb      = Person.first(:github_name => 'dkubb')
+  snusnu     = Person.first(:github_name => 'snusnu')
+  knowtheory = Person.first(:github_name => 'knowtheory')
 
   EcosystemRole.create(:ecosystem => ecosystem, :user => dkubb,      :role => core)
   EcosystemRole.create(:ecosystem => ecosystem, :user => snusnu,     :role => core)

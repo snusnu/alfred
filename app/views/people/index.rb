@@ -2,11 +2,11 @@ module People
   class Index < ::Layouts::Application
 
     def pagination_links
-      @pagination_links ||= pager_for(User).to_html('/people', :size => 3)
+      @pagination_links ||= pager_for(Person).to_html('/people', :size => 3)
     end
 
     def people
-      User.page(current_page, :order => [ :github_name.asc ], :per_page => 72).map do |user|
+      Person.page(current_page, :order => [ :github_name.asc ], :per_page => 72).map do |user|
         github_name  = user.github_name
         twitter_name = user.twitter_name
         {

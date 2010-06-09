@@ -42,8 +42,4 @@ class Person
     !twitter_name.nil?
   end
 
-  def email
-    self.email_address
-  end
-
 end
