@@ -1,7 +1,7 @@
 class Project
-  
+
   include DataMapper::Resource
-  
+
   property :id,            Serial
 
   property :github_url,    String, :length => 255, :required => true, :unique => true

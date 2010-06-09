@@ -1,5 +1,5 @@
 class Involvement
-  
+
   include DataMapper::Resource
 
   property :commit_count, Integer, :required => true, :default => 0, :min => 0

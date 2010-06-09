@@ -24,17 +24,17 @@ module Alfred
       puts "ALFRED: Importing the #{config['name']} ecosystem"
 
       ecosystem = create_ecosystem(config['name'])
-      
+
       config['accounts'].each do |account|
-      
+
         create_ecosystem_member(ecosystem, account)
-      
+
         project_followings = followings(account)
         project_followers  = followers(account)
-      
+
         project_followings.each { |user| create_ecosystem_member(ecosystem, user) }
         project_followers .each { |user| create_ecosystem_member(ecosystem, user) }
-      
+
         puts "ALFRED: - #{project_followings.size} followings"
         puts "ALFRED: - #{project_followers.size } followers"
         puts '-'*80
@@ -52,7 +52,7 @@ module Alfred
         name, category = member['name'], member['category']
         repos = if account_url?(name)
           Tag.first_or_create(:name => 'official')
-          official, repos = true, fetch_json(Github.repositories_url(name))['repositories'] 
+          official, repos = true, fetch_json(Github.repositories_url(name))['repositories']
           repos.each { |repo| yield(repo, 'official', official) }
         else
           official, repo = false, fetch_json(Github.repository_url(*member_info(name)))['repository']

@@ -6,7 +6,7 @@ class ConversationMessage
 
   property :timestamp, Integer, :required => true
   property :body,      String,  :required => true, :length => 1024
-  
+
   belongs_to :conversation
   belongs_to :person
 

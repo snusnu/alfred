@@ -13,7 +13,7 @@ module Alfred
 
     # Set rails metrics store
     config.rails_metrics.set_store = lambda { ::Metric }
-  
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

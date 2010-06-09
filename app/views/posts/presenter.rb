@@ -82,7 +82,7 @@ module Posts
       return [] unless show_follow_ups?
       post.follow_ups.all.map do |reply|
         new(reply, false)
-      end      
+      end
     end
   end
 

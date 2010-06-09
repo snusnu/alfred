@@ -10,7 +10,7 @@ module Alfred
         {:github_url => Github.project_url(repository['owner'], repository['name'])},
         {:parent => parent}
       )
-      project.project_translations.create({ 
+      project.project_translations.create({
         :language    => Language['en_US'],
         :description => repository['description']
       })

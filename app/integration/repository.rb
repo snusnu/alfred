@@ -62,7 +62,7 @@ module Alfred
             end
           end
         else
-          
+
         end
       end
 
@@ -138,7 +138,7 @@ module Alfred
 
 
   private
-    
+
     def initialize(owner, repo)
       @owner, @repo = owner, repo
     end

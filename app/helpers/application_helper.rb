@@ -182,7 +182,7 @@ module ApplicationHelper
     nr_of_forks = project.forks.count
     nr_of_forks > 0 ? " (#{nr_of_forks} forks)" : ''
   end
-  
+
   # Stolen from cschneid/irclogger (and thus rails)
 
   unless const_defined?(:AUTO_LINK_RE)
