@@ -11,7 +11,7 @@ class Language
 
   def self.[](code)
     return nil if code.nil?
-    first :code => code.to_s.gsub('_', '-')
+    first :code => code.to_s.tr('_', '-')
   end
 
 end
