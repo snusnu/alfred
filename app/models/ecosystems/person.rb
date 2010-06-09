@@ -15,7 +15,6 @@ class Person
 
   property :created_at,   UTCDateTime
 
-
   has n, :involvements
 
   has n, :projects,
