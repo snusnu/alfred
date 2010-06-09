@@ -10,7 +10,7 @@ class Language
   property :name, String, :required => true
 
   # locale string like 'en-US'
-  validates_format_of :code, :with => /^[a-z]{2}-[A-Z]{2}$/
+  validates_format_of :code, :with => /\A[a-z]{2}-[A-Z]{2}\z/
 
 
   def self.[](code)
