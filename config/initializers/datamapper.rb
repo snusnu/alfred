@@ -1,1 +1,1 @@
-require 'lib/utc_support'
+require 'utc_support'
