@@ -120,7 +120,7 @@ module ApplicationHelper
   end
 
   def gravatar_image(person)
-    "<img class='gravatar' src='http://www.gravatar.com/avatar/#{gravatar_hash(person.email)}?s=40&amp' alt='gravatar' />"
+    "<img class='gravatar' width='40' height='40' src='http://www.gravatar.com/avatar/#{gravatar_hash(person.email)}?s=40&amp' alt='gravatar' />"
   end
 
   def gravatar_hash(email_address)
