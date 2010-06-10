@@ -1,4 +1,4 @@
-require 'app/views/posts/presenter'
+require File.expand_path('../presenter', __FILE__)
 
 module Posts
 
