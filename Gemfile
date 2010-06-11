@@ -20,7 +20,6 @@ gem 'dm-rails',                     DM_VERSION, :git => "#{DATAMAPPER}/dm-rails.
 gem 'dm-active_model',              DM_VERSION, :git => "#{DATAMAPPER}/dm-active_model.git"
 gem 'dm-migrations',                DM_VERSION, :git => "#{DATAMAPPER}/dm-migrations.git"
 
-gem 'data_objects',                 DO_VERSION, :git => "#{DATAMAPPER}/do.git",               :require => nil
 gem 'dm-do-adapter',                DM_VERSION, :git => "#{DATAMAPPER}/dm-do-adapter.git",    :require => nil
 gem 'dm-mysql-adapter',             DM_VERSION, :git => "#{DATAMAPPER}/dm-mysql-adapter.git", :require => nil
 
