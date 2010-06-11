@@ -175,7 +175,7 @@ module ApplicationHelper
   end
 
   def current_page
-    params[:page] || 1
+    params.fetch(:page, 1)
   end
 
   def fork_count(project)
