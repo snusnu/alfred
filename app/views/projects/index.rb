@@ -15,7 +15,7 @@ module Projects
           :description    => project.description(:en_US),
           :project_dom_id => project_dom_id(project),
           :github_url     => project.github_url,
-          :fork_count     => fork_count(project)
+          :fork_count     => fork_count(project),
         }
       end
     end
