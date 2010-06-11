@@ -2,13 +2,13 @@ module Projects
   class Index < ::Layouts::Application
 
     def projects
-      options = if params[:category]
+      options = { :order => [ :github_url ], :parent => nil, :per_page => 20 }
+
+      if params.key?(:category)
         tag = Tag.first(:name => params[:category])
-        { 'project_categories.tag_id' => tag.id }
-      else
-        {}
+        options.update('project_categories.tag_id' => tag.id)
       end
-      options.merge!(:order => [:github_url.asc], :parent => nil, :per_page => 20)
+
       Project.page(current_page, options).map do |project|
         {
           :name           => project.name,
