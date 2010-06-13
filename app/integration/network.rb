@@ -3,14 +3,15 @@ module Alfred
 
     include Github::API
 
-    attr_reader :url
+    attr_reader :user, :repo, :ecosystems
 
-    def initialize(url)
-      @url = url
-    end
 
-    def import
 
+  private
+
+    def initialize(user, repo, ecosystems)
+      @user, @repo, @ecosystems = owner, repo, ecosystems
+      @network = network(@user, @repo)
     end
 
   end

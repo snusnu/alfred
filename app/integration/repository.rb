@@ -139,8 +139,12 @@ module Alfred
 
   private
 
-    def initialize(owner, repo)
-      @owner, @repo = owner, repo
+    def initialize(ecosystem, owner, repo)
+      @ecosystem, @owner, @repo = ecosystem, owner, repo
+    end
+
+    def network
+      
     end
 
   end
