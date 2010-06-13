@@ -8,7 +8,7 @@ class IrcChannel
   property :channel,    String,  :required => true, :unique => :unique_channels
   property :logged,     Boolean, :required => true, :default => false
 
-  property :created_at, UTCDateTime
+  property :created_at, DateTime
 
   has n, :posts
 

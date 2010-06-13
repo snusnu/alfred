@@ -13,7 +13,7 @@ class Post
 
   property :timestamp,     Integer # optional irclogger backlink anchor
 
-  property :created_at,    UTCDateTime
+  property :created_at,    DateTime
 
   belongs_to :irc_channel
   belongs_to :post_type

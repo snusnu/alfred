@@ -13,7 +13,7 @@ class Person
   property :location,     String
   property :blog,         String, :length => 255
 
-  property :created_at,   UTCDateTime
+  property :created_at,   DateTime
 
   has n, :involvements
 

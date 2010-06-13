@@ -3,6 +3,8 @@ require 'tzinfo'
 require 'restclient'
 require 'json'
 
+ENV['TZ'] = :utc
+
 ::ActiveSupport::Dependencies.load_paths << Rails.root.join("app", "models", "common")
 ::ActiveSupport::Dependencies.load_paths << Rails.root.join("app", "models", "ecosystems")
 ::ActiveSupport::Dependencies.load_paths << Rails.root.join("app", "models", "posts")

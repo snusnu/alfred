@@ -5,10 +5,10 @@ class Conversation
   property :id,         Serial
   property :post_id,    Integer, :required => true, :unique => true, :min => 1
 
-  property :start,      UTCDateTime, :required => true
-  property :stop,       UTCDateTime, :required => true
+  property :start,      DateTime, :required => true
+  property :stop,       DateTime, :required => true
 
-  property :created_at, UTCDateTime
+  property :created_at, DateTime
 
 
   belongs_to :post
