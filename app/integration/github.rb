@@ -1,122 +1,299 @@
+require 'pp'
+
 require 'json'
 require 'restclient'
 require 'nokogiri'
 
 module Github
-  module API
 
-    module Endpoints
+  extend self
 
-      def root
-        "http://github.com"
-      end
+  def root
+    "http://github.com"
+  end
 
-      def api
-        "#{root}/api/v2/json"
-      end
+  def api
+    "#{root}/api/v2/json"
+  end
 
-      def user_url(user)
-        "#{api}/user/show/#{user}"
-      end
+  def user_url(user)
+    "#{api}/user/show/#{user}"
+  end
 
-      def followers_url(user)
-        "#{api}/user/show/#{user}/followers"
-      end
+  def followers_url(user)
+    "#{api}/user/show/#{user}/followers"
+  end
 
-      def followings_url(user)
-        "#{api}/user/show/#{user}/following"
-      end
+  def followings_url(user)
+    "#{api}/user/show/#{user}/following"
+  end
 
-      def repositories_url(user)
-        "#{api}/repos/show/#{user}"
-      end
+  def repositories_url(user)
+    "#{api}/repos/show/#{user}"
+  end
 
-      def repository_url(user, repo)
-        "#{api}/repos/show/#{user}/#{repo}"
-      end
+  def repository_url(user, repository)
+    "#{api}/repos/show/#{user}/#{repository}"
+  end
 
-      def collaborators_url(user, repo)
-        "#{api}/repos/show/#{user}/#{repo}/collaborators"
-      end
+  def collaborators_url(user, repository)
+    "#{api}/repos/show/#{user}/#{repository}/collaborators"
+  end
 
-      def network_url(user, repo)
-        "#{api}/repos/show/#{user}/#{repo}/network"
-      end
+  def network_url(user, repository)
+    "#{api}/repos/show/#{user}/#{repository}/network"
+  end
 
-      def contributors_url(user, repo)
-        "#{api}/repos/show/#{user}/#{repo}/contributors"
-      end
+  def contributors_url(user, repository)
+    "#{api}/repos/show/#{user}/#{repository}/contributors"
+  end
 
-      def watchers_url(user, repo, page_num)
-        "#{root}/#{user}/#{repo}/watchers?page=#{page_num}"
-      end
+  def watchers_url(user, repository)
+    "#{api}/repos/show/#{user}/#{repository}/watchers"
+  end
 
-      def project_url(user, repo)
-        "#{root}/#{user}/#{repo}"
-      end
+  def project_url(user, repository)
+    "#{root}/#{user}/#{repository}"
+  end
 
-      def watchers_content_selector
-        '#watchers li a:nth-child(2)'
-      end
+  def account_url?(url)
+    url.index('/').nil?
+  end
 
-    end # module Endpoints
+  def import(config)
+    Importer.new(config).run
+  end
 
-    include Endpoints
+  def fetch_user_details(config)
+    Importer.new(config).fetch_user_details
+  end
 
-    module Transport
+  class Importer
 
-      def fetch_html(url, wait = 1)
-        Nokogiri::HTML(fetch(url, wait))
-      end
+    attr_reader :config, :ecosystem
 
-      def fetch_json(url, wait = 1)
-        JSON.parse(fetch(url, wait))
-      end
-
-      def fetch(url, wait)
-        sleep(wait);
-        puts "ALFRED: fetching #{url}"
-        RestClient.get(url).body
-      rescue Exception => e
-        puts e.backtrace
-      end
-
-    end # module Transport
-
-    include Transport
-
-    def contributors(repo)
-      fetch_json(contributors_url(repo['owner'], repo['name']))['contributors']
+    def initialize(config)
+      @config = config
     end
 
-    def followers(user)
-      fetch_json(followers_url(user))['users']
+    def run
+
+      puts '-'*80
+      puts "ALFRED: Importing the #{config['name']} ecosystem"
+
+      ecosystem = create_ecosystem(config['name'])
+
+      config['accounts'].each do |account|
+
+        create_ecosystem_member(ecosystem, account)
+
+        project_followings = followings(account)
+        project_followers  = followers(account)
+
+        project_followings.each { |user| create_ecosystem_member(ecosystem, user) }
+        project_followers .each { |user| create_ecosystem_member(ecosystem, user) }
+
+        puts "ALFRED: - #{project_followings.size} followings"
+        puts "ALFRED: - #{project_followers.size } followers"
+        puts '-'*80
+
+      end
+
+      with_repositories do |repository, category_name, official|
+
+        repo_owner    = repository['owner']
+        repo_name     = repository['name']
+        kind          = official ? 'official ' : ''
+
+        puts "ALFRED: Importing #{kind}repository (#{category_name}): #{repo_owner}/#{repo_name}"
+
+        project = create_project(ecosystem, repository, category_name)
+
+        project_contributors  = contributors(repository)
+        project_collaborators = collaborators(repo_owner, repo_name)
+
+        if category_name == 'compatible'
+
+          # skip watchers and forkers for projects that are not specifically targetting
+          # the current ecosystem, but record contribution and collaboration involvements
+          # from already known community members. Also, add the author of the compatible
+          # project, of course (but don't count commits).
+
+          integrate_user(ecosystem, repo_owner, project, 'contributor')
+
+          project_contributors.each do |contributor|
+            name, commit_count = contributor['login'], contributor['contributions']
+            if user = Person.first(:github_name => name)
+              create_involvement(project, user, 'contributor', commit_count)
+            end
+          end
+
+          project_collaborators.each do |collaborator|
+            if user = Person.first(:github_name => collaborator)
+              create_involvement(project, user, 'collaborator')
+            end
+          end
+
+        else
+
+          project_watchers      = watchers(repo_owner, repo_name)
+          project_forkers       = forkers(repo_owner, repo_name)
+
+          project_contributors.each do |contributor|
+            name, commit_count = contributor['login'], contributor['contributions']
+            integrate_user(ecosystem, name, project, 'contributor', commit_count)
+          end
+
+          project_collaborators.each { |name| integrate_user(ecosystem, name, project, 'collaborator') }
+          project_forkers      .each { |name| integrate_user(ecosystem, name, project, 'forker'      ) }
+          project_watchers     .each { |name| integrate_user(ecosystem, name, project, 'watcher'     ) }
+
+          puts "ALFRED: - #{project_collaborators.size} collaborators"
+          puts "ALFRED: - #{project_contributors.size} contributors"
+          puts "ALFRED: - #{project_forkers.size} forkers"
+          puts "ALFRED: - #{project_watchers.size} watchers"
+          puts '-'*80
+
+        end
+
+      end
     end
 
-    def followings(user)
-      fetch_json(followings_url(user))['users']
-    end
-
-    def collaborators(user, repo)
-      fetch_json(collaborators_url(user, repo))['collaborators']
-    end
-
-    def network(user, repo)
-      fetch_json(network_url(user, repo))['network']
-    end
-
-    def watchers(user, repo, nr_of_watchers)
-      nr_of_pages = (nr_of_watchers / 20.0).ceil
-      (1..nr_of_pages).inject([]) do |result, page_num|
-        watchers_page = fetch_html(watchers_url(user, repo, page_num))
-        result + watchers_page.css(watchers_content_selector).inject([]) do |watchers, a|
-          watchers << a.content
+    def with_repositories
+      config['members'].each do |member|
+        name, category = member['name'], member['category']
+        repos = if Github.account_url?(name)
+          Tag.first_or_create(:name => 'official')
+          official, repos = true, fetch_json(Github.repositories_url(name))['repositories']
+          repos.each { |repo| yield(repo, 'official', official) }
+        else
+          official, repo = false, fetch_json(Github.repository_url(*member_info(name)))['repository']
+          yield(repo, category, official)
         end
       end
     end
 
-  end # module API
+    def contributors(repository)
+      fetch_json(Github.contributors_url(repository['owner'], repository['name']))['contributors']
+    end
 
-  extend API
+    def followers(user)
+      fetch_json(Github.followers_url(user))['users']
+    end
 
-end # module Github
+    def followings(user)
+      fetch_json(Github.followings_url(user))['users']
+    end
+
+    def collaborators(user, repository)
+      fetch_json(Github.collaborators_url(user, repository))['collaborators']
+    end
+
+    def forkers(user, repository)
+      network_members = fetch_json(Github.network_url(user, repository))['network']
+      network_members.inject([]) do |forkers, member|
+        forkers << member['owner'] if member['fork']
+        forkers
+      end
+    end
+
+    def watchers(user, repository)
+      fetch_json(Github.watchers_url(user, repository))['watchers']
+    end
+
+    def fetch_user_details
+      User.all.each do |user|
+        begin
+          details = fetch(Github.user_url(user.github_name), 1)
+          user.update(:email => details['user']['email'])
+        rescue RestClient::ResourceNotFound
+          puts "FOUND ORPHAN: #{user.github_name} - deleting user"
+          user.destroy
+        rescue Exception => e
+          puts e.backtrace
+        end
+      end
+    end
+
+  private
+
+    def create_ecosystem(name)
+      Ecosystem.create(:name => name)
+    end
+
+    def create_project(ecosystem, repository, category_name)
+      project = Project.first_or_create(
+        :github_url => Github.project_url(repository['owner'], repository['name'])
+      )
+      project.project_translations.create({
+        :locale_tag  => 'en-US',
+        :description => repository['description']
+      })
+      EcosystemProject.create(
+        :ecosystem => ecosystem,
+        :project => project
+      )
+      tag = Tag.first_or_create(:name => category_name)
+      ProjectTag.first_or_create(:project => project, :tag => tag)
+      ProjectCategory.first_or_create(:project => project, :tag => tag)
+      project
+    end
+
+    def integrate_user(ecosystem, github_name, project, kind, commit_count = 0)
+      user = create_user(github_name)
+      create_ecosystem_member(ecosystem, user)
+      create_involvement(project, user, kind, commit_count)
+    end
+
+    def create_user(github_name)
+      user = Person.first_or_new(:github_name => github_name)
+      return user if user.saved?
+
+      details       = fetch_json(Github.user_url(github_name), 1)
+
+      user.email    = details['user']['email']
+      user.name     = details['user']['name']
+      user.company  = details['user']['company']
+      user.location = details['user']['location']
+      user.blog     = details['user']['blog']
+
+      user.save
+      puts "ALFRED: --> created user #{github_name}"
+      user
+    end
+
+    def create_involvement(project, user, kind, commit_count = 0)
+      Involvement.first_or_create(
+        {:project => project, :person => user, :kind => kind},
+        {:commit_count => commit_count}
+      )
+    end
+
+    def create_ecosystem_member(ecosystem, user)
+      user = user.is_a?(String) ? create_user(user) : user
+      EcosystemMember.first_or_create(:ecosystem => ecosystem, :person => user)
+    end
+
+    def member_info(member)
+      member.split('/')
+    end
+
+    def fetch_html(url, wait = 1)
+      Nokogiri::HTML(fetch(url, wait))
+    end
+
+    def fetch_json(url, wait = 1)
+      JSON.parse(fetch(url, wait))
+    end
+
+    def fetch(url, wait)
+      sleep(wait);
+      puts "ALFRED: fetching #{url}"
+      RestClient.get(url).body
+    rescue Exception => e
+      puts e.backtrace
+    end
+  end
+
+end
+

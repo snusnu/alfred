@@ -1,10 +1,10 @@
 desc "Import the specified github account (default to datamapper)"
-task :import => :load_env do
+task :import => :environment do
 
   DataMapper.auto_migrate! if ENV['AUTOMIGRATE']
 
-  Language.first_or_create(:code => 'en-US', :name => 'English')
-  Language.first_or_create(:code => 'de-DE', :name => 'Deutsch')
+  DataMapper::I18n::Locale.first_or_create(:tag => 'en-US', :name => 'English')
+  DataMapper::I18n::Locale.first_or_create(:tag => 'de-DE', :name => 'Deutsch')
 
   InvolvementKind.first_or_create(:name => 'collaborator')
   InvolvementKind.first_or_create(:name => 'contributor')
@@ -14,25 +14,25 @@ task :import => :load_env do
   core       = Role.first_or_create(:name => 'core')
   evangelist = Role.first_or_create(:name => 'evangelist')
 
-  Github.import(Config['ecosystem'])
+  Github.import(Alfred.config['ecosystem'])
 
-  ecosystem  = Ecosystem.first(:name => Config['ecosystem']['name'])
+  ecosystem  = Ecosystem.first(:name => Alfred.config['ecosystem']['name'])
 
   dkubb      = Person.first(:github_name => 'dkubb')
   snusnu     = Person.first(:github_name => 'snusnu')
   knowtheory = Person.first(:github_name => 'knowtheory')
 
-  EcosystemRole.create(:ecosystem => ecosystem, :user => dkubb,      :role => core)
-  EcosystemRole.create(:ecosystem => ecosystem, :user => snusnu,     :role => core)
-  EcosystemRole.create(:ecosystem => ecosystem, :user => knowtheory, :role => evangelist)
+  EcosystemRole.create(:ecosystem => ecosystem, :person => dkubb,      :role => core)
+  EcosystemRole.create(:ecosystem => ecosystem, :person => snusnu,     :role => core)
+  EcosystemRole.create(:ecosystem => ecosystem, :person => knowtheory, :role => evangelist)
 
 end
 
 
 desc "Generate and seed the database"
-task :seed => :automigrate do
+task :seed => 'db:automigrate' do
 
-  bot = Config['irc']['nick']
+  bot = Alfred.config['irc']['nick']
 
   # channel about alfred himself, also used for initial seed data
 

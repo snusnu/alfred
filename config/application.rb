@@ -19,7 +19,7 @@ module Alfred
     # -- all .rb files in that directory are automatically loaded.
 
     # Add additional load paths for your own custom dirs
-    config.load_paths += %W[
+    config.autoload_paths += %W[
       #{config.root}/app/models/common
       #{config.root}/app/models/ecosystems
       #{config.root}/app/models/posts

@@ -12,10 +12,8 @@ class Project
   property :mailing_list,  URI
   property :twitter,       String, :length => (0..255)
 
-  is :localizable do
-
+  translatable do
     property :description,     Text
-
   end
 
 
